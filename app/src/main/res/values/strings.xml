@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">BikeRentingApp</string>
+    <string name="username">Nazwa użytkownika</string>
+    <string name="password">Hasło</string>
+    <string name="phoneNumber">Numer telefonu</string>
+    <string name="email">Email</string>
+    <string name="signUp">ZAŁÓŻ KONTO</string>
+</resources>
