@@ -1,6 +1,8 @@
 package com.example.bikerentingapp.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.bikerentingapp.Classes.DatabaseConnection;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -13,6 +15,8 @@ import android.content.res.Resources;
 import android.util.Log;
 import com.example.bikerentingapp.R;
 
+import java.sql.Connection;
+
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private static final String TAG = MapActivity.class.getSimpleName();
@@ -24,6 +28,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.maps);
         mapFragment.getMapAsync(this);
+
+        //String x = DatabaseConnection.getUserById(1);
+
     }
 
     @Override
