@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/m_profile"
+        android:icon="@drawable/user"
+        android:title="Profil"
+        />
+    <item
+        android:id="@+id/m_recharge"
+        android:icon="@drawable/cash"
+        android:title="Doładuj portfel"
+        />
+    <item
+        android:id="@+id/m_rides"
+        android:icon="@drawable/bike"
+        android:title="Moje przejazdy" />
+    <item
+        android:id="@+id/m_bookings"
+        android:icon="@drawable/booking"
+        android:title="Rezerwacje"
+        />
+    <item  android:title="Kontakt z obsługą klienta">
+
+        <menu>
+            <item
+                android:id="@+id/phone"
+                android:icon="@drawable/phone"
+                android:title="Zadzwoń do nas"
+                />
+            <item
+                android:id="@+id/chat"
+                android:icon="@drawable/help"
+                android:title="Otwórz chat"
+                />
+        </menu>
+    </item>
+</menu>
