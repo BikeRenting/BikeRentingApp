@@ -102,4 +102,34 @@ public class DatabaseConnection {
         }
         return availableBikes;
     }
+
+    public static boolean ifExist(String username, String email, String phone) {
+        Connection con = connectToDb();
+        ResultSet rs = null;
+        try {
+            String sql = "SELECT * FROM `klient` WHERE nazwa_uzytkownika='" + username + "' OR adres_email='" + email + "' OR nr_telefonu=" + phone;
+            rs = con.prepareCall(sql).executeQuery();
+
+            if (rs.next() == false) {
+                return false;
+            } else {
+                return true;
+            }
+        } catch(SQLException e) {
+            e.printStackTrace();
+            return true;
+        }
+    }
+
+    public static boolean createAccount(String username, String email, String phone, String password) {
+        Connection con = connectToDb();
+        try {
+            String sql = "INSERT INTO klient (adres_email, nr_telefonu, stan_konta, nazwa_uzytkownika, haslo) VALUES ('" + email + "', '" + phone + "', 0, '" + username + "', '" + password + "')";
+            con.createStatement().executeUpdate(sql);
+            return true;
+        } catch(SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
