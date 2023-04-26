@@ -51,8 +51,8 @@ public class Station {
         this.coordinates = coordinates;
     }
 
-    public void getAvailableBikes(){
-
+    public int getAvailableBikes(){
+        return DatabaseConnection.getAvailableBikes().get(stationID-1);
     }
 
     public void getDamagedBikes(){

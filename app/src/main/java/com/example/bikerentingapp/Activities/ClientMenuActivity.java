@@ -34,4 +34,11 @@ public class ClientMenuActivity extends AppCompatActivity {
         final DrawerLayout navigation = findViewById(R.id.drawerLayout);
         navigation.openDrawer(GravityCompat.START);
     }
+
+    public void openCameraActivity(View view){
+
+        Intent intent = new Intent(view.getContext(), CameraActivity.class);
+        //intent.putExtra("userObject", user);
+        view.getContext().startActivity(intent);
+    }
 }
