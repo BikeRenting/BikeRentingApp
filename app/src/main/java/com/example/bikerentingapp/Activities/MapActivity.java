@@ -56,8 +56,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             Log.e(TAG, "Can't find style. Error: ", e);
         }
 
+
         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(50.2541165, 19.0232932), 15));
 
+        /*
         ArrayList<Station> stations = DatabaseConnection.getStations();
 
         Drawable vectorDrawable = ContextCompat.getDrawable(MapActivity.this, R.drawable.bike_parking);
@@ -82,6 +84,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         }
 
-
+         */
     }
+
+
 }
