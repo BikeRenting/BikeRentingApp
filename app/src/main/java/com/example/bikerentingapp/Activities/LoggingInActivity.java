@@ -41,12 +41,8 @@ public class LoggingInActivity extends AppCompatActivity {
 
     public void openClientMenuActivity(View view){
 
-        if(passwordVerification())
-        {
-            Intent intent = new Intent(this, ClientMenuActivity.class);
-            startActivity(intent);
-
-        }
+        Intent intent = new Intent(this, ClientMenuActivity.class);
+        startActivity(intent);
 
     }
 
