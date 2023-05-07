@@ -17,6 +17,8 @@ import com.example.bikerentingapp.R;
 
 import java.sql.Connection;
 
+import at.favre.lib.crypto.bcrypt.BCrypt;
+
 public class LoggingInActivity extends AppCompatActivity {
 
     private EditText username, password;
@@ -38,8 +40,25 @@ public class LoggingInActivity extends AppCompatActivity {
     }
 
     public void openClientMenuActivity(View view){
-        Intent intent = new Intent(this, ClientMenuActivity.class);
-        startActivity(intent);
+
+        if(passwordVerification())
+        {
+            Intent intent = new Intent(this, ClientMenuActivity.class);
+            startActivity(intent);
+
+        }
+
+    }
+
+    public boolean passwordVerification()
+    {
+        // pobierz zahashowane haslo uzytkownika z bazy danych
+        String bcryptHashString = "$2a$04$1XEFJqH8I8fKHHNwR11CrOpJFfD2rHvoc47gDHmp3Ck1rJSFyGp/O";
+
+        // sprawdzenie czy sie zgadza
+        BCrypt.Result result = BCrypt.verifyer().verify("password123".toCharArray(), bcryptHashString);
+
+        return result.verified;
     }
 
 }
