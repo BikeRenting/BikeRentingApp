@@ -1,8 +1,10 @@
 package com.example.bikerentingapp.Classes;
 
+import android.provider.ContactsContract;
+
 public class Bike {
 
-    private boolean isAvailable;
+    private boolean isAvailable = true;
 
     private int bikeID;
 
@@ -10,7 +12,7 @@ public class Bike {
 
     private String condition;
 
-    public Bike(boolean isAvailable, int bikeID, int stationID, String condition) {
+    public Bike(int bikeID, String condition, int stationID, boolean isAvailable) {
         this.isAvailable = isAvailable;
         this.bikeID = bikeID;
         this.stationID = stationID;

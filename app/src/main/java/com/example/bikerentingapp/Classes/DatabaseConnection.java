@@ -103,6 +103,29 @@ public class DatabaseConnection {
         return availableBikes;
     }
 
+    public static ArrayList<Integer> getAvailableStations() {
+
+        Connection con = connectToDb();
+        ResultSet rs = null;
+        PreparedStatement pst = null;
+
+        ArrayList<Integer> availableStations = new ArrayList<Integer>(); //indexing from 0 (availableBikes[0] is number of available bikes from station 1)
+
+        try {
+            String sql = "SELECT ID_stacji from stacja; ";
+            pst = connectToDb().prepareCall(sql);
+            rs = pst.executeQuery();
+
+            while(rs.next()){
+                availableStations.add(rs.getInt("id_stacji"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return availableStations;
+    }
+
+
     public static boolean ifExist(String username, String email, String phone) {
         Connection con = connectToDb();
         ResultSet rs = null;
@@ -158,4 +181,87 @@ public class DatabaseConnection {
             return rs;
         }
     }
+
+    public static int getLastHireID() {
+        Connection con = connectToDb();
+        ResultSet rs = null;
+        int id = 0;
+        try {
+            String sql = "SELECT MAX(id_wypozyczenia) FROM wypozyczenie;";
+            rs = con.prepareCall(sql).executeQuery();
+            while (rs.next()) {
+                id = rs.getInt(1)+1;
+            }
+        } catch(SQLException e) {
+            e.printStackTrace();
+            return 0;
+        }
+        return id;
+    }
+
+    public static Bike getBike(int bikeID) {
+        Connection con = connectToDb();
+        ResultSet rs = null;
+        Bike bike = null;
+        try {
+            String sql = "SELECT * FROM rower WHERE id_roweru = " + bikeID + " ;";
+            rs = con.prepareCall(sql).executeQuery();
+            while (rs.next()) {
+                bike = new Bike(rs.getInt("id_roweru"),
+                        rs.getString("stan_techniczny"),
+                        rs.getInt("id_stacji"),
+                        rs.getInt("dostepny") != 0);
+            }
+        } catch(SQLException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return bike;
+    }
+
+    public static boolean addNewHire(int hire_id, int time, int length, double payment, int bikeID, String date, int isPaymentRealized, int customer_id) {
+        Connection con = connectToDb();
+        try {
+            String sql = "INSERT INTO `wypozyczenie` (`id_wypozyczenia`, `czas_przejazdu`, `id_klienta`, `id_roweru`, `data_rozpoczecia`, `dystans`, `kwota`, `czy_oplacone`) VALUES (" +
+                    hire_id + ", " + //id_wypozyczenia
+                    time + ", " + //czas
+                    customer_id + ", " + //klient_id_klienta
+                    bikeID + ", " + //id_roweru
+                    "\"" + date + "\"" + ", " + //data_rozpoczecia
+                    length + ", " + //dystans
+                    payment + ", " + //kwota
+                    isPaymentRealized + // czy_oplacone
+                    ");";
+            con.createStatement().executeUpdate(sql);
+            return true;
+        } catch(SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static boolean updateHire(int hire_id, int time, int length, double payment) {
+        Connection con = connectToDb();
+        try {
+            String sql = "UPDATE `wypozyczenie` SET " + "czas_przejazdu = " + time + ", dystans = " + length + ", kwota = " + payment + " WHERE id_wypozyczenia = " + hire_id + ";";
+            con.createStatement().executeUpdate(sql);
+            return true;
+        } catch(SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static boolean updateBike(int bike_id, String condition, int station_id, int available) {
+        Connection con = connectToDb();
+        try {
+            String sql = "UPDATE `rower` SET " + "dostepny = " + available + ", id_stacji = " + station_id + ", stan_techniczny = " + "\'" + condition + "\'" +" WHERE id_roweru = " + bike_id + ";";
+            con.createStatement().executeUpdate(sql);
+            return true;
+        } catch(SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 }

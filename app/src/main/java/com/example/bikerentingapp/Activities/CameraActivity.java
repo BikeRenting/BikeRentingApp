@@ -1,8 +1,10 @@
 package com.example.bikerentingapp.Activities;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
@@ -21,18 +23,31 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LifecycleOwner;
 
+import com.example.bikerentingapp.Classes.AccountModel.Customer;
+import com.example.bikerentingapp.Classes.UserHolder;
 import com.example.bikerentingapp.R;
 import com.google.common.util.concurrent.ListenableFuture;
+import com.google.gson.Gson;
+
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 
 public class CameraActivity extends AppCompatActivity {
+
+    public static final String SHARED_PREFS = "shared_prefs";
+
+    public static final String USER_KEY = "user_key";
 
     private ListenableFuture<ProcessCameraProvider> cameraProviderFuture;
     private ImageCapture imageCapture;
     PreviewView previewView;
     Button scanButton;
     EditText text;
+
+    private SharedPreferences sharedpreferences;
+    private Customer customer;
+    private Gson gson;
+    private String json;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +69,10 @@ public class CameraActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
         }, getExecutor());
+
+
+        customer = UserHolder.getInstance().getCustomer();
+
     }
 
     private Executor getExecutor() {
@@ -86,10 +105,21 @@ public class CameraActivity extends AppCompatActivity {
                             dialog.cancel();
                         }
                         else {
-                            Toast.makeText(view.getContext(),"Wypożyczono rower",Toast.LENGTH_SHORT).show();
-                            dialog.cancel();
-                            Intent intent = new Intent(view.getContext(), CurrentHireActivity.class);
-                            view.getContext().startActivity(intent);
+                            int bikeID = Integer.parseInt(text.getText().toString());
+
+
+                            if(customer.rentBike(bikeID)) {
+                                Toast.makeText(view.getContext(),"Wypożyczono rower",Toast.LENGTH_SHORT).show();
+
+                                dialog.cancel();
+                                Intent intent = new Intent(view.getContext(), CurrentHireActivity.class);
+                                view.getContext().startActivity(intent);
+
+                            }
+                            else {
+                                Toast.makeText(view.getContext(),"Ten rower jest niedostępny",Toast.LENGTH_SHORT).show();
+                                dialog.cancel();
+                            }
 
                         }
 

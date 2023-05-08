@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.bikerentingapp.Classes.AccountModel.Customer;
+import com.example.bikerentingapp.Classes.UserHolder;
 import com.example.bikerentingapp.R;
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
@@ -58,6 +59,9 @@ public class ClientMenuActivity extends AppCompatActivity implements NavigationV
             customer = gson.fromJson(json, Customer.class);
             username.setText(customer.getEmail());
         }
+
+        UserHolder.getInstance().setCustomer(customer);
+
     }
 
     @Override

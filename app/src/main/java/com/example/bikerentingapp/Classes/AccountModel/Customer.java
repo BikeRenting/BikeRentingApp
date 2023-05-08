@@ -1,6 +1,9 @@
 package com.example.bikerentingapp.Classes.AccountModel;
 
 import com.example.bikerentingapp.Classes.AccountModel.Account;
+import com.example.bikerentingapp.Classes.Bike;
+import com.example.bikerentingapp.Classes.DatabaseConnection;
+import com.example.bikerentingapp.Classes.Hire;
 import com.example.bikerentingapp.Classes.Wallet;
 
 public class Customer extends Account {
@@ -9,9 +12,12 @@ public class Customer extends Account {
 
     private Wallet wallet;
 
+    private Hire hire;
+
     public Customer(int accountID, String email, String phoneNumber, double value) {
         super(accountID, email, phoneNumber);
-        this.wallet = new Wallet(value);
+        wallet = new Wallet(value);
+        hire = null;
     }
 
     public Wallet getWallet() {
@@ -33,8 +39,16 @@ public class Customer extends Account {
     }
 
 
-    public  boolean rentBike() {
-        return true;
+    public boolean rentBike(int bikeID) {
+
+        Bike bike = DatabaseConnection.getBike(bikeID);
+        if(bike.isAvailable())
+        {
+            hire = new Hire(bike, getAccountID());
+            return true;
+        }
+        else
+            return false;
     }
 
 
@@ -50,10 +64,15 @@ public class Customer extends Account {
 
     public void returnABike(int stationID) {
 
+        hire.endHire(stationID);
     }
 
 
     public void updateFoundsInDB(){
 
+    }
+
+    public Hire getHire() {
+        return hire;
     }
 }
