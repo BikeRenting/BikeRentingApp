@@ -60,4 +60,7 @@ dependencies {
 
     implementation "androidx.camera:camera-view:${camerax_version}"
     implementation "androidx.camera:camera-extensions:${camerax_version}"
+
+    //Gson
+    implementation 'com.google.code.gson:gson:2.8.8'
 }

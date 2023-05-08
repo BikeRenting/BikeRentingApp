@@ -7,7 +7,9 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
@@ -17,12 +19,24 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.bikerentingapp.Classes.AccountModel.Customer;
 import com.example.bikerentingapp.R;
 import com.google.android.material.navigation.NavigationView;
+import com.google.gson.Gson;
 
 public class ClientMenuActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
+    public static final String SHARED_PREFS = "shared_prefs";
+
+    public static final String USER_KEY = "user_key";
+
     private boolean doubleTap;
+    private TextView username;
+    private SharedPreferences sharedpreferences;
+    private Customer customer;
+    private Gson gson;
+    private String json;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +47,17 @@ public class ClientMenuActivity extends AppCompatActivity implements NavigationV
         NavigationView navigationView = findViewById(R.id.navigationView);
         navigationView.setItemIconTintList(null);
         navigationView.setNavigationItemSelectedListener(this);
+
+        username = findViewById(R.id.usernickname);
+
+        gson = new Gson();
+        sharedpreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
+        json = sharedpreferences.getString(USER_KEY, null);
+
+        if(json != null) {
+            customer = gson.fromJson(json, Customer.class);
+            username.setText(customer.getEmail());
+        }
     }
 
     @Override
@@ -89,6 +114,9 @@ public class ClientMenuActivity extends AppCompatActivity implements NavigationV
     @Override
     public void onBackPressed(){
         if(doubleTap){
+            SharedPreferences.Editor editor = sharedpreferences.edit();
+            editor.clear();
+            editor.apply();
             super.onBackPressed();
         }
         else{
@@ -97,12 +125,8 @@ public class ClientMenuActivity extends AppCompatActivity implements NavigationV
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
-                public void run() {
-                    doubleTap = false;
-                }
+                public void run() {doubleTap = false;}
             },500);
         }
     }
-
-
 }

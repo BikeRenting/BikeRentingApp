@@ -132,4 +132,30 @@ public class DatabaseConnection {
             return false;
         }
     }
+
+    public static ResultSet getCustomer(String username) {
+        Connection con = connectToDb();
+        ResultSet rs = null;
+        try {
+            String sql = "SELECT * FROM `klient` WHERE nazwa_uzytkownika='" + username + "'";
+            rs = con.prepareCall(sql).executeQuery();
+            return rs;
+        } catch(SQLException e) {
+            e.printStackTrace();
+            return rs;
+        }
+    }
+
+    public static ResultSet getServiceman(String username) {
+        Connection con = connectToDb();
+        ResultSet rs = null;
+        try {
+            String sql = "SELECT * FROM `pracownik` WHERE nazwa_uzytkownika='" + username + "'";
+            rs = con.prepareCall(sql).executeQuery();
+            return rs;
+        } catch(SQLException e) {
+            e.printStackTrace();
+            return rs;
+        }
+    }
 }
