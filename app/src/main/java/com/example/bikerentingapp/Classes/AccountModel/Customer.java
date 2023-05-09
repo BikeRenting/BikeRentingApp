@@ -6,6 +6,8 @@ import com.example.bikerentingapp.Classes.DatabaseConnection;
 import com.example.bikerentingapp.Classes.Hire;
 import com.example.bikerentingapp.Classes.Wallet;
 
+import java.util.ArrayList;
+
 public class Customer extends Account {
 
     private static final String TYPE = "Customer";
@@ -41,14 +43,21 @@ public class Customer extends Account {
 
     public boolean rentBike(int bikeID) {
 
-        Bike bike = DatabaseConnection.getBike(bikeID);
-        if(bike.isAvailable())
+        ArrayList<Integer> availableBikes = DatabaseConnection.getAvailableBikes();
+        if(bikeID <= availableBikes.size() && availableBikes.get(bikeID-1) == 1)
         {
-            hire = new Hire(bike, getAccountID());
-            return true;
+            Bike bike = DatabaseConnection.getBike(bikeID);
+            if(bike.isAvailable())
+            {
+                hire = new Hire(bike, getAccountID());
+                return true;
+            }
+            else
+                return false;
         }
         else
             return false;
+
     }
 
 
@@ -65,6 +74,7 @@ public class Customer extends Account {
     public void returnABike(int stationID) {
 
         hire.endHire(stationID);
+        hire = null;
     }
 
 

@@ -84,18 +84,15 @@ public class DatabaseConnection {
         ResultSet rs = null;
         PreparedStatement pst = null;
 
-        ArrayList<Integer> availableBikes = new ArrayList<Integer>(); //indexing from 0 (availableBikes[0] is number of available bikes from station 1)
+        ArrayList<Integer> availableBikes = new ArrayList<Integer>();
 
         try {
-            String sql = "SELECT stacja.id_stacji, COUNT(rower.dostepny) AS \"available_bikes\" " +
-                    "FROM stacja " +
-                    "LEFT JOIN rower ON stacja.id_stacji = rower.id_stacji " +
-                    "GROUP BY stacja.id_stacji;";
+            String sql = "SELECT dostepny from rower;";
             pst = connectToDb().prepareCall(sql);
             rs = pst.executeQuery();
 
             while(rs.next()){
-                availableBikes.add(rs.getInt(2));
+                availableBikes.add(rs.getInt(1));
             }
         } catch (SQLException e) {
             e.printStackTrace();
