@@ -88,7 +88,7 @@ public class DatabaseConnection {
         ArrayList<Integer> availableBikes = new ArrayList<Integer>();
 
         try {
-            String sql = "SELECT dostepny from rower;";
+            String sql = "SELECT id_stacji, dostepny from rower;";
             pst = connectToDb().prepareCall(sql);
             rs = pst.executeQuery();
 
@@ -238,10 +238,11 @@ public class DatabaseConnection {
         }
     }
 
-    public static boolean updateHire(int hire_id, int time, int length, double payment) {
+    public static boolean updateHire(int hire_id, int time, int length, double payment, boolean isPaid) {
         Connection con = connectToDb();
+        int ispaid = isPaid ? 1 : 0;
         try {
-            String sql = "UPDATE `wypozyczenie` SET " + "czas_przejazdu = " + time + ", dystans = " + length + ", kwota = " + payment + " WHERE id_wypozyczenia = " + hire_id + ";";
+            String sql = "UPDATE `wypozyczenie` SET " + "czas_przejazdu = " + time + ", dystans = " + length + ", kwota = " + payment + ", czy_oplacone = " + ispaid + " WHERE id_wypozyczenia = " + hire_id + ";";
             con.createStatement().executeUpdate(sql);
             return true;
         } catch (SQLException e) {

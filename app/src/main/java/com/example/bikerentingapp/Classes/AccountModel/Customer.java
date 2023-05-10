@@ -73,19 +73,37 @@ public class Customer extends Account {
     }
 
 
-    public void returnABike(int stationID) {
+    public void returnABike(int stationID, boolean isPaid) {
 
-        hire.endHire(stationID);
+        hire.endHire(stationID, isPaid);
         hire = null;
     }
 
-    public boolean updateFounds(Context context, double income){
+    public boolean updateFunds(Context context, double income){
         if(DatabaseConnection.rechargeWallet(this.getAccountID(), getWallet().getFunds()+income)){
             wallet.addFunds(income);
             return true;
         }
         else
             return false;
+    }
+
+    public boolean payForHire(){
+        double payment = hire.getPayment();
+        double funds = wallet.getFunds();
+        if(funds >= payment)
+        {
+            wallet.takeFunds(payment);
+            DatabaseConnection.rechargeWallet(getAccountID(), wallet.getFunds());
+            return true;
+        }
+        else {
+            double remainingPayment = payment-funds;
+            wallet.takeFunds(funds);
+            DatabaseConnection.rechargeWallet(getAccountID(), 0);
+            return false;
+            //TODO send remainingPayment to database
+        }
     }
 
     public Hire getHire() {

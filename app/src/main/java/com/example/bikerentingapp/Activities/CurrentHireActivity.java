@@ -137,11 +137,11 @@ public class CurrentHireActivity extends AppCompatActivity{
 
     public void openSummaryActivity(View view) {
 
-        float cost = (currentTime)*0.49f;
+        double cost = Math.round((currentTime))/100.0;
         customer.getHire().setTime(currentTime);
         customer.getHire().setLength(currentLength);
         customer.getHire().setPayment(cost);
-        customer.returnABike(endStation);
+        customer.returnABike(endStation, customer.payForHire());
         Intent intent = new Intent(view.getContext(), ClientMenuActivity.class);
         startActivity(intent);
         finish();

@@ -100,7 +100,7 @@ public class ClientMenuActivity extends AppCompatActivity implements NavigationV
                 if (income > 50) {
                     Toast.makeText(getApplicationContext(), "Jednorazowa kwota doładowania nie może przekraczać 50zł.", Toast.LENGTH_LONG).show();
                 } else {
-                    if (customer.updateFounds(getApplicationContext(), income)) {
+                    if (customer.updateFunds(getApplicationContext(), income)) {
                         Toast.makeText(getApplicationContext(), "Dodano środki do konta.", Toast.LENGTH_SHORT).show();
                         resetFunds();
                         dialog.dismiss();

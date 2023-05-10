@@ -121,9 +121,9 @@ public class Hire {
         this.startDate = startDate;
     }
 
-    public void endHire(int stationID){
+    public void endHire(int stationID, boolean isPaid){
 
-        DatabaseConnection.updateHire(hireID, time, length, payment);
+        DatabaseConnection.updateHire(hireID, time, length, payment, isPaid);
         DatabaseConnection.updateBike(bike.getBikeID(), bike.getCondition(), stationID, 1);
     }
 
