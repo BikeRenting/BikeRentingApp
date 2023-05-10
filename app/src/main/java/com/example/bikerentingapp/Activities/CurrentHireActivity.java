@@ -64,7 +64,7 @@ public class CurrentHireActivity extends AppCompatActivity{
 
         rand = new Random();
 
-        customer = UserHolder.getInstance().getCustomer();
+        customer = (Customer) UserHolder.getInstance().getUser();
     }
 
     public void endHire(View view) {
@@ -144,6 +144,7 @@ public class CurrentHireActivity extends AppCompatActivity{
         customer.returnABike(endStation);
         Intent intent = new Intent(view.getContext(), ClientMenuActivity.class);
         startActivity(intent);
+        finish();
     }
 
 }

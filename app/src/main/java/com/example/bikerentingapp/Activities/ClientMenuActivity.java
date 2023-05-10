@@ -25,14 +25,17 @@ import com.example.bikerentingapp.R;
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.Gson;
 
-public class ClientMenuActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+import java.text.DecimalFormat;
+
+public class ClientMenuActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     public static final String SHARED_PREFS = "shared_prefs";
 
     public static final String USER_KEY = "user_key";
 
     private boolean doubleTap;
-    private TextView username;
+
+    private String username;
     private SharedPreferences sharedpreferences;
     private Customer customer;
     private Gson gson;
@@ -44,24 +47,27 @@ public class ClientMenuActivity extends AppCompatActivity implements NavigationV
         super.onCreate(savedInstanceState);
         setContentView(R.layout.client_menu_activity);
 
-        //Operating on navigation view
-        NavigationView navigationView = findViewById(R.id.navigationView);
-        navigationView.setItemIconTintList(null);
-        navigationView.setNavigationItemSelectedListener(this);
-
-        username = findViewById(R.id.usernickname);
+        //username = findViewById(R.id.usernickname);
 
         gson = new Gson();
         sharedpreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
         json = sharedpreferences.getString(USER_KEY, null);
 
-        if(json != null) {
+        if (json != null) {
             customer = gson.fromJson(json, Customer.class);
-            username.setText(customer.getEmail());
+            //username.setText(customer.getEmail());
         }
 
-        UserHolder.getInstance().setCustomer(customer);
+        UserHolder.getInstance().setUser(customer);
+        username = UserHolder.getInstance().getUsername();
 
+        //Set funds label
+        resetFunds();
+
+        //Operating on navigation view
+        NavigationView navigationView = findViewById(R.id.navigationView);
+        navigationView.setItemIconTintList(null);
+        navigationView.setNavigationItemSelectedListener(this);
     }
 
     @Override
@@ -77,7 +83,7 @@ public class ClientMenuActivity extends AppCompatActivity implements NavigationV
 
     private void accountRecharge() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        View view = getLayoutInflater().inflate(R.layout.add_funds_dialog,null);
+        View view = getLayoutInflater().inflate(R.layout.add_funds_dialog, null);
 
         EditText recharge;
         recharge = view.findViewById(R.id.accountRecharge);
@@ -86,51 +92,69 @@ public class ClientMenuActivity extends AppCompatActivity implements NavigationV
         builder.setView(view);
         AlertDialog dialog = builder.create();
 
-        submit.setOnClickListener(new View.OnClickListener(){
+        submit.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view){
+            public void onClick(View view) {
                 String value = recharge.getText().toString();
                 double income = Double.valueOf(value);
-                dialog.dismiss();
+                if (income > 50) {
+                    Toast.makeText(getApplicationContext(), "Jednorazowa kwota doładowania nie może przekraczać 50zł.", Toast.LENGTH_LONG).show();
+                } else {
+                    if (customer.updateFounds(getApplicationContext(), income)) {
+                        Toast.makeText(getApplicationContext(), "Dodano środki do konta.", Toast.LENGTH_SHORT).show();
+                        resetFunds();
+                        dialog.dismiss();
+                    } else
+                        Toast.makeText(getApplicationContext(), "Ups coś poszło nie tak.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         dialog.show();
     }
 
-    public void openNavigationMenu(View view){
-        final DrawerLayout navigation = findViewById(R.id.drawerLayout);
-        navigation.openDrawer(GravityCompat.START);
+    private void resetFunds(){
+        TextView wallet = (TextView) findViewById(R.id.account);
+        DecimalFormat dform = new DecimalFormat("#.##");
+        wallet.setText(String.valueOf(dform.format(customer.getWallet().getFunds())));
     }
 
-    public void openMapActivity(View view){
+    public void openNavigationMenu(View view) {
+        final DrawerLayout navigation = findViewById(R.id.drawerLayout);
+        navigation.openDrawer(GravityCompat.START);
 
+        /* Setting username in slided menu from.*/
+        TextView usernameView = (TextView) navigation.findViewById(R.id.navheader_username);
+        usernameView.setText(username);
+    }
+
+    public void openMapActivity(View view) {
         Intent intent = new Intent(this, MapActivity.class);
         startActivity(intent);
     }
 
-    public void openCameraActivity(View view){
-
+    public void openCameraActivity(View view) {
         Intent intent = new Intent(view.getContext(), CameraActivity.class);
         //intent.putExtra("userObject", user);
         view.getContext().startActivity(intent);
     }
 
     @Override
-    public void onBackPressed(){
-        if(doubleTap){
+    public void onBackPressed() {
+        if (doubleTap) {
             SharedPreferences.Editor editor = sharedpreferences.edit();
             editor.clear();
             editor.apply();
             super.onBackPressed();
-        }
-        else{
+        } else {
             Toast.makeText(this, "Naciśnij jeszcze raz by wyjść z  aplikacji!", Toast.LENGTH_SHORT).show();
             doubleTap = true;
             Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
-                public void run() {doubleTap = false;}
-            },500);
+                public void run() {
+                    doubleTap = false;
+                }
+            }, 500);
         }
     }
 }

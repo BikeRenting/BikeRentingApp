@@ -28,8 +28,13 @@
         <EditText
             android:id="@+id/enterID"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="45dp"
             android:layout_centerHorizontal="true"
+            android:textColor="@color/white"
+            android:background="#30ffffff"
+            android:textAlignment="center"
+            android:hint="Podaj ID roweru"
+            android:textColorHint="@color/white"
             android:layout_marginTop="100dp"
             android:ems="10"
             android:inputType="numberSigned" />

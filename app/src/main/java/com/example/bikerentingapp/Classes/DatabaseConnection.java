@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
 import android.util.Pair;
 
 public class DatabaseConnection {
@@ -16,14 +17,14 @@ public class DatabaseConnection {
     private static String username = "dev";
     private static String password = "zdamyT3projektowe";
 
-    private static String url="jdbc:mysql://" + host + ":" + port + "/" + dbname + "?useSSL=false&characterEncoding=utf8";
+    private static String url = "jdbc:mysql://" + host + ":" + port + "/" + dbname + "?useSSL=false&characterEncoding=utf8";
 
-    public static Connection connectToDb(){
+    public static Connection connectToDb() {
 
         Connection mycon = null;
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            mycon = DriverManager.getConnection(url,  username, password);
+            mycon = DriverManager.getConnection(url, username, password);
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
@@ -41,7 +42,7 @@ public class DatabaseConnection {
             pst = connectToDb().prepareCall(sql);
             rs = pst.executeQuery();
 
-            while(rs.next()){
+            while (rs.next()) {
                 return rs.getString(5); // return fifth column (username)
             }
         } catch (SQLException e) {
@@ -63,12 +64,12 @@ public class DatabaseConnection {
             pst = connectToDb().prepareCall(sql);
             rs = pst.executeQuery();
 
-            while(rs.next()){
+            while (rs.next()) {
                 stations.add(
                         new Station(rs.getInt("id_stacji"),
                                 rs.getInt("wolne_miejsca"),
                                 rs.getInt("max_pojemnosc"),
-                                new Pair<> (rs.getDouble("szerokosc_geo"),
+                                new Pair<>(rs.getDouble("szerokosc_geo"),
                                         rs.getDouble("dlugosc_geo"))));
             }
             return stations;
@@ -91,7 +92,7 @@ public class DatabaseConnection {
             pst = connectToDb().prepareCall(sql);
             rs = pst.executeQuery();
 
-            while(rs.next()){
+            while (rs.next()) {
                 availableBikes.add(rs.getInt(1));
             }
         } catch (SQLException e) {
@@ -113,7 +114,7 @@ public class DatabaseConnection {
             pst = connectToDb().prepareCall(sql);
             rs = pst.executeQuery();
 
-            while(rs.next()){
+            while (rs.next()) {
                 availableStations.add(rs.getInt("id_stacji"));
             }
         } catch (SQLException e) {
@@ -135,7 +136,7 @@ public class DatabaseConnection {
             } else {
                 return true;
             }
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             return true;
         }
@@ -147,7 +148,7 @@ public class DatabaseConnection {
             String sql = "INSERT INTO klient (adres_email, nr_telefonu, stan_konta, nazwa_uzytkownika, haslo) VALUES ('" + email + "', '" + phone + "', 0, '" + username + "', '" + password + "')";
             con.createStatement().executeUpdate(sql);
             return true;
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
@@ -160,7 +161,7 @@ public class DatabaseConnection {
             String sql = "SELECT * FROM `klient` WHERE nazwa_uzytkownika='" + username + "'";
             rs = con.prepareCall(sql).executeQuery();
             return rs;
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             return rs;
         }
@@ -173,7 +174,7 @@ public class DatabaseConnection {
             String sql = "SELECT * FROM `pracownik` WHERE nazwa_uzytkownika='" + username + "'";
             rs = con.prepareCall(sql).executeQuery();
             return rs;
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             return rs;
         }
@@ -187,9 +188,9 @@ public class DatabaseConnection {
             String sql = "SELECT MAX(id_wypozyczenia) FROM wypozyczenie;";
             rs = con.prepareCall(sql).executeQuery();
             while (rs.next()) {
-                id = rs.getInt(1)+1;
+                id = rs.getInt(1) + 1;
             }
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             return 0;
         }
@@ -209,7 +210,7 @@ public class DatabaseConnection {
                         rs.getInt("id_stacji"),
                         rs.getInt("dostepny") != 0);
             }
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }
@@ -231,7 +232,7 @@ public class DatabaseConnection {
                     ");";
             con.createStatement().executeUpdate(sql);
             return true;
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
@@ -243,7 +244,7 @@ public class DatabaseConnection {
             String sql = "UPDATE `wypozyczenie` SET " + "czas_przejazdu = " + time + ", dystans = " + length + ", kwota = " + payment + " WHERE id_wypozyczenia = " + hire_id + ";";
             con.createStatement().executeUpdate(sql);
             return true;
-        } catch(SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
@@ -252,10 +253,22 @@ public class DatabaseConnection {
     public static boolean updateBike(int bike_id, String condition, int station_id, int available) {
         Connection con = connectToDb();
         try {
-            String sql = "UPDATE `rower` SET " + "dostepny = " + available + ", id_stacji = " + station_id + ", stan_techniczny = " + "\'" + condition + "\'" +" WHERE id_roweru = " + bike_id + ";";
+            String sql = "UPDATE `rower` SET " + "dostepny = " + available + ", id_stacji = " + station_id + ", stan_techniczny = " + "\'" + condition + "\'" + " WHERE id_roweru = " + bike_id + ";";
             con.createStatement().executeUpdate(sql);
             return true;
-        } catch(SQLException e) {
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static boolean rechargeWallet(int userID, double balance) {
+        Connection con = connectToDb();
+        try {
+            String sql = "UPDATE `klient` SET stan_konta = " + balance + " WHERE id_klienta =" + userID + ";";
+            con.createStatement().executeUpdate(sql);
+            return true;
+        } catch (SQLException e) {
             e.printStackTrace();
             return false;
         }

@@ -71,7 +71,7 @@ public class CameraActivity extends AppCompatActivity {
         }, getExecutor());
 
 
-        customer = UserHolder.getInstance().getCustomer();
+        customer = (Customer) UserHolder.getInstance().getUser();
 
     }
 
@@ -114,6 +114,7 @@ public class CameraActivity extends AppCompatActivity {
                                 dialog.cancel();
                                 Intent intent = new Intent(view.getContext(), CurrentHireActivity.class);
                                 view.getContext().startActivity(intent);
+                                finish();
 
                             }
                             else {

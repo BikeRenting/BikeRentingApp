@@ -1,5 +1,7 @@
 package com.example.bikerentingapp.Classes.AccountModel;
 
+import android.content.Context;
+
 import com.example.bikerentingapp.Classes.AccountModel.Account;
 import com.example.bikerentingapp.Classes.Bike;
 import com.example.bikerentingapp.Classes.DatabaseConnection;
@@ -77,9 +79,13 @@ public class Customer extends Account {
         hire = null;
     }
 
-
-    public void updateFoundsInDB(){
-
+    public boolean updateFounds(Context context, double income){
+        if(DatabaseConnection.rechargeWallet(this.getAccountID(), getWallet().getFunds()+income)){
+            wallet.addFunds(income);
+            return true;
+        }
+        else
+            return false;
     }
 
     public Hire getHire() {
