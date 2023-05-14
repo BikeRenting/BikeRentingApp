@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.util.ArrayList;
 
 import android.util.Pair;
@@ -273,6 +274,33 @@ public class DatabaseConnection {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public static ArrayList<Hire> getUserHires(int userID){
+
+        ArrayList<Hire> userHires = new ArrayList<>();
+        Connection connection = connectToDb();
+        ResultSet resultSet = null;
+        try{
+            String sql = "SELECT * FROM `wypozyczenie` WHERE id_klienta = " + userID +";";
+            resultSet = connection.prepareCall(sql).executeQuery();
+            while (resultSet.next()){
+
+                userHires.add(new Hire(
+                        resultSet.getInt("id_wypozyczenia"),
+                        resultSet.getInt("id_klienta"),
+                        new Bike(resultSet.getInt("id_roweru")),
+                        Hire.timeToInt(resultSet.getTime("czas_przejazdu")),
+                        resultSet.getInt("dystans"),
+                        resultSet.getDouble("kwota"),
+                        resultSet.getInt("czy_oplacone") == 1,
+                        resultSet.getString("data_rozpoczecia")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return userHires;
     }
 
 }

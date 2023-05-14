@@ -2,7 +2,9 @@ package com.example.bikerentingapp.Classes;
 
 import android.provider.ContactsContract;
 
-public class Bike {
+import java.io.Serializable;
+
+public class Bike implements Serializable {
 
     private boolean isAvailable = true;
 
@@ -17,6 +19,10 @@ public class Bike {
         this.bikeID = bikeID;
         this.stationID = stationID;
         this.condition = condition;
+    }
+
+    public Bike(int bikeID){
+        this.bikeID = bikeID;
     }
 
     public boolean isAvailable() {

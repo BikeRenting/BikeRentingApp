@@ -2,11 +2,15 @@ package com.example.bikerentingapp.Classes;
 
 import android.provider.ContactsContract;
 
+import java.io.Serializable;
+import java.sql.Time;
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Random;
 
-public class Hire {
+public class Hire implements Serializable {
 
     private int hireID;
 
@@ -26,18 +30,26 @@ public class Hire {
 
     private Random rand;
 
-    public Hire(int hireID, int customerID, Bike bike, int time, int length, double payment, boolean paymentRealized) {
+
+
+
+    public Hire(int hireID, int customerID, Bike bike, int time, int length, double payment) {
         this.hireID = hireID;
         this.customerID = customerID;
         this.bike = bike;
         this.time = time;
         this.length = length;
         this.payment = payment;
-        this.paymentRealized = paymentRealized;
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
         LocalDateTime now = LocalDateTime.now();
         this.startDate = dtf.format(now);
         rand = new Random();
+    }
+
+    public Hire(int hireID, int customerID, Bike bike, int time, int length, double payment, boolean paymentRealized,String startDate) {
+        this(hireID,customerID,bike,time,length,payment);
+        this.paymentRealized = paymentRealized;
+        this.startDate = startDate;
     }
 
     public Hire(Bike b, int customerID) {
@@ -130,6 +142,20 @@ public class Hire {
     public void update() {
         time++;
         length+=(rand.nextInt(6) + 3);
+    }
+
+    public static int timeToInt(Time time){
+
+        int hours = time.getHours();
+        int minutes = time.getMinutes();
+        int seconds = time.getSeconds();
+
+        return hours * 3600 + minutes * 60 + seconds;
+    }
+
+    public static LocalTime intToTime(int timeInSeconds){
+        Duration duration = Duration.ofSeconds(timeInSeconds);
+        return LocalTime.MIDNIGHT.plus(duration);
     }
 
 }

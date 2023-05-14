@@ -33,10 +33,12 @@ public class LoggingInActivity extends AppCompatActivity {
     public static final String SHARED_PREFS = "shared_prefs";
 
     public static final String USER_KEY = "user_key";
+    public static final String USER_TYPE = "user_type";
 
     private EditText username, password;
     private SharedPreferences sharedpreferences;
     private String usr;
+    private String usr_type;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +54,7 @@ public class LoggingInActivity extends AppCompatActivity {
 
         sharedpreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
         usr = sharedpreferences.getString(USER_KEY, null);
+        usr_type = sharedpreferences.getString(USER_TYPE,null);
     }
 
     public void openSignUpActivity(View view) {
@@ -84,6 +87,7 @@ public class LoggingInActivity extends AppCompatActivity {
                         String json = gson.toJson(customer);
 
                         editor.putString(USER_KEY, json);
+                        editor.putString(USER_TYPE, "Customer");
                         editor.apply();
 
                         Intent intent = new Intent(LoggingInActivity.this, ClientMenuActivity.class);
@@ -105,6 +109,7 @@ public class LoggingInActivity extends AppCompatActivity {
                             String json = gson.toJson(serviceman);
 
                             editor.putString(USER_KEY, json);
+                            editor.putString(USER_TYPE,"Serviceman");
                             editor.apply();
 
                             Intent intent = new Intent(LoggingInActivity.this, ServicemanMenuActivity.class);
@@ -134,10 +139,16 @@ public class LoggingInActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        if (usr != null) {
+        if (usr != null && usr_type.equals("Customer")) {
             Intent intent = new Intent(LoggingInActivity.this, ClientMenuActivity.class);
+            startActivity(intent);
+            finish();
+        }else if (usr != null && usr_type.equals("Serviceman")) {
+            Intent intent = new Intent(LoggingInActivity.this, ServicemanMenuActivity.class);
             startActivity(intent);
             finish();
         }
     }
+
+
 }

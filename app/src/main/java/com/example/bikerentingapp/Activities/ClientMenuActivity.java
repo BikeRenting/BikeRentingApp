@@ -77,6 +77,9 @@ public class ClientMenuActivity extends AppCompatActivity implements NavigationV
 
         if (id == R.id.m_recharge) {
             accountRecharge();
+        }else if(id == R.id.m_rides){
+            Intent intent = new Intent(this, MyHiresActivity.class);
+            startActivity(intent);
         }
         return true;
     }
@@ -156,5 +159,11 @@ public class ClientMenuActivity extends AppCompatActivity implements NavigationV
                 }
             }, 500);
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        resetFunds();
     }
 }
