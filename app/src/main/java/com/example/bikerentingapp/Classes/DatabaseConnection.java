@@ -124,6 +124,28 @@ public class DatabaseConnection {
         return availableStations;
     }
 
+    public static Station getStation(int stationID) {
+        Connection con = connectToDb();
+        ResultSet rs = null;
+        Station station = null;
+
+        try {
+            String sql = "SELECT * FROM `stacja` WHERE id_stacji = " + stationID + ";";
+            rs = con.prepareCall(sql).executeQuery();
+            while (rs.next()) {
+                station = new Station(rs.getInt("id_stacji"),
+                        rs.getInt("wolne_miejsca"),
+                        rs.getInt("max_pojemnosc"),
+                        new Pair<>(rs.getDouble("szerokosc_geo"),
+                                rs.getDouble("dlugosc_geo")));
+            }
+            return station;
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
     public static boolean ifExist(String username, String email, String phone) {
         Connection con = connectToDb();
@@ -276,15 +298,15 @@ public class DatabaseConnection {
         }
     }
 
-    public static ArrayList<Hire> getUserHires(int userID){
+    public static ArrayList<Hire> getUserHires(int userID) {
 
         ArrayList<Hire> userHires = new ArrayList<>();
         Connection connection = connectToDb();
         ResultSet resultSet = null;
-        try{
-            String sql = "SELECT * FROM `wypozyczenie` WHERE id_klienta = " + userID +";";
+        try {
+            String sql = "SELECT * FROM `wypozyczenie` WHERE id_klienta = " + userID + ";";
             resultSet = connection.prepareCall(sql).executeQuery();
-            while (resultSet.next()){
+            while (resultSet.next()) {
 
                 userHires.add(new Hire(
                         resultSet.getInt("id_wypozyczenia"),
@@ -301,6 +323,20 @@ public class DatabaseConnection {
             e.printStackTrace();
         }
         return userHires;
+    }
+
+    public static boolean addBikeAndUpdate(String condition, int stationID, int availability, int freeSpace) {
+        Connection con = connectToDb();
+        try {
+            String sqlAddBike = "INSERT INTO rower (stan_techniczny, id_stacji, dostepny) VALUES (\'" + condition + "\', " + stationID + ", " + availability + ");";
+            con.createStatement().executeUpdate(sqlAddBike);
+            String sqlUpdateStation = "UPDATE `stacja` SET wolne_miejsca = " + freeSpace + " WHERE id_stacji = " + stationID +  ";";
+            con.createStatement().executeUpdate(sqlUpdateStation);
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
 }

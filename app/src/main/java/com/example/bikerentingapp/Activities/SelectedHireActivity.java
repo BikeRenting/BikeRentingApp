@@ -9,8 +9,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.bikerentingapp.Classes.AccountModel.Customer;
+import com.example.bikerentingapp.Classes.DatabaseConnection;
 import com.example.bikerentingapp.Classes.Hire;
+import com.example.bikerentingapp.Classes.UserHolder;
 import com.example.bikerentingapp.R;
 
 public class SelectedHireActivity extends AppCompatActivity {
@@ -70,6 +74,19 @@ public class SelectedHireActivity extends AppCompatActivity {
             isPaid.setText("nieopłacone");
             isPaid.setCompoundDrawablesWithIntrinsicBounds(drawable,null,null,null);
         }
+    }
+
+    public void regulatePayment(View view){
+
+        double costToRegulate = selectedHire.getPayment();
+        Customer customer =(Customer)UserHolder.getInstance().getUser();
+
+        if(costToRegulate< customer.getWallet().getFunds()){
+            Toast.makeText(getApplicationContext(),"Brak wystarczających środków by uregulować płatność", Toast.LENGTH_LONG).show();
+        }else {
+            //DatabaseConnection.rechargeWallet()
+        }
+
 
     }
 }
