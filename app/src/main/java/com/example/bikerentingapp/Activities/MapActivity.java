@@ -3,13 +3,17 @@ package com.example.bikerentingapp.Activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import com.example.bikerentingapp.Classes.AccountModel.Customer;
 import com.example.bikerentingapp.Classes.DatabaseConnection;
 import com.example.bikerentingapp.Classes.Station;
+import com.example.bikerentingapp.Classes.UserHolder;
 import com.google.android.gms.maps.*;
 import com.google.android.gms.maps.model.BitmapDescriptor;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MapStyleOptions;
+
+import android.content.Intent;
 import android.util.Pair;
 
 import android.graphics.Bitmap;
@@ -19,11 +23,12 @@ import android.os.Bundle;
 import android.content.res.Resources;
 import android.util.Log;
 import com.example.bikerentingapp.R;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 
-public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
+public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
 
     private static final String TAG = MapActivity.class.getSimpleName();
 
@@ -69,23 +74,49 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         vectorDrawable.draw(canvas);
         BitmapDescriptor icon = BitmapDescriptorFactory.fromBitmap(bitmap);
 
-        ArrayList<Integer> availableBikes = DatabaseConnection.getAvailableBikes();
+        if(UserHolder.getInstance().getUser() instanceof Customer)
+        {
+            ArrayList<Integer> availableBikes = DatabaseConnection.getAvailableBikes(1);
+            for (Station station: stations) {
 
-        for (Station station: stations) {
+                Pair<Double, Double> coordinates = station.getCoordinates();
+                LatLng pos = new LatLng(coordinates.first, coordinates.second);
+                int available = availableBikes.get(station.getStationID()-1);
 
-            Pair<Double, Double> coordinates = station.getCoordinates();
-            LatLng pos = new LatLng(coordinates.first, coordinates.second);
+                googleMap.addMarker(
+                        new MarkerOptions()
+                                .position(pos)
+                                .title("Stacja nr. " + Integer.toString(station.getStationID())).snippet("Dostępne rowery: " + Integer.toString(available))
+                                .icon(icon));
 
-            googleMap.addMarker(
-                    new MarkerOptions()
-                            .position(pos)
-                            .title("Stacja nr. " + Integer.toString(station.getStationID())).snippet("Dostępne rowery: " + Integer.toString(availableBikes.get(station.getStationID()-1)))
-                            .icon(icon));
-
+            }
         }
+        else {
+            ArrayList<Integer> damagedBikes = DatabaseConnection.getAvailableBikes(0);
+            for (Station station: stations) {
 
+                Pair<Double, Double> coordinates = station.getCoordinates();
+                LatLng pos = new LatLng(coordinates.first, coordinates.second);
+                int not_available = damagedBikes.get(station.getStationID()-1);
 
+                googleMap.addMarker(
+                        new MarkerOptions()
+                                .position(pos)
+                                .title("Stacja nr. " + Integer.toString(station.getStationID())).snippet("Niedostępne rowery: " + Integer.toString(not_available))
+                                .icon(icon));
+
+            }
+            googleMap.setOnInfoWindowClickListener(this);
+        }
     }
 
+    @Override
+    public void onInfoWindowClick(Marker marker) {
+        //Intent intent = new Intent(this, bikeManagementActivity.class);
+       // Object stationNumber = marker.getTag();
+       // String sn = stationNumber.toString();
+       // intent.putExtra("stationNumber",sn);
+       // startActivity(intent);
+    }
 
 }

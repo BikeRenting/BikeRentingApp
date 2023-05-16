@@ -81,7 +81,7 @@ public class LoggingInActivity extends AppCompatActivity {
                         double wallet = rs.getFloat(4);
 
                         Customer customer = new Customer(id, email, number, wallet);
-                        UserHolder.getInstance().setUsername(user);
+                        UserHolder.getInstance().setUser(customer);
 
                         Gson gson = new Gson();
                         String json = gson.toJson(customer);

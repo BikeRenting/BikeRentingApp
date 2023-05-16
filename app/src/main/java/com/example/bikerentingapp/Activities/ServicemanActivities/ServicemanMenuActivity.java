@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.bikerentingapp.Activities.MapActivity;
 import com.example.bikerentingapp.Classes.AccountModel.Customer;
 import com.example.bikerentingapp.Classes.AccountModel.Serviceman;
 import com.example.bikerentingapp.Classes.UserHolder;
@@ -47,7 +48,8 @@ public class ServicemanMenuActivity extends AppCompatActivity {
     }
 
     public void openMapActivity(View view){
-
+        Intent intent = new Intent(this, MapActivity.class);
+        startActivity(intent);
     }
 
     public void openAddBikeActivity(View view){

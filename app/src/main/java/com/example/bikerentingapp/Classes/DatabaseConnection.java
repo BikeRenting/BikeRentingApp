@@ -80,7 +80,30 @@ public class DatabaseConnection {
         return null; // if not found, return "null"
     }
 
-    public static ArrayList<Integer> getAvailableBikes() {
+    public static boolean isBikeAvailable(int bikeID) {
+
+        Connection con = connectToDb();
+        ResultSet rs = null;
+        PreparedStatement pst = null;
+
+        boolean isAvailable = false;
+
+        try {
+            String sql = "SELECT dostepny FROM rower WHERE id_roweru = " + bikeID;
+            pst = connectToDb().prepareCall(sql);
+            rs = pst.executeQuery();
+
+            while (rs.next()) {
+                if(rs.getInt(1) == 1)
+                    isAvailable = true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return isAvailable;
+    }
+
+    public static ArrayList<Integer> getAvailableBikes(int availability) {
 
         Connection con = connectToDb();
         ResultSet rs = null;
@@ -89,12 +112,12 @@ public class DatabaseConnection {
         ArrayList<Integer> availableBikes = new ArrayList<Integer>();
 
         try {
-            String sql = "SELECT id_stacji, dostepny from rower;";
+            String sql = "SELECT stacja.id_stacji, COUNT(case rower.dostepny when '" + availability + "' then 1 else null end) FROM stacja LEFT JOIN rower ON stacja.id_stacji = rower.id_stacji GROUP BY stacja.id_stacji;";
             pst = connectToDb().prepareCall(sql);
             rs = pst.executeQuery();
 
             while (rs.next()) {
-                availableBikes.add(rs.getInt(1));
+                availableBikes.add(rs.getInt(2));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -108,7 +131,7 @@ public class DatabaseConnection {
         ResultSet rs = null;
         PreparedStatement pst = null;
 
-        ArrayList<Integer> availableStations = new ArrayList<Integer>(); //indexing from 0 (availableBikes[0] is number of available bikes from station 1)
+        ArrayList<Integer> availableStations = new ArrayList<Integer>();
 
         try {
             String sql = "SELECT ID_stacji from stacja; ";

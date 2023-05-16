@@ -1,6 +1,7 @@
 package com.example.bikerentingapp.Classes.AccountModel;
 
 import android.content.Context;
+import android.util.Pair;
 
 import com.example.bikerentingapp.Classes.AccountModel.Account;
 import com.example.bikerentingapp.Classes.Bike;
@@ -45,8 +46,7 @@ public class Customer extends Account {
 
     public boolean rentBike(int bikeID) {
 
-        ArrayList<Integer> availableBikes = DatabaseConnection.getAvailableBikes();
-        if(bikeID <= availableBikes.size() && availableBikes.get(bikeID-1) == 1)
+        if(DatabaseConnection.isBikeAvailable(bikeID))
         {
             Bike bike = DatabaseConnection.getBike(bikeID);
             if(bike.isAvailable())

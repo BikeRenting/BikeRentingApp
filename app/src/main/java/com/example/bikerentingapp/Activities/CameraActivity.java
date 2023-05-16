@@ -46,8 +46,6 @@ public class CameraActivity extends AppCompatActivity {
 
     private SharedPreferences sharedpreferences;
     private Customer customer;
-    private Gson gson;
-    private String json;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

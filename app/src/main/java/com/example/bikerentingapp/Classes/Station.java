@@ -52,7 +52,7 @@ public class Station {
     }
 
     public int getAvailableBikes(){
-        return DatabaseConnection.getAvailableBikes().get(stationID-1);
+        return DatabaseConnection.getAvailableBikes(1).get(stationID-1);
     }
 
     public void getDamagedBikes(){
