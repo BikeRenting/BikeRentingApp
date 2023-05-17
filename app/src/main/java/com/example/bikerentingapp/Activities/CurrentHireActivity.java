@@ -54,6 +54,8 @@ public class CurrentHireActivity extends AppCompatActivity{
 
         updateLength = true;
         timer = new Timer();
+        rand = new Random();
+
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
@@ -61,8 +63,6 @@ public class CurrentHireActivity extends AppCompatActivity{
                 updateHire();
             }
         }, 0, 1000);
-
-        rand = new Random();
 
         customer = (Customer) UserHolder.getInstance().getUser();
     }
@@ -117,14 +117,18 @@ public class CurrentHireActivity extends AppCompatActivity{
     public void updateHire() {
         currentTime++;
         currentLength+=(rand.nextInt(6) + 3);
+        displayTimeAndLength(currentTime, currentLength);
+    }
 
-        if((currentTime/60.0) > 1) {
+    public void displayTimeAndLength(int _time, int _length) {
+
+        if((_time/60.0) > 1) {
             time = Integer.toString(currentTime/60) + "min " + Integer.toString(currentTime%60) + "s";
         }
         else
             time = Integer.toString(currentTime) + "s";
 
-        if((currentLength/1000.0) > 1) {
+        if((_length/1000.0) > 1) {
             length = Integer.toString(currentLength/1000) + "." + Integer.toString(currentLength%100) + "km";
         }
         else

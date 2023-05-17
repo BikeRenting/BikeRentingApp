@@ -287,8 +287,16 @@ public class DatabaseConnection {
     public static boolean updateHire(int hire_id, int time, int length, double payment, boolean isPaid) {
         Connection con = connectToDb();
         int ispaid = isPaid ? 1 : 0;
+
+        int hours = time/3600;
+        int minutes = (time - (3600*hours))/60;
+        int seconds = time%60;
+
+        String _time = Integer.toString(hours) + ":" + Integer.toString(minutes) + ":" + Integer.toString(seconds);
+
+
         try {
-            String sql = "UPDATE `wypozyczenie` SET " + "czas_przejazdu = " + time + ", dystans = " + length + ", kwota = " + payment + ", czy_oplacone = " + ispaid + " WHERE id_wypozyczenia = " + hire_id + ";";
+            String sql = "UPDATE `wypozyczenie` SET " + "czas_przejazdu = \'" + _time + "\', dystans = " + length + ", kwota = " + payment + ", czy_oplacone = " + ispaid + " WHERE id_wypozyczenia = " + hire_id + ";";
             con.createStatement().executeUpdate(sql);
             return true;
         } catch (SQLException e) {
@@ -359,6 +367,23 @@ public class DatabaseConnection {
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
+        }
+    }
+
+    public static double getFunds(int customerID) {
+        Connection con = connectToDb();
+        ResultSet rs = null;
+        double funds = 0;
+        try {
+            String sql = "SELECT stan_konta FROM `klient` WHERE id_klienta=" + customerID;
+            rs = con.prepareCall(sql).executeQuery();
+            while (rs.next()) {
+                funds = rs.getDouble(1);
+            }
+            return funds;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return funds;
         }
     }
 
