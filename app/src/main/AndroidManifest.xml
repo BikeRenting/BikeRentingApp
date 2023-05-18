@@ -18,6 +18,13 @@
         android:theme="@style/Theme.BikeRentingApp"
         tools:targetApi="31">
         <activity
+            android:name=".Activities.ServicemanActivities.BikesInStationActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".Activities.SelectedHireActivity"
             android:exported="false">
             <meta-data

@@ -62,7 +62,7 @@ public class DatabaseConnection {
 
         try {
             String sql = "SELECT * FROM stacja";
-            pst = connectToDb().prepareCall(sql);
+            pst = con.prepareCall(sql);
             rs = pst.executeQuery();
 
             while (rs.next()) {
@@ -94,7 +94,7 @@ public class DatabaseConnection {
             rs = pst.executeQuery();
 
             while (rs.next()) {
-                if(rs.getInt(1) == 1)
+                if (rs.getInt(1) == 1)
                     isAvailable = true;
             }
         } catch (SQLException e) {
@@ -263,6 +263,28 @@ public class DatabaseConnection {
         return bike;
     }
 
+    public static ArrayList<Bike> getBikesInStation(int stationID) {
+        Connection con = connectToDb();
+        ResultSet rs = null;
+        ArrayList<Bike> bikes = new ArrayList<>();
+
+        try {
+            String sql = "SELECT * FROM `rower` WHERE id_stacji = " + stationID + ";";
+            rs = con.prepareStatement(sql).executeQuery();
+            while (rs.next()){
+                bikes.add(new Bike(
+                        rs.getInt("id_roweru"),
+                        rs.getString("stan_techniczny"),
+                        rs.getInt("id_stacji"),
+                        rs.getInt("dostepny") != 0
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return bikes;
+    }
+
     public static boolean addNewHire(int hire_id, int time, int length, double payment, int bikeID, String date, int isPaymentRealized, int customer_id) {
         Connection con = connectToDb();
         try {
@@ -288,9 +310,9 @@ public class DatabaseConnection {
         Connection con = connectToDb();
         int ispaid = isPaid ? 1 : 0;
 
-        int hours = time/3600;
-        int minutes = (time - (3600*hours))/60;
-        int seconds = time%60;
+        int hours = time / 3600;
+        int minutes = (time - (3600 * hours)) / 60;
+        int seconds = time % 60;
 
         String _time = Integer.toString(hours) + ":" + Integer.toString(minutes) + ":" + Integer.toString(seconds);
 
@@ -361,7 +383,7 @@ public class DatabaseConnection {
         try {
             String sqlAddBike = "INSERT INTO rower (stan_techniczny, id_stacji, dostepny) VALUES (\'" + condition + "\', " + stationID + ", " + availability + ");";
             con.createStatement().executeUpdate(sqlAddBike);
-            String sqlUpdateStation = "UPDATE `stacja` SET wolne_miejsca = " + freeSpace + " WHERE id_stacji = " + stationID +  ";";
+            String sqlUpdateStation = "UPDATE `stacja` SET wolne_miejsca = " + freeSpace + " WHERE id_stacji = " + stationID + ";";
             con.createStatement().executeUpdate(sqlUpdateStation);
             return true;
         } catch (SQLException e) {

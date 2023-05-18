@@ -3,6 +3,7 @@ package com.example.bikerentingapp.Activities;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import com.example.bikerentingapp.Activities.ServicemanActivities.BikesInStationActivity;
 import com.example.bikerentingapp.Classes.AccountModel.Customer;
 import com.example.bikerentingapp.Classes.DatabaseConnection;
 import com.example.bikerentingapp.Classes.Station;
@@ -87,7 +88,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                         new MarkerOptions()
                                 .position(pos)
                                 .title("Stacja nr. " + Integer.toString(station.getStationID())).snippet("Dostępne rowery: " + Integer.toString(available))
-                                .icon(icon));
+                                .icon(icon)).setTag(station.getStationID());
 
             }
         }
@@ -103,7 +104,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                         new MarkerOptions()
                                 .position(pos)
                                 .title("Stacja nr. " + Integer.toString(station.getStationID())).snippet("Niedostępne rowery: " + Integer.toString(not_available))
-                                .icon(icon));
+                                .icon(icon)).setTag(station.getStationID());
 
             }
             googleMap.setOnInfoWindowClickListener(this);
@@ -112,11 +113,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     @Override
     public void onInfoWindowClick(Marker marker) {
-        //Intent intent = new Intent(this, bikeManagementActivity.class);
-       // Object stationNumber = marker.getTag();
-       // String sn = stationNumber.toString();
-       // intent.putExtra("stationNumber",sn);
-       // startActivity(intent);
+        Intent intent = new Intent(this, BikesInStationActivity.class);
+        Object stationNumber = marker.getTag();
+        String sn = stationNumber.toString();
+        intent.putExtra("stationNumber",sn);
+        startActivity(intent);
     }
 
 }
