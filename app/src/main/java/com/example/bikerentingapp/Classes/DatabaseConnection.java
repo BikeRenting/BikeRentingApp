@@ -32,9 +32,10 @@ public class DatabaseConnection {
     }
 
     public static String getUserById(int user_id) {
+        if(!isConnectionValid())
+            connectToDb();
         ResultSet rs = null;
         PreparedStatement pst = null;
-
         try {
             String sql = "SELECT * FROM `klient` WHERE id_klienta=" + user_id;
             pst = con.prepareCall(sql);
@@ -50,6 +51,8 @@ public class DatabaseConnection {
     }
 
     public static ArrayList<Station> getStations() {
+        if(!isConnectionValid())
+            connectToDb();
         ResultSet rs = null;
         PreparedStatement pst = null;
 
@@ -76,7 +79,8 @@ public class DatabaseConnection {
     }
 
     public static boolean isBikeAvailable(int bikeID) {
-
+        if(!isConnectionValid())
+            connectToDb();
         ResultSet rs = null;
         PreparedStatement pst = null;
 
@@ -98,7 +102,8 @@ public class DatabaseConnection {
     }
 
     public static ArrayList<Integer> getAvailableBikes(int availability) {
-
+        if(!isConnectionValid())
+            connectToDb();
         ResultSet rs = null;
         PreparedStatement pst = null;
 
@@ -119,7 +124,8 @@ public class DatabaseConnection {
     }
 
     public static ArrayList<Integer> getAvailableStations() {
-
+        if(!isConnectionValid())
+            connectToDb();
         ResultSet rs = null;
         PreparedStatement pst = null;
 
@@ -140,6 +146,8 @@ public class DatabaseConnection {
     }
 
     public static Station getStation(int stationID) {
+        if(!isConnectionValid())
+            connectToDb();
         ResultSet rs = null;
         Station station = null;
 
@@ -162,6 +170,8 @@ public class DatabaseConnection {
 
 
     public static boolean ifExist(String username, String email, String phone) {
+        if(!isConnectionValid())
+            connectToDb();
         ResultSet rs = null;
         try {
             String sql = "SELECT * FROM `klient` WHERE nazwa_uzytkownika='" + username + "' OR adres_email='" + email + "' OR nr_telefonu=" + phone;
@@ -179,6 +189,8 @@ public class DatabaseConnection {
     }
 
     public static boolean createAccount(String username, String email, String phone, String password) {
+        if(!isConnectionValid())
+            connectToDb();
         try {
             String sql = "INSERT INTO klient (adres_email, nr_telefonu, stan_konta, nazwa_uzytkownika, haslo) VALUES ('" + email + "', '" + phone + "', 0, '" + username + "', '" + password + "')";
             con.createStatement().executeUpdate(sql);
@@ -190,6 +202,8 @@ public class DatabaseConnection {
     }
 
     public static ResultSet getCustomer(String username) {
+        if(!isConnectionValid())
+            connectToDb();
         ResultSet rs = null;
         try {
             String sql = "SELECT * FROM `klient` WHERE nazwa_uzytkownika='" + username + "'";
@@ -202,6 +216,8 @@ public class DatabaseConnection {
     }
 
     public static ResultSet getServiceman(String username) {
+        if(!isConnectionValid())
+            connectToDb();
         ResultSet rs = null;
         try {
             String sql = "SELECT * FROM `pracownik` WHERE nazwa_uzytkownika='" + username + "'";
@@ -214,6 +230,8 @@ public class DatabaseConnection {
     }
 
     public static int getLastHireID() {
+        if(!isConnectionValid())
+            connectToDb();
         ResultSet rs = null;
         int id = 0;
         try {
@@ -230,6 +248,8 @@ public class DatabaseConnection {
     }
 
     public static Bike getBike(int bikeID) {
+        if(!isConnectionValid())
+            connectToDb();
         ResultSet rs = null;
         Bike bike = null;
         try {
@@ -249,6 +269,8 @@ public class DatabaseConnection {
     }
 
     public static boolean addNewHire(int hire_id, int time, int length, double payment, int bikeID, String date, int isPaymentRealized, int customer_id) {
+        if(!isConnectionValid())
+            connectToDb();
         try {
             String sql = "INSERT INTO `wypozyczenie` (`id_wypozyczenia`, `czas_przejazdu`, `id_klienta`, `id_roweru`, `data_rozpoczecia`, `dystans`, `kwota`, `czy_oplacone`) VALUES (" +
                     hire_id + ", " + //id_wypozyczenia
@@ -269,6 +291,8 @@ public class DatabaseConnection {
     }
 
     public static boolean updateHire(int hire_id, int time, int length, double payment, boolean isPaid) {
+        if(!isConnectionValid())
+            connectToDb();
         int ispaid = isPaid ? 1 : 0;
 
         int hours = time/3600;
@@ -289,6 +313,8 @@ public class DatabaseConnection {
     }
 
     public static boolean updateBike(int bike_id, String condition, int station_id, int available) {
+        if(!isConnectionValid())
+            connectToDb();
         try {
             String sql = "UPDATE `rower` SET " + "dostepny = " + available + ", id_stacji = " + station_id + ", stan_techniczny = " + "\'" + condition + "\'" + " WHERE id_roweru = " + bike_id + ";";
             con.createStatement().executeUpdate(sql);
@@ -300,6 +326,8 @@ public class DatabaseConnection {
     }
 
     public static boolean rechargeWallet(int userID, double balance) {
+        if(!isConnectionValid())
+            connectToDb();
         try {
             String sql = "UPDATE `klient` SET stan_konta = " + balance + " WHERE id_klienta =" + userID + ";";
             con.createStatement().executeUpdate(sql);
@@ -311,7 +339,8 @@ public class DatabaseConnection {
     }
 
     public static ArrayList<Hire> getUserHires(int userID) {
-
+        if(!isConnectionValid())
+            connectToDb();
         ArrayList<Hire> userHires = new ArrayList<>();
         ResultSet resultSet = null;
         try {
@@ -337,6 +366,8 @@ public class DatabaseConnection {
     }
 
     public static boolean addBikeAndUpdate(String condition, int stationID, int availability, int freeSpace) {
+        if(!isConnectionValid())
+            connectToDb();
         try {
             String sqlAddBike = "INSERT INTO rower (stan_techniczny, id_stacji, dostepny) VALUES (\'" + condition + "\', " + stationID + ", " + availability + ");";
             con.createStatement().executeUpdate(sqlAddBike);
@@ -350,6 +381,8 @@ public class DatabaseConnection {
     }
 
     public static double getFunds(int customerID) {
+        if(!isConnectionValid())
+            connectToDb();
         ResultSet rs = null;
         double funds = 0;
         try {
@@ -363,6 +396,21 @@ public class DatabaseConnection {
             e.printStackTrace();
             return funds;
         }
+    }
+
+    private static boolean isConnectionValid() {
+        try {
+            if (con != null && !con.isClosed()) {
+                // Running a simple validation query
+                con.prepareStatement("SELECT 1");
+                return true;
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return false;
     }
 
 }
