@@ -12,6 +12,7 @@ import android.view.View;
 import com.example.bikerentingapp.Classes.DatabaseConnection;
 import com.example.bikerentingapp.Classes.Hire;
 import com.example.bikerentingapp.Classes.MyHiresRecyclerAdapter;
+import com.example.bikerentingapp.Classes.RecyclerViewClickListener;
 import com.example.bikerentingapp.Classes.UserHolder;
 import com.example.bikerentingapp.R;
 
@@ -22,7 +23,7 @@ public class MyHiresActivity extends AppCompatActivity {
 
     private ArrayList<Hire> myHires;
     private RecyclerView recyclerView;
-    private MyHiresRecyclerAdapter.RecyclerViewClickListener listener;
+    private RecyclerViewClickListener listener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +45,7 @@ public class MyHiresActivity extends AppCompatActivity {
     }
 
     private void setOnClickListener() {
-        listener = new MyHiresRecyclerAdapter.RecyclerViewClickListener() {
+        listener = new RecyclerViewClickListener() {
             @Override
             public void onClick(View V, int position) {
                 Intent intent = new Intent(getApplicationContext(),SelectedHireActivity.class);

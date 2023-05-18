@@ -249,7 +249,6 @@ public class DatabaseConnection {
     }
 
     public static ArrayList<Bike> getBikesInStation(int stationID) {
-        Connection con = connectToDb();
         ResultSet rs = null;
         ArrayList<Bike> bikes = new ArrayList<>();
 
@@ -358,11 +357,11 @@ public class DatabaseConnection {
         return userHires;
     }
 
-    public static boolean addBikeAndUpdate(String condition, int stationID, int availability, int freeSpace) {
+    public static boolean addBikeAndUpdate(String condition, int stationID, int availability) {
         try {
             String sqlAddBike = "INSERT INTO rower (stan_techniczny, id_stacji, dostepny) VALUES (\'" + condition + "\', " + stationID + ", " + availability + ");";
             con.createStatement().executeUpdate(sqlAddBike);
-            String sqlUpdateStation = "UPDATE `stacja` SET wolne_miejsca = " + freeSpace + " WHERE id_stacji = " + stationID + ";";
+            String sqlUpdateStation = "UPDATE `stacja` SET wolne_miejsca = wolne_miejsca -" + 1 + " WHERE id_stacji = " + stationID + ";";
             con.createStatement().executeUpdate(sqlUpdateStation);
             return true;
         } catch (SQLException e) {

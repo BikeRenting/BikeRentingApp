@@ -84,7 +84,5 @@ public class MyHiresRecyclerAdapter extends RecyclerView.Adapter<MyHiresRecycler
         return myHires.size();
     }
 
-    public interface RecyclerViewClickListener{
-        void onClick(View V, int position);
-    }
+
 }
