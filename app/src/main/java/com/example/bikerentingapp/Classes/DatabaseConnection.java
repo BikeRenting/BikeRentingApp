@@ -20,27 +20,24 @@ public class DatabaseConnection {
 
     private static String url = "jdbc:mysql://" + host + ":" + port + "/" + dbname + "?useSSL=false&characterEncoding=utf8";
 
-    public static Connection connectToDb() {
+    private static Connection con;
 
-        Connection mycon = null;
+    public static void connectToDb() {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            mycon = DriverManager.getConnection(url, username, password);
+            con = DriverManager.getConnection(url, username, password);
         } catch (ClassNotFoundException | SQLException e) {
             e.printStackTrace();
         }
-        return mycon;
     }
 
     public static String getUserById(int user_id) {
-
-        Connection con = connectToDb();
         ResultSet rs = null;
         PreparedStatement pst = null;
 
         try {
             String sql = "SELECT * FROM `klient` WHERE id_klienta=" + user_id;
-            pst = connectToDb().prepareCall(sql);
+            pst = con.prepareCall(sql);
             rs = pst.executeQuery();
 
             while (rs.next()) {
@@ -53,8 +50,6 @@ public class DatabaseConnection {
     }
 
     public static ArrayList<Station> getStations() {
-
-        Connection con = connectToDb();
         ResultSet rs = null;
         PreparedStatement pst = null;
 
@@ -62,7 +57,7 @@ public class DatabaseConnection {
 
         try {
             String sql = "SELECT * FROM stacja";
-            pst = connectToDb().prepareCall(sql);
+            pst = con.prepareCall(sql);
             rs = pst.executeQuery();
 
             while (rs.next()) {
@@ -82,7 +77,6 @@ public class DatabaseConnection {
 
     public static boolean isBikeAvailable(int bikeID) {
 
-        Connection con = connectToDb();
         ResultSet rs = null;
         PreparedStatement pst = null;
 
@@ -90,7 +84,7 @@ public class DatabaseConnection {
 
         try {
             String sql = "SELECT dostepny FROM rower WHERE id_roweru = " + bikeID;
-            pst = connectToDb().prepareCall(sql);
+            pst = con.prepareCall(sql);
             rs = pst.executeQuery();
 
             while (rs.next()) {
@@ -105,7 +99,6 @@ public class DatabaseConnection {
 
     public static ArrayList<Integer> getAvailableBikes(int availability) {
 
-        Connection con = connectToDb();
         ResultSet rs = null;
         PreparedStatement pst = null;
 
@@ -113,7 +106,7 @@ public class DatabaseConnection {
 
         try {
             String sql = "SELECT stacja.id_stacji, COUNT(case rower.dostepny when '" + availability + "' then 1 else null end) FROM stacja LEFT JOIN rower ON stacja.id_stacji = rower.id_stacji GROUP BY stacja.id_stacji;";
-            pst = connectToDb().prepareCall(sql);
+            pst = con.prepareCall(sql);
             rs = pst.executeQuery();
 
             while (rs.next()) {
@@ -127,7 +120,6 @@ public class DatabaseConnection {
 
     public static ArrayList<Integer> getAvailableStations() {
 
-        Connection con = connectToDb();
         ResultSet rs = null;
         PreparedStatement pst = null;
 
@@ -135,7 +127,7 @@ public class DatabaseConnection {
 
         try {
             String sql = "SELECT ID_stacji from stacja; ";
-            pst = connectToDb().prepareCall(sql);
+            pst = con.prepareCall(sql);
             rs = pst.executeQuery();
 
             while (rs.next()) {
@@ -148,7 +140,6 @@ public class DatabaseConnection {
     }
 
     public static Station getStation(int stationID) {
-        Connection con = connectToDb();
         ResultSet rs = null;
         Station station = null;
 
@@ -171,7 +162,6 @@ public class DatabaseConnection {
 
 
     public static boolean ifExist(String username, String email, String phone) {
-        Connection con = connectToDb();
         ResultSet rs = null;
         try {
             String sql = "SELECT * FROM `klient` WHERE nazwa_uzytkownika='" + username + "' OR adres_email='" + email + "' OR nr_telefonu=" + phone;
@@ -189,7 +179,6 @@ public class DatabaseConnection {
     }
 
     public static boolean createAccount(String username, String email, String phone, String password) {
-        Connection con = connectToDb();
         try {
             String sql = "INSERT INTO klient (adres_email, nr_telefonu, stan_konta, nazwa_uzytkownika, haslo) VALUES ('" + email + "', '" + phone + "', 0, '" + username + "', '" + password + "')";
             con.createStatement().executeUpdate(sql);
@@ -201,7 +190,6 @@ public class DatabaseConnection {
     }
 
     public static ResultSet getCustomer(String username) {
-        Connection con = connectToDb();
         ResultSet rs = null;
         try {
             String sql = "SELECT * FROM `klient` WHERE nazwa_uzytkownika='" + username + "'";
@@ -214,7 +202,6 @@ public class DatabaseConnection {
     }
 
     public static ResultSet getServiceman(String username) {
-        Connection con = connectToDb();
         ResultSet rs = null;
         try {
             String sql = "SELECT * FROM `pracownik` WHERE nazwa_uzytkownika='" + username + "'";
@@ -227,7 +214,6 @@ public class DatabaseConnection {
     }
 
     public static int getLastHireID() {
-        Connection con = connectToDb();
         ResultSet rs = null;
         int id = 0;
         try {
@@ -244,7 +230,6 @@ public class DatabaseConnection {
     }
 
     public static Bike getBike(int bikeID) {
-        Connection con = connectToDb();
         ResultSet rs = null;
         Bike bike = null;
         try {
@@ -264,7 +249,6 @@ public class DatabaseConnection {
     }
 
     public static boolean addNewHire(int hire_id, int time, int length, double payment, int bikeID, String date, int isPaymentRealized, int customer_id) {
-        Connection con = connectToDb();
         try {
             String sql = "INSERT INTO `wypozyczenie` (`id_wypozyczenia`, `czas_przejazdu`, `id_klienta`, `id_roweru`, `data_rozpoczecia`, `dystans`, `kwota`, `czy_oplacone`) VALUES (" +
                     hire_id + ", " + //id_wypozyczenia
@@ -285,7 +269,6 @@ public class DatabaseConnection {
     }
 
     public static boolean updateHire(int hire_id, int time, int length, double payment, boolean isPaid) {
-        Connection con = connectToDb();
         int ispaid = isPaid ? 1 : 0;
 
         int hours = time/3600;
@@ -306,7 +289,6 @@ public class DatabaseConnection {
     }
 
     public static boolean updateBike(int bike_id, String condition, int station_id, int available) {
-        Connection con = connectToDb();
         try {
             String sql = "UPDATE `rower` SET " + "dostepny = " + available + ", id_stacji = " + station_id + ", stan_techniczny = " + "\'" + condition + "\'" + " WHERE id_roweru = " + bike_id + ";";
             con.createStatement().executeUpdate(sql);
@@ -318,7 +300,6 @@ public class DatabaseConnection {
     }
 
     public static boolean rechargeWallet(int userID, double balance) {
-        Connection con = connectToDb();
         try {
             String sql = "UPDATE `klient` SET stan_konta = " + balance + " WHERE id_klienta =" + userID + ";";
             con.createStatement().executeUpdate(sql);
@@ -332,11 +313,10 @@ public class DatabaseConnection {
     public static ArrayList<Hire> getUserHires(int userID) {
 
         ArrayList<Hire> userHires = new ArrayList<>();
-        Connection connection = connectToDb();
         ResultSet resultSet = null;
         try {
             String sql = "SELECT * FROM `wypozyczenie` WHERE id_klienta = " + userID + ";";
-            resultSet = connection.prepareCall(sql).executeQuery();
+            resultSet = con.prepareCall(sql).executeQuery();
             while (resultSet.next()) {
 
                 userHires.add(new Hire(
@@ -357,7 +337,6 @@ public class DatabaseConnection {
     }
 
     public static boolean addBikeAndUpdate(String condition, int stationID, int availability, int freeSpace) {
-        Connection con = connectToDb();
         try {
             String sqlAddBike = "INSERT INTO rower (stan_techniczny, id_stacji, dostepny) VALUES (\'" + condition + "\', " + stationID + ", " + availability + ");";
             con.createStatement().executeUpdate(sqlAddBike);
@@ -371,7 +350,6 @@ public class DatabaseConnection {
     }
 
     public static double getFunds(int customerID) {
-        Connection con = connectToDb();
         ResultSet rs = null;
         double funds = 0;
         try {

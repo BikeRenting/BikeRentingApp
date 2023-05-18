@@ -15,7 +15,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.bikerentingapp.Activities.ServicemanActivities.ServicemanMenuActivity;
-import com.example.bikerentingapp.Classes.AccountModel.Account;
 import com.example.bikerentingapp.Classes.AccountModel.Customer;
 import com.example.bikerentingapp.Classes.AccountModel.Serviceman;
 import com.example.bikerentingapp.Classes.DatabaseConnection;
@@ -55,6 +54,8 @@ public class LoggingInActivity extends AppCompatActivity {
         sharedpreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
         usr = sharedpreferences.getString(USER_KEY, null);
         usr_type = sharedpreferences.getString(USER_TYPE,null);
+
+        DatabaseConnection.connectToDb();
     }
 
     public void openSignUpActivity(View view) {
@@ -93,6 +94,8 @@ public class LoggingInActivity extends AppCompatActivity {
                         Intent intent = new Intent(LoggingInActivity.this, ClientMenuActivity.class);
                         startActivity(intent);
                         finish();
+                    } else {
+                        Toast.makeText(this, "Wrong password!", Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     rs = DatabaseConnection.getServiceman(user);
