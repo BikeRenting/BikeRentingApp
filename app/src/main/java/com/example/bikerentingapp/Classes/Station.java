@@ -59,8 +59,11 @@ public class Station {
 
     }
 
-    public void addBike(int bikeID) {
-
+    public static boolean addBike(String condition, int stationID, int availability) {
+        if(DatabaseConnection.addBikeAndUpdate(condition,stationID,availability))
+            return true;
+        else
+            return false;
     }
 
     public void removeBike(int bikeID) {

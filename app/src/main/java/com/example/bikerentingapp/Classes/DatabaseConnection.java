@@ -386,13 +386,38 @@ public class DatabaseConnection {
         return userHires;
     }
 
-    public static boolean addBikeAndUpdate(String condition, int stationID, int availability, int freeSpace) {
+    public static boolean addBikeAndUpdate(String condition, int stationID, int availability) {
         if(!isConnectionValid())
             connectToDb();
         try {
             String sqlAddBike = "INSERT INTO rower (stan_techniczny, id_stacji, dostepny) VALUES (\'" + condition + "\', " + stationID + ", " + availability + ");";
             con.createStatement().executeUpdate(sqlAddBike);
+            decrementFreeSpace(stationID);
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static boolean decrementFreeSpace(int stationID){
+        if(!isConnectionValid())
+            connectToDb();
+        try{
             String sqlUpdateStation = "UPDATE `stacja` SET wolne_miejsca = wolne_miejsca -" + 1 + " WHERE id_stacji = " + stationID + ";";
+            con.createStatement().executeUpdate(sqlUpdateStation);
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static boolean incrementFreeSpace(int stationID){
+        if(!isConnectionValid())
+            connectToDb();
+        try{
+            String sqlUpdateStation = "UPDATE `stacja` SET wolne_miejsca = wolne_miejsca +" + 1 + " WHERE id_stacji = " + stationID + ";";
             con.createStatement().executeUpdate(sqlUpdateStation);
             return true;
         } catch (SQLException e) {

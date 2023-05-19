@@ -8,9 +8,13 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.bikerentingapp.Classes.Bike;
+import com.example.bikerentingapp.Classes.DatabaseConnection;
 import com.example.bikerentingapp.R;
+
+import java.util.Locale;
 
 public class ChangeBikeStatusActivity extends AppCompatActivity {
 
@@ -20,6 +24,11 @@ public class ChangeBikeStatusActivity extends AppCompatActivity {
     private RadioGroup group;
     private RadioButton availableButton;
     private RadioButton unavailableButton;
+
+    private String currentCondition;
+    private int currentAvailability;
+    private String newCondition;
+    private int newAvailability;
 
 
     @Override
@@ -35,21 +44,44 @@ public class ChangeBikeStatusActivity extends AppCompatActivity {
 
         selectedBike = (Bike) getIntent().getSerializableExtra("selectedBike");
         bikeNumber.setText("Rower nr " + selectedBike.getBikeID());
+
+        currentCondition = selectedBike.getCondition();
         condition.setText(selectedBike.getCondition());
+
+        currentAvailability = selectedBike.isAvailable() ? 1 : 0;
+
         setCurrentAvailability();
-
     }
 
-    private void setCurrentAvailability(){
-        if(selectedBike.isAvailable()){
+    private void setCurrentAvailability() {
+        if (selectedBike.isAvailable()) {
             availableButton.setChecked(true);
-        }
-        else
+        } else {
             unavailableButton.setChecked(true);
+        }
+    }
+
+    public void changeStatus(View view) {
+        newCondition = condition.getText().toString().toLowerCase(Locale.ROOT);
+        if (availableButton.isChecked()) {
+            newAvailability = 1;
+        }
+        if (unavailableButton.isChecked()) {
+            newAvailability = 0;
+        }
+
+        if (!newCondition.equals(currentCondition) || !(newAvailability == currentAvailability)) {
+            if (DatabaseConnection.updateBike(selectedBike.getBikeID(), newCondition, selectedBike.getStationID(), newAvailability)) {
+                Toast.makeText(getApplicationContext(), "Status roweru zmieniony", Toast.LENGTH_SHORT).show();
+                finish();
+            }else
+                Toast.makeText(getApplicationContext(), "Wystąpił błąd", Toast.LENGTH_SHORT).show();
+        } else
+            Toast.makeText(getApplicationContext(), "Nie wprowadzono żadnych zmian", Toast.LENGTH_SHORT).show();
 
     }
 
-    public void checkButton(View view){
+    public void checkButton(View view) {
 
     }
 }

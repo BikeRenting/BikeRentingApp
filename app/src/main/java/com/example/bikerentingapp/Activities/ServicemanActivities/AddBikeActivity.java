@@ -43,7 +43,7 @@ public class AddBikeActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Brak wolnych miejsc na tej stacji.", Toast.LENGTH_SHORT).show();
                 } else {
 
-                    if (DatabaseConnection.addBikeAndUpdate(condition, id, isAvailable)) {
+                    if (Station.addBike(condition,id,isAvailable)) {
                         Toast.makeText(getApplicationContext(), "Dodano rower do stacji.", Toast.LENGTH_SHORT).show();
                         stationID.setText("");
                         bikeAvailability.setText("");

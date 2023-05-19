@@ -64,5 +64,10 @@ public class BikesInStationActivity extends AppCompatActivity {
         };
     }
 
-
+    @Override
+    protected void onResume() {
+        super.onResume();
+        fillStations();
+        setAdapter();
+    }
 }
