@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_1"
+    tools:context=".Activities.ServicemanActivities.RemoveBikeActivity">
+
+    <TextView
+        android:id="@+id/removeBikeLabel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Usuń rower"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:textSize="45sp"
+        android:layout_marginTop="30dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/removeBikeLabel"
+        android:drawableLeft="@drawable/ic_baseline_pedal_bike_24"
+        android:drawablePadding="10dp"
+        android:id="@+id/bikeIDLabel"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="150dp"
+        android:background="#30ffffff"
+        android:padding="10dp"
+        android:text="ID roweru:"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/bikeToRemove"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bikeIDLabel"
+        android:background="#30ffffff"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="10dp"
+        android:inputType="number"
+        android:hint="Podaj ID roweru do usunięcia..."
+        android:textAlignment="center"
+        android:textColorHint="@color/white"
+        android:textColor="@color/white"
+        android:padding="10dp"
+        />
+
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/bikeToRemove"
+        android:text="USUŃ ROWER"
+        android:textSize="18dp"
+        android:layout_margin="20dp"
+        android:layout_centerHorizontal="true"
+        android:onClick="removeBikeClickButton"
+        android:backgroundTint="@color/design_default_color_secondary"/>
+
+</RelativeLayout>

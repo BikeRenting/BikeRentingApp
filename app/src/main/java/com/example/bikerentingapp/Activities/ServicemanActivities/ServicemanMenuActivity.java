@@ -57,6 +57,11 @@ public class ServicemanMenuActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void openRemoveBikeActivity(View view){
+        Intent intent = new Intent(this, RemoveBikeActivity.class);
+        startActivity(intent);
+    }
+
     @Override
     public void onBackPressed() {
         if (doubleTap) {

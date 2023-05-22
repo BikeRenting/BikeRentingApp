@@ -18,5 +18,16 @@
 
     </androidx.fragment.app.FragmentContainerView>
 
+    <com.google.android.material.button.MaterialButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/baseButton"
+        android:onClick="baseButtonClick"
+        android:text="BAZA"
+        android:textSize="18dp"
+        android:layout_margin="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:ignore="MissingConstraints" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

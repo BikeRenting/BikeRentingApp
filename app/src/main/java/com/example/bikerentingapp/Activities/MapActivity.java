@@ -23,6 +23,9 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.content.res.Resources;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+
 import com.example.bikerentingapp.R;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -32,6 +35,7 @@ import java.util.ArrayList;
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnInfoWindowClickListener {
 
     private static final String TAG = MapActivity.class.getSimpleName();
+    private Button baseButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +44,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        baseButton = findViewById(R.id.baseButton);
+        baseButton.setVisibility(View.GONE);
 
         //String x = DatabaseConnection.getUserById(1);
 
@@ -77,6 +84,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         if(UserHolder.getInstance().getUser() instanceof Customer)
         {
+
             ArrayList<Integer> availableBikes = DatabaseConnection.getAvailableBikes(1);
             for (Station station: stations) {
 
@@ -93,6 +101,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             }
         }
         else {
+            baseButton.setVisibility(View.VISIBLE);
             ArrayList<Integer> damagedBikes = DatabaseConnection.getAvailableBikes(0);
             for (Station station: stations) {
 
@@ -109,6 +118,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             }
             googleMap.setOnInfoWindowClickListener(this);
         }
+    }
+
+    public void baseButtonClick(View view){
+        Intent intent = new Intent(this, BikesInStationActivity.class);
+        String sn = "0";
+        intent.putExtra("stationNumber",sn);
+        startActivity(intent);
     }
 
     @Override

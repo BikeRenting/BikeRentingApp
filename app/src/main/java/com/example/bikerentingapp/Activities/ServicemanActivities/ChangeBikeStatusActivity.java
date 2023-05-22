@@ -21,12 +21,16 @@ public class ChangeBikeStatusActivity extends AppCompatActivity {
     private Bike selectedBike;
     private TextView bikeNumber;
     private EditText condition;
+    private EditText station;
     private RadioGroup group;
     private RadioButton availableButton;
     private RadioButton unavailableButton;
 
+    private int currentStation;
     private String currentCondition;
     private int currentAvailability;
+
+    private int newStation;
     private String newCondition;
     private int newAvailability;
 
@@ -38,16 +42,19 @@ public class ChangeBikeStatusActivity extends AppCompatActivity {
 
         bikeNumber = findViewById(R.id.statusBikeNumber);
         condition = findViewById(R.id.statusChange);
+        station = findViewById(R.id.stationChange);
         group = findViewById(R.id.radioGroup);
         availableButton = findViewById(R.id.availableButton);
         unavailableButton = findViewById(R.id.unavailableButton);
 
         selectedBike = (Bike) getIntent().getSerializableExtra("selectedBike");
-        bikeNumber.setText("Rower nr " + selectedBike.getBikeID());
 
-        currentCondition = selectedBike.getCondition();
+        station.setText(String.valueOf(selectedBike.getStationID()));
+        bikeNumber.setText("Rower nr " + selectedBike.getBikeID());
         condition.setText(selectedBike.getCondition());
 
+        currentStation = selectedBike.getStationID();
+        currentCondition = selectedBike.getCondition();
         currentAvailability = selectedBike.isAvailable() ? 1 : 0;
 
         setCurrentAvailability();
@@ -63,6 +70,7 @@ public class ChangeBikeStatusActivity extends AppCompatActivity {
 
     public void changeStatus(View view) {
         newCondition = condition.getText().toString().toLowerCase(Locale.ROOT);
+        newStation = Integer.parseInt(station.getText().toString());
         if (availableButton.isChecked()) {
             newAvailability = 1;
         }
@@ -70,11 +78,18 @@ public class ChangeBikeStatusActivity extends AppCompatActivity {
             newAvailability = 0;
         }
 
-        if (!newCondition.equals(currentCondition) || !(newAvailability == currentAvailability)) {
-            if (DatabaseConnection.updateBike(selectedBike.getBikeID(), newCondition, selectedBike.getStationID(), newAvailability)) {
+        if (!newCondition.equals(currentCondition) ||
+                !(newAvailability == currentAvailability) ||
+                !(newStation == currentStation)) {
+
+            if (DatabaseConnection.updateBike(selectedBike.getBikeID(), newCondition, newStation, newAvailability)) {
+                if (newStation != currentStation) {
+                    DatabaseConnection.incrementFreeSpace(currentStation);
+                    DatabaseConnection.decrementFreeSpace(newStation);
+                }
                 Toast.makeText(getApplicationContext(), "Status roweru zmieniony", Toast.LENGTH_SHORT).show();
                 finish();
-            }else
+            } else
                 Toast.makeText(getApplicationContext(), "Wystąpił błąd", Toast.LENGTH_SHORT).show();
         } else
             Toast.makeText(getApplicationContext(), "Nie wprowadzono żadnych zmian", Toast.LENGTH_SHORT).show();

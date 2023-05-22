@@ -33,7 +33,11 @@ public class BikesInStationActivity extends AppCompatActivity {
         station = findViewById(R.id.stationNumber);
 
         stationNumber = Integer.parseInt(getIntent().getStringExtra("stationNumber"));
-        station.setText("Stacja nr " + stationNumber);
+        if(stationNumber==0){
+            station.setText("Baza");
+        }else {
+            station.setText("Stacja nr " + stationNumber);
+        }
         recyclerView = findViewById(R.id.bikesInStationRecyclerAdapter);
 
         fillStations();
