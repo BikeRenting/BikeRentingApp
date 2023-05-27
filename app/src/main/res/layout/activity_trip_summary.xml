@@ -1,0 +1,204 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.TripSummaryActivity"
+    android:background="@drawable/background_1">
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/finishRentBtn"
+        android:layout_width="238dp"
+        android:layout_height="73dp"
+        android:layout_centerHorizontal="true"
+        android:backgroundTint="@color/design_default_color_secondary"
+        android:onClick="returnToMainMenu"
+        android:text="WRÓĆ DO MENU GŁÓWNEGO"
+        android:textSize="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.933" />
+
+    <TextView
+        android:id="@+id/tripCostLabel"
+        android:layout_width="178dp"
+        android:layout_height="68dp"
+        android:gravity="center"
+
+        android:text="null"
+        android:textAlignment="textEnd"
+        android:textColor="@color/white"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.071"
+        app:layout_constraintStart_toEndOf="@+id/tripTime"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.63" />
+
+    <TextView
+        android:id="@+id/tripDistanceLabel"
+        android:layout_width="178dp"
+        android:layout_height="68dp"
+        android:gravity="center"
+
+        android:text="null"
+        android:textAlignment="textEnd"
+        android:textColor="@color/white"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.071"
+        app:layout_constraintStart_toEndOf="@+id/tripDistance"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.527" />
+
+    <TextView
+        android:id="@+id/tripTimeLabel"
+        android:layout_width="178dp"
+        android:layout_height="68dp"
+        android:gravity="center"
+
+        android:text="null"
+        android:textAlignment="textEnd"
+        android:textColor="@color/white"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.071"
+        app:layout_constraintStart_toEndOf="@+id/tripTime"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.425" />
+
+    <TextView
+        android:id="@+id/tripData2"
+        android:layout_width="178dp"
+        android:layout_height="68dp"
+        android:gravity="center"
+
+        android:text="Data:"
+        android:textAlignment="viewStart"
+        android:textColor="@color/white"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.115"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.322" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/complaintBtn"
+        android:layout_width="238dp"
+        android:layout_height="73dp"
+        android:layout_centerHorizontal="true"
+        android:backgroundTint="@color/design_default_color_secondary"
+        android:onClick="makeAComplaint"
+        android:text="ZŁÓŻ REKLAMACJĘ"
+        android:textSize="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.798" />
+
+    <TextView
+        android:id="@+id/tripDataLabel"
+        android:layout_width="178dp"
+        android:layout_height="68dp"
+        android:gravity="center"
+
+        android:text="null"
+        android:textAlignment="textEnd"
+        android:textColor="@color/white"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.096"
+        app:layout_constraintStart_toEndOf="@+id/tripData2"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.322" />
+
+    <TextView
+        android:id="@+id/tripTime"
+        android:layout_width="178dp"
+        android:layout_height="68dp"
+        android:gravity="center"
+
+        android:text="Czas jazdy:"
+        android:textAlignment="viewStart"
+        android:textColor="@color/white"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.115"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.425" />
+
+    <TextView
+        android:id="@+id/tripCost"
+        android:layout_width="178dp"
+        android:layout_height="68dp"
+        android:gravity="center"
+
+        android:text="Kwota: "
+        android:textAlignment="viewStart"
+        android:textColor="@color/white"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.115"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.63" />
+
+    <TextView
+        android:id="@+id/tripDistance"
+        android:layout_width="178dp"
+        android:layout_height="68dp"
+        android:gravity="center"
+
+        android:text="Dystans:"
+        android:textAlignment="viewStart"
+        android:textColor="@color/white"
+        android:textSize="30dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.115"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.527" />
+
+    <TextView
+        android:id="@+id/tripSummary"
+        android:layout_width="356dp"
+        android:layout_height="94dp"
+        android:gravity="center"
+
+        android:text="Podsumowanie przejazdu"
+        android:textColor="@color/white"
+        android:textSize="35dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.49"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.116" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -90,7 +90,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
                 Pair<Double, Double> coordinates = station.getCoordinates();
                 LatLng pos = new LatLng(coordinates.first, coordinates.second);
-                int available = availableBikes.get(station.getStationID()-1);
+                int available = availableBikes.get(station.getStationID());
 
                 googleMap.addMarker(
                         new MarkerOptions()

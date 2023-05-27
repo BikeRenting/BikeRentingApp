@@ -141,14 +141,23 @@ public class CurrentHireActivity extends AppCompatActivity{
 
     public void openSummaryActivity(View view) {
 
+        String startDate = customer.getHire().getStartDate();
+        int hireID = customer.getHire().getHireID();
+
         double cost = Math.round((currentTime))/100.0;
         customer.getHire().setTime(currentTime);
         customer.getHire().setLength(currentLength);
         customer.getHire().setPayment(cost);
         customer.returnABike(endStation, customer.payForHire());
-        Intent intent = new Intent(view.getContext(), ClientMenuActivity.class);
+        Intent intent = new Intent(view.getContext(), TripSummaryActivity.class);
+
+        intent.putExtra("date", startDate);
+        intent.putExtra("time", time);
+        intent.putExtra("distance", length);
+        intent.putExtra("cost", cost);
+        intent.putExtra("id_wypozyczenia", hireID);
+
         startActivity(intent);
-        finish();
     }
 
 }
