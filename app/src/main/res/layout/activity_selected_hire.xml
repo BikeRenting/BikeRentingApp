@@ -20,240 +20,276 @@
         android:layout_marginTop="40dp" />
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginTop="40dp"
-        android:background="#30ffffff"
         android:id="@+id/hireInfoPane"
-        android:layout_below="@+id/hireNumber">
+        android:layout_width="match_parent"
+        android:layout_height="451dp"
+        android:layout_below="@+id/hireNumber"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="10dp"
+        android:background="#30ffffff">
 
         <LinearLayout
+            android:id="@+id/hireID"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:id="@+id/hireID">
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:padding="10dp"
                 android:text="ID:"
                 android:textColor="@color/white"
-                android:textStyle="bold"
                 android:textSize="20dp"
-                android:padding="10dp"
-                android:layout_weight="0.5"/>
+                android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/hireIdText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/hireIdText"
+                android:layout_weight="0.5"
+                android:padding="10dp"
                 android:text="#35"
                 android:textColor="@color/white"
-                android:textStyle="bold"
                 android:textSize="20dp"
-                android:padding="10dp"
-                android:layout_weight="0.5"/>
+                android:textStyle="bold" />
 
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/hireClient"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:id="@+id/hireClient"
-            android:layout_below="@+id/hireID">
+            android:layout_below="@+id/hireID"
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:padding="10dp"
                 android:text="ID Klienta:"
                 android:textColor="@color/white"
-                android:textStyle="bold"
                 android:textSize="20dp"
-                android:padding="10dp"
-                android:layout_weight="0.5"/>
+                android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/clientIDText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/clientIDText"
+                android:layout_weight="0.5"
+                android:padding="10dp"
                 android:text="#16"
                 android:textColor="@color/white"
-                android:textStyle="bold"
                 android:textSize="20dp"
-                android:padding="10dp"
-                android:layout_weight="0.5"/>
+                android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/hireBikeID"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:id="@+id/hireBikeID"
-            android:layout_below="@id/hireClient">
+            android:layout_below="@id/hireClient"
+            android:orientation="horizontal">
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:padding="10dp"
                 android:text="ID Roweru:"
                 android:textColor="@color/white"
-                android:textStyle="bold"
                 android:textSize="20dp"
-                android:padding="10dp"
-                android:layout_weight="0.5"/>
+                android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/bikeIDText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/bikeIDText"
+                android:layout_weight="0.5"
+                android:padding="10dp"
                 android:text="#4"
                 android:textColor="@color/white"
-                android:textStyle="bold"
                 android:textSize="20dp"
-                android:padding="10dp"
-                android:layout_weight="0.5"/>
+                android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/start"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:id="@+id/start"
-            android:layout_below="@id/hireBikeID">
+            android:layout_below="@id/hireBikeID"
+            android:orientation="horizontal">
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:padding="10dp"
                 android:text="Data rozpoczęcia:"
                 android:textColor="@color/white"
-                android:textStyle="bold"
                 android:textSize="20dp"
-                android:padding="10dp"
-                android:layout_weight="0.5"/>
+                android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/startDateText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/startDateText"
+                android:layout_weight="0.5"
+                android:padding="10dp"
                 android:text="2023-05-14"
                 android:textColor="@color/white"
-                android:textStyle="bold"
                 android:textSize="20dp"
-                android:padding="10dp"
-                android:layout_weight="0.5"/>
+                android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:id="@+id/time"
-            android:layout_below="@id/start">
+            android:layout_below="@id/start"
+            android:orientation="horizontal">
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:padding="10dp"
                 android:text="Czas przejazdu:"
                 android:textColor="@color/white"
-                android:textStyle="bold"
                 android:textSize="20dp"
-                android:padding="10dp"
-                android:layout_weight="0.5"/>
+                android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/timeText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/timeText"
+                android:layout_weight="0.5"
+                android:padding="10dp"
                 android:text="00:00:43"
                 android:textColor="@color/white"
-                android:textStyle="bold"
                 android:textSize="20dp"
-                android:padding="10dp"
-                android:layout_weight="0.5"/>
+                android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/distanceLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:id="@+id/distanceLayout"
-            android:layout_below="@id/time">
+            android:layout_below="@id/time"
+            android:orientation="horizontal">
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:padding="10dp"
                 android:text="Dystans:"
                 android:textColor="@color/white"
-                android:textStyle="bold"
                 android:textSize="20dp"
-                android:padding="10dp"
-                android:layout_weight="0.5"/>
+                android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/distanceText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/distanceText"
+                android:layout_weight="0.5"
+                android:padding="10dp"
                 android:text="546 m"
                 android:textColor="@color/white"
-                android:textStyle="bold"
                 android:textSize="20dp"
-                android:padding="10dp"
-                android:layout_weight="0.5"/>
+                android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/costLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:id="@+id/costLayout"
-            android:layout_below="@id/distanceLayout">
+            android:layout_below="@id/distanceLayout"
+            android:orientation="horizontal">
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:padding="10dp"
                 android:text="Kwota:"
                 android:textColor="@color/white"
-                android:textStyle="bold"
                 android:textSize="20dp"
-                android:padding="10dp"
-                android:layout_weight="0.5"/>
+                android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/costText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/costText"
+                android:layout_weight="0.5"
+                android:padding="10dp"
                 android:text="4.48 zł"
                 android:textColor="@color/white"
-                android:textStyle="bold"
                 android:textSize="20dp"
-                android:padding="10dp"
-                android:layout_weight="0.5"/>
+                android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/isPaidLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:id="@+id/isPaidLayout"
-            android:layout_below="@id/costLayout">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="Opłacone:"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                android:textSize="20dp"
-                android:padding="10dp"
-                android:layout_weight="0.5"/>
+            android:layout_below="@id/costLayout"
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:id="@+id/isPaidText"
-                android:text="opłacone"
-                android:drawableLeft="@drawable/ic_baseline_check_24"
-                android:textColor="@color/white"
-                android:textStyle="bold"
-                android:textSize="20dp"
+                android:layout_weight="0.5"
                 android:padding="10dp"
-                android:layout_weight="0.5"/>
+                android:text="Opłacone:"
+                android:textColor="@color/white"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/isPaidText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:drawableLeft="@drawable/ic_baseline_check_24"
+                android:padding="10dp"
+                android:text="opłacone"
+                android:textColor="@color/white"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/remainingPayment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/isPaidLayout"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:padding="10dp"
+                android:text="Pozostałość do zapłaty:"
+                android:textColor="@color/white"
+                android:textSize="20dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/remainingPaymentText"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:padding="10dp"
+                android:text="0.00 zł"
+                android:textAlignment="gravity"
+                android:textColor="@color/white"
+                android:textSize="20dp"
+                android:textStyle="bold" />
         </LinearLayout>
 
     </RelativeLayout>

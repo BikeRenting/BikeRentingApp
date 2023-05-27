@@ -107,7 +107,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
                 Pair<Double, Double> coordinates = station.getCoordinates();
                 LatLng pos = new LatLng(coordinates.first, coordinates.second);
-                int not_available = damagedBikes.get(station.getStationID()-1);
+                int not_available = damagedBikes.get(station.getStationID());
 
                 googleMap.addMarker(
                         new MarkerOptions()

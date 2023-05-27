@@ -29,6 +29,7 @@ public class SelectedHireActivity extends AppCompatActivity {
     private TextView distance;
     private TextView cost;
     private TextView isPaid;
+    private TextView remainingPayment;
     private Button regulatePayment;
 
     private Hire selectedHire;
@@ -48,6 +49,7 @@ public class SelectedHireActivity extends AppCompatActivity {
         distance = this.findViewById(R.id.distanceText);
         cost = this.findViewById(R.id.costText);
         isPaid = this.findViewById(R.id.isPaidText);
+        remainingPayment = this.findViewById(R.id.remainingPaymentText);
         regulatePayment = this.findViewById(R.id.regulatePaymentButton);
 
 
@@ -62,31 +64,38 @@ public class SelectedHireActivity extends AppCompatActivity {
         startDate.setText(selectedHire.getStartDate());
         hireTime.setText(String.valueOf(Hire.intToTime(selectedHire.getTime())));
         distance.setText(String.valueOf(selectedHire.getLength() + " m"));
-        cost.setText(selectedHire.getPayment() + "zł");
+        cost.setText(selectedHire.getPayment() + " zł");
 
         if(selectedHire.isPaymentRealized()){
             Drawable drawable = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_baseline_check_24,null);
             isPaid.setText("opłacone");
             isPaid.setCompoundDrawablesWithIntrinsicBounds(drawable,null,null,null);
+            remainingPayment.setText("0.00 zł");
             regulatePayment.setVisibility(View.GONE);
         }else {
             Drawable drawable = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_baseline_close_24,null);
             isPaid.setText("nieopłacone");
             isPaid.setCompoundDrawablesWithIntrinsicBounds(drawable,null,null,null);
+            remainingPayment.setText(String.valueOf(selectedHire.getRemainingPayment()) + " zł");
         }
     }
 
     public void regulatePayment(View view){
 
-        double costToRegulate = selectedHire.getPayment();
+        double costToRegulate = selectedHire.getRemainingPayment();
         Customer customer =(Customer)UserHolder.getInstance().getUser();
 
-        if(costToRegulate< customer.getWallet().getFunds()){
+        if(costToRegulate > customer.getWallet().getFunds()){
             Toast.makeText(getApplicationContext(),"Brak wystarczających środków by uregulować płatność", Toast.LENGTH_LONG).show();
         }else {
-            //DatabaseConnection.rechargeWallet()
+            customer.getWallet().takeFunds(costToRegulate);
+            DatabaseConnection.rechargeWallet(customer.getAccountID(), customer.getWallet().getFunds());
+            DatabaseConnection.updateHire(selectedHire.getHireID(), selectedHire.getTime(), selectedHire.getLength(), selectedHire.getPayment(), 1, 0.0);
+            selectedHire.setPaymentRealized(true);
+            finish();
+            startActivity(getIntent());
+            Toast.makeText(getApplicationContext(),"Płatność została zrealizowana", Toast.LENGTH_LONG).show();
         }
-
 
     }
 }

@@ -103,21 +103,26 @@ public class CameraActivity extends AppCompatActivity {
                             dialog.cancel();
                         }
                         else {
-                            int bikeID = Integer.parseInt(text.getText().toString());
 
-
-                            if(customer.rentBike(bikeID)) {
-                                Toast.makeText(view.getContext(),"Wypożyczono rower",Toast.LENGTH_SHORT).show();
-
+                            if(customer.hasAnyUnpaidHire()) {
+                                Toast.makeText(view.getContext(),"Posiadasz nieopłacony przejazd. Ureguluj płatność przed kolejnym wypożyczeniem",Toast.LENGTH_SHORT).show();
                                 dialog.cancel();
-                                Intent intent = new Intent(view.getContext(), CurrentHireActivity.class);
-                                view.getContext().startActivity(intent);
-                                finish();
-
                             }
                             else {
-                                Toast.makeText(view.getContext(),"Ten rower jest niedostępny",Toast.LENGTH_SHORT).show();
-                                dialog.cancel();
+                                int bikeID = Integer.parseInt(text.getText().toString());
+                                if(customer.rentBike(bikeID)) {
+                                    Toast.makeText(view.getContext(),"Wypożyczono rower",Toast.LENGTH_SHORT).show();
+
+                                    dialog.cancel();
+                                    Intent intent = new Intent(view.getContext(), CurrentHireActivity.class);
+                                    view.getContext().startActivity(intent);
+                                    finish();
+
+                                }
+                                else {
+                                    Toast.makeText(view.getContext(),"Ten rower jest niedostępny",Toast.LENGTH_SHORT).show();
+                                    dialog.cancel();
+                                }
                             }
 
                         }

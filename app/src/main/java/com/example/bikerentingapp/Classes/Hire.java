@@ -26,6 +26,8 @@ public class Hire implements Serializable {
 
     private boolean paymentRealized = false;
 
+    private double remainingPayment = 0.0;
+
     private String startDate;
 
     private Random rand;
@@ -46,10 +48,11 @@ public class Hire implements Serializable {
         rand = new Random();
     }
 
-    public Hire(int hireID, int customerID, Bike bike, int time, int length, double payment, boolean paymentRealized,String startDate) {
+    public Hire(int hireID, int customerID, Bike bike, int time, int length, double payment, boolean paymentRealized,String startDate, double remainingpayment) {
         this(hireID,customerID,bike,time,length,payment);
         this.paymentRealized = paymentRealized;
         this.startDate = startDate;
+        this.remainingPayment = remainingpayment;
     }
 
     public Hire(Bike b, int customerID) {
@@ -65,7 +68,7 @@ public class Hire implements Serializable {
         time = 0;
         length = 0;
 
-        DatabaseConnection.addNewHire(hireID, time, length, payment, bike.getBikeID(), startDate, paymentRealized ? 1 : 0, customerID);
+        DatabaseConnection.addNewHire(hireID, time, length, payment, bike.getBikeID(), startDate, paymentRealized ? 1 : 0, customerID, 0.0);
         DatabaseConnection.updateBike(bike.getBikeID(), bike.getCondition(), bike.getStationID(), 0);
     }
 
@@ -125,6 +128,14 @@ public class Hire implements Serializable {
         this.paymentRealized = paymentRealized;
     }
 
+    public double getRemainingPayment() {
+        return remainingPayment;
+    }
+
+    public void setRemainingPayment(double remainingpayment) {
+        this.remainingPayment = remainingpayment;
+    }
+
     public String getStartDate() {
         return startDate;
     }
@@ -133,9 +144,9 @@ public class Hire implements Serializable {
         this.startDate = startDate;
     }
 
-    public void endHire(int stationID, boolean isPaid){
+    public void endHire(int stationID, int isPaid, double remainingPayment){
 
-        DatabaseConnection.updateHire(hireID, time, length, payment, isPaid);
+        DatabaseConnection.updateHire(hireID, time, length, payment, isPaid, remainingPayment);
         DatabaseConnection.updateBike(bike.getBikeID(), bike.getCondition(), stationID, 1);
     }
 

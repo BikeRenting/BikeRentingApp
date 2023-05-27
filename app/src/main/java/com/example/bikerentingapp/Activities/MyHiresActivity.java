@@ -34,7 +34,13 @@ public class MyHiresActivity extends AppCompatActivity {
         setMyHires();
         setAdapter();
     }
+    @Override
+    public void onRestart() {
+        super.onRestart();
 
+        finish();
+        startActivity(getIntent());
+    }
     private void setAdapter(){
         setOnClickListener();
         MyHiresRecyclerAdapter adapter = new MyHiresRecyclerAdapter(myHires, listener);

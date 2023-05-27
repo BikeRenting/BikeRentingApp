@@ -305,11 +305,11 @@ public class DatabaseConnection {
         return bikes;
     }
 
-    public static boolean addNewHire(int hire_id, int time, int length, double payment, int bikeID, String date, int isPaymentRealized, int customer_id) {
+    public static boolean addNewHire(int hire_id, int time, int length, double payment, int bikeID, String date, int isPaymentRealized, int customer_id, double remaining_payment) {
         if (!isConnectionValid())
             connectToDb();
         try {
-            String sql = "INSERT INTO `wypozyczenie` (`id_wypozyczenia`, `czas_przejazdu`, `id_klienta`, `id_roweru`, `data_rozpoczecia`, `dystans`, `kwota`, `czy_oplacone`) VALUES (" +
+            String sql = "INSERT INTO `wypozyczenie` (`id_wypozyczenia`, `czas_przejazdu`, `id_klienta`, `id_roweru`, `data_rozpoczecia`, `dystans`, `kwota`, `czy_oplacone`, `ile_do_zaplaty`) VALUES (" +
                     hire_id + ", " + //id_wypozyczenia
                     time + ", " + //czas
                     customer_id + ", " + //klient_id_klienta
@@ -317,7 +317,8 @@ public class DatabaseConnection {
                     "\"" + date + "\"" + ", " + //data_rozpoczecia
                     length + ", " + //dystans
                     payment + ", " + //kwota
-                    isPaymentRealized + // czy_oplacone
+                    isPaymentRealized + ", " + // czy_oplacone
+                    remaining_payment + // ile_do_zaplaty
                     ");";
             con.createStatement().executeUpdate(sql);
             return true;
@@ -327,11 +328,9 @@ public class DatabaseConnection {
         }
     }
 
-    public static boolean updateHire(int hire_id, int time, int length, double payment, boolean isPaid) {
+    public static boolean updateHire(int hire_id, int time, int length, double payment, int isPaid, double remainingPayment) {
         if (!isConnectionValid())
             connectToDb();
-        int ispaid = isPaid ? 1 : 0;
-
         int hours = time / 3600;
         int minutes = (time - (3600 * hours)) / 60;
         int seconds = time % 60;
@@ -340,7 +339,7 @@ public class DatabaseConnection {
 
 
         try {
-            String sql = "UPDATE `wypozyczenie` SET " + "czas_przejazdu = \'" + _time + "\', dystans = " + length + ", kwota = " + payment + ", czy_oplacone = " + ispaid + " WHERE id_wypozyczenia = " + hire_id + ";";
+            String sql = "UPDATE `wypozyczenie` SET " + "czas_przejazdu = \'" + _time + "\', dystans = " + length + ", kwota = " + payment + ", czy_oplacone = " + isPaid + ", ile_do_zaplaty = " + remainingPayment + " WHERE id_wypozyczenia = " + hire_id + ";";
             con.createStatement().executeUpdate(sql);
             return true;
         } catch (SQLException e) {
@@ -393,7 +392,8 @@ public class DatabaseConnection {
                         resultSet.getInt("dystans"),
                         resultSet.getDouble("kwota"),
                         resultSet.getInt("czy_oplacone") == 1,
-                        resultSet.getString("data_rozpoczecia")
+                        resultSet.getString("data_rozpoczecia"),
+                        resultSet.getDouble("ile_do_zaplaty")
                 ));
             }
         } catch (SQLException e) {

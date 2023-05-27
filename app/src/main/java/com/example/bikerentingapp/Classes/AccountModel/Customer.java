@@ -73,9 +73,10 @@ public class Customer extends Account {
     }
 
 
-    public void returnABike(int stationID, boolean isPaid) {
+    public void returnABike(int stationID, double remainingPayment) {
 
-        hire.endHire(stationID, isPaid);
+        int isPaid = remainingPayment > 0 ? 0 : 1;
+        hire.endHire(stationID, isPaid, remainingPayment);
         hire = null;
     }
 
@@ -88,25 +89,50 @@ public class Customer extends Account {
             return false;
     }
 
-    public boolean payForHire(){
+    public double payForHire(){
+        double remainingPayment = 0;
         double payment = hire.getPayment();
         double funds = wallet.getFunds();
         if(funds >= payment)
         {
             wallet.takeFunds(payment);
             DatabaseConnection.rechargeWallet(getAccountID(), wallet.getFunds());
-            return true;
         }
         else {
-            double remainingPayment = payment-funds;
+            remainingPayment = payment-funds;
             wallet.takeFunds(funds);
             DatabaseConnection.rechargeWallet(getAccountID(), 0);
-            return false;
-            //TODO send remainingPayment to database
         }
+        return remainingPayment;
+    }
+
+    public double payForRemainingPayment(double remainingPayment){
+        double payment = hire.getPayment();
+        double funds = wallet.getFunds();
+        if(funds >= payment)
+        {
+            wallet.takeFunds(payment);
+            DatabaseConnection.rechargeWallet(getAccountID(), wallet.getFunds());
+        }
+        else {
+            remainingPayment = payment-funds;
+            wallet.takeFunds(funds);
+            DatabaseConnection.rechargeWallet(getAccountID(), 0);
+        }
+        return remainingPayment;
     }
 
     public Hire getHire() {
         return hire;
+    }
+
+    public boolean hasAnyUnpaidHire(){
+        ArrayList<Hire> hires = DatabaseConnection.getUserHires(this.getAccountID());
+
+        for(Hire h : hires) {
+            if(!h.isPaymentRealized())
+                return true;
+        }
+        return false;
     }
 }
