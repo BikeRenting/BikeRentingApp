@@ -108,6 +108,10 @@ public class CameraActivity extends AppCompatActivity {
                                 Toast.makeText(view.getContext(),"Posiadasz nieopłacony przejazd. Ureguluj płatność przed kolejnym wypożyczeniem",Toast.LENGTH_SHORT).show();
                                 dialog.cancel();
                             }
+                            else if(customer.getWallet().getFunds() < 2.00) {
+                                Toast.makeText(view.getContext(),"Nie posiadasz wystarczających środków. Aby wypożyczyć rower potrzebujesz co najmniej 2zł w portfelu.",Toast.LENGTH_SHORT).show();
+                                dialog.cancel();
+                            }
                             else {
                                 int bikeID = Integer.parseInt(text.getText().toString());
                                 if(customer.rentBike(bikeID)) {

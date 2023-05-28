@@ -52,6 +52,7 @@ public class Customer extends Account {
             if(bike.isAvailable())
             {
                 hire = new Hire(bike, getAccountID());
+                DatabaseConnection.incrementFreeSpace(bike.getStationID());
                 return true;
             }
             else
@@ -78,6 +79,7 @@ public class Customer extends Account {
         int isPaid = remainingPayment > 0 ? 0 : 1;
         hire.endHire(stationID, isPaid, remainingPayment);
         hire = null;
+        DatabaseConnection.decrementFreeSpace(stationID);
     }
 
     public boolean updateFunds(Context context, double income){

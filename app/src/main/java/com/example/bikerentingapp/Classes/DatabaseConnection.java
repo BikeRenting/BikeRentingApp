@@ -287,9 +287,33 @@ public class DatabaseConnection {
     public static ArrayList<Bike> getBikesInStation(int stationID) {
         ResultSet rs = null;
         ArrayList<Bike> bikes = new ArrayList<>();
-
+        if (!isConnectionValid())
+            connectToDb();
         try {
             String sql = "SELECT * FROM `rower` WHERE id_stacji = " + stationID + ";";
+            rs = con.prepareStatement(sql).executeQuery();
+            while (rs.next()) {
+                bikes.add(new Bike(
+                        rs.getInt("id_roweru"),
+                        rs.getString("stan_techniczny"),
+                        rs.getInt("id_stacji"),
+                        rs.getInt("dostepny") != 0
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return bikes;
+    }
+
+    public static ArrayList<Bike> getBikesAvailableInStation(int stationID) {
+        ResultSet rs = null;
+        ArrayList<Bike> bikes = new ArrayList<>();
+
+        if (!isConnectionValid())
+            connectToDb();
+        try {
+            String sql = "SELECT * FROM `rower` WHERE id_stacji = " + stationID + " AND dostepny = 1;";
             rs = con.prepareStatement(sql).executeQuery();
             while (rs.next()) {
                 bikes.add(new Bike(

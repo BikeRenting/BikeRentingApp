@@ -5,6 +5,8 @@ import androidx.core.content.ContextCompat;
 
 import com.example.bikerentingapp.Activities.ServicemanActivities.BikesInStationActivity;
 import com.example.bikerentingapp.Classes.AccountModel.Customer;
+import com.example.bikerentingapp.Classes.AccountModel.Serviceman;
+import com.example.bikerentingapp.Classes.Bike;
 import com.example.bikerentingapp.Classes.DatabaseConnection;
 import com.example.bikerentingapp.Classes.Station;
 import com.example.bikerentingapp.Classes.UserHolder;
@@ -116,8 +118,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                                 .icon(icon)).setTag(station.getStationID());
 
             }
-            googleMap.setOnInfoWindowClickListener(this);
         }
+        googleMap.setOnInfoWindowClickListener(this);
     }
 
     public void baseButtonClick(View view){
@@ -129,7 +131,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     @Override
     public void onInfoWindowClick(Marker marker) {
-        Intent intent = new Intent(this, BikesInStationActivity.class);
+        Intent intent;
+        if(UserHolder.getInstance().getUser() instanceof Serviceman){
+            intent = new Intent(this, BikesInStationActivity.class);
+        }
+        else {
+            intent = new Intent(this, ReservationActivity.class);
+        }
         Object stationNumber = marker.getTag();
         String sn = stationNumber.toString();
         intent.putExtra("stationNumber",sn);

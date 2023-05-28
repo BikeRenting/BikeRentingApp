@@ -18,6 +18,9 @@
         android:theme="@style/Theme.BikeRentingApp"
         tools:targetApi="31">
         <activity
+            android:name=".Activities.ReservationActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activities.TripSummaryActivity"
             android:exported="false" />
         <activity

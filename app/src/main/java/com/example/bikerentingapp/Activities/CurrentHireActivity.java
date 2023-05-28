@@ -22,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.bikerentingapp.Classes.AccountModel.Customer;
 import com.example.bikerentingapp.Classes.DatabaseConnection;
 import com.example.bikerentingapp.Classes.Hire;
+import com.example.bikerentingapp.Classes.Station;
 import com.example.bikerentingapp.Classes.UserHolder;
 import com.example.bikerentingapp.R;
 import com.google.gson.Gson;
@@ -83,9 +84,16 @@ public class CurrentHireActivity extends AppCompatActivity{
                             ArrayList<Integer> availableStations = DatabaseConnection.getAvailableStations();
                             if(availableStations.contains(Integer.parseInt(selectedStation))) {
                                 endStation = Integer.parseInt(selectedStation);
-                                timer.cancel();
-                                dialog.cancel();
-                                openSummaryActivity(view);
+                                Station s = DatabaseConnection.getStation(endStation);
+                                if(s.getFreeSpace()>0){
+                                    timer.cancel();
+                                    dialog.cancel();
+                                    openSummaryActivity(view);
+                                }
+                                else {
+                                    Toast.makeText(view.getContext(),"Ta stacja jest pełna.",Toast.LENGTH_SHORT).show();
+                                    dialog.cancel();
+                                }
                             }
                             else {
                                 Toast.makeText(view.getContext(),"Podano nieistniejącą stację.",Toast.LENGTH_SHORT).show();

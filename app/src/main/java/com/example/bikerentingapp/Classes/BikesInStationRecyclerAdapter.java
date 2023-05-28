@@ -43,7 +43,8 @@ public class BikesInStationRecyclerAdapter extends RecyclerView.Adapter<BikesInS
 
         @Override
         public void onClick(View view) {
-            listener.onClick(view, getAdapterPosition());
+            if(listener != null)
+                listener.onClick(view, getAdapterPosition());
         }
     }
 
