@@ -60,7 +60,24 @@ public class ReservationDialog extends AppCompatDialogFragment {
                             Toast.makeText(view.getContext(),"Nie wybrano czasu rezerwacji", Toast.LENGTH_LONG).show();
                         }
                         else {
-                            listener.applyReservationTime(selectedItem);
+                            long duration = 0;
+                            switch (selectedItem) {
+                                case "30 minut":
+                                    duration = 30;
+                                    break;
+                                case "1 godzina":
+                                    duration = 60;
+                                    break;
+                                case "1 godzina 30 minut":
+                                    duration = 90;
+                                    break;
+                                case "3 godziny":
+                                    duration = 180;
+                                    break;
+                                default:
+                                    break;
+                            }
+                            listener.applyReservationTime(duration);
                         }
                     }
                 });
@@ -78,6 +95,6 @@ public class ReservationDialog extends AppCompatDialogFragment {
     }
 
     public interface ReservationDialogListener{
-        void applyReservationTime(String selectedTime);
+        void applyReservationTime(long selectedTime);
     }
 }

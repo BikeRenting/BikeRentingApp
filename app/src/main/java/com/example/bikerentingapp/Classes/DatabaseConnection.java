@@ -249,6 +249,24 @@ public class DatabaseConnection {
         return id;
     }
 
+    public static int getLastReservationID() {
+        if (!isConnectionValid())
+            connectToDb();
+        ResultSet rs = null;
+        int id = 0;
+        try {
+            String sql = "SELECT MAX(id_rezerwacji) FROM rezerwacja;";
+            rs = con.prepareCall(sql).executeQuery();
+            while (rs.next()) {
+                id = rs.getInt(1) + 1;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return 0;
+        }
+        return id;
+    }
+
     public static Bike getBike(int bikeID) {
         if (!isConnectionValid())
             connectToDb();
@@ -424,6 +442,66 @@ public class DatabaseConnection {
             e.printStackTrace();
         }
         return userHires;
+    }
+
+
+    public static ArrayList<Reservation> getUserReservations(int userID) {
+        if (!isConnectionValid())
+            connectToDb();
+        ArrayList<Reservation> userReservations = new ArrayList<>();
+        ResultSet resultSet = null;
+        try {
+            String sql = "SELECT * FROM `rezerwacja` WHERE id_klienta = " + userID + ";";
+            resultSet = con.prepareCall(sql).executeQuery();
+            while (resultSet.next()) {
+
+                userReservations.add(new Reservation(
+                        resultSet.getInt("id_rezerwacji"),
+                        resultSet.getInt("id_klienta"),
+                        resultSet.getInt("id_roweru"),
+                        resultSet.getInt("czy_zrealizowana") == 1,
+                        resultSet.getString("data_utworzenia"),
+                        resultSet.getString("data_wygasniecia")
+                ));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return userReservations;
+    }
+
+    public static boolean addNewReservation(int reservation_id, int customer_id, int bike_id, int isRealized, String startDate, String endDate) {
+        if (!isConnectionValid())
+            connectToDb();
+        try {
+            String sql = "INSERT INTO `rezerwacja` (`id_rezerwacji`, `id_klienta`, `id_roweru`, `czy_zrealizowana`, `data_utworzenia`, `data_wygasniecia`) VALUES (" +
+                    reservation_id + ", " +
+                    customer_id + ", " +
+                    bike_id + ", " +
+                    isRealized + ", " +
+                    "\"" + startDate + "\"" + ", " +
+                    "\"" + endDate + "\"" +
+                    ");";
+            con.createStatement().executeUpdate(sql);
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static boolean updateReservation(int reservation_id, int isRealized) {
+        if (!isConnectionValid())
+            connectToDb();
+
+        try {
+            String sql = "UPDATE `rezerwacja` SET " + "czy_zrealizowana = " + isRealized + " WHERE id_rezerwacji = " + reservation_id + ";";
+            con.createStatement().executeUpdate(sql);
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
     }
 
     public static boolean addBikeAndUpdate(String condition, int stationID, int availability) {

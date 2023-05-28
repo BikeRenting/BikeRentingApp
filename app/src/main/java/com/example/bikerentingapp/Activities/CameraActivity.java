@@ -24,11 +24,14 @@ import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LifecycleOwner;
 
 import com.example.bikerentingapp.Classes.AccountModel.Customer;
+import com.example.bikerentingapp.Classes.DatabaseConnection;
+import com.example.bikerentingapp.Classes.Reservation;
 import com.example.bikerentingapp.Classes.UserHolder;
 import com.example.bikerentingapp.R;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gson.Gson;
 
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 
@@ -114,7 +117,25 @@ public class CameraActivity extends AppCompatActivity {
                             }
                             else {
                                 int bikeID = Integer.parseInt(text.getText().toString());
-                                if(customer.rentBike(bikeID)) {
+
+                                ArrayList<Reservation> reservations = DatabaseConnection.getUserReservations(customer.getAccountID());
+                                Reservation reservation = null;
+                                boolean hasReservation = false;
+
+                                for(Reservation r : reservations) {
+                                    if(!r.isExecuted()){
+                                        hasReservation = true;
+                                        reservation = r;
+                                        break;
+                                    }
+                                }
+
+                                if(hasReservation && bikeID != reservation.getBikeID()) {
+                                    Toast.makeText(view.getContext(),"Posiadasz już rezerwację na inny rower.",Toast.LENGTH_SHORT).show();
+                                    dialog.cancel();
+                                }
+
+                                else if(customer.rentBike(bikeID)) {
                                     Toast.makeText(view.getContext(),"Wypożyczono rower",Toast.LENGTH_SHORT).show();
 
                                     dialog.cancel();

@@ -7,6 +7,7 @@ import com.example.bikerentingapp.Classes.AccountModel.Account;
 import com.example.bikerentingapp.Classes.Bike;
 import com.example.bikerentingapp.Classes.DatabaseConnection;
 import com.example.bikerentingapp.Classes.Hire;
+import com.example.bikerentingapp.Classes.Reservation;
 import com.example.bikerentingapp.Classes.Wallet;
 
 import java.util.ArrayList;
@@ -46,17 +47,27 @@ public class Customer extends Account {
 
     public boolean rentBike(int bikeID) {
 
-        if(DatabaseConnection.isBikeAvailable(bikeID))
+        ArrayList<Reservation> reservations = DatabaseConnection.getUserReservations(getAccountID());
+        boolean hasReservation = false;
+        int reservationID = 0;
+
+        for(Reservation r : reservations) {
+            if(!r.isExecuted() && r.getBikeID() == bikeID){
+                hasReservation = true;
+                reservationID = r.getReservationID();
+                break;
+            }
+        }
+
+        if(DatabaseConnection.isBikeAvailable(bikeID) || hasReservation)
         {
             Bike bike = DatabaseConnection.getBike(bikeID);
-            if(bike.isAvailable())
-            {
-                hire = new Hire(bike, getAccountID());
-                DatabaseConnection.incrementFreeSpace(bike.getStationID());
-                return true;
-            }
-            else
-                return false;
+            hire = new Hire(bike, getAccountID());
+            DatabaseConnection.incrementFreeSpace(bike.getStationID());
+
+            if(hasReservation)
+                DatabaseConnection.updateReservation(reservationID, 1);
+            return true;
         }
         else
             return false;
@@ -133,6 +144,16 @@ public class Customer extends Account {
 
         for(Hire h : hires) {
             if(!h.isPaymentRealized())
+                return true;
+        }
+        return false;
+    }
+
+    public boolean hasAnyReservation(){
+        ArrayList<Reservation> reservations = DatabaseConnection.getUserReservations(this.getAccountID());
+
+        for(Reservation r : reservations) {
+            if(!r.isExecuted())
                 return true;
         }
         return false;

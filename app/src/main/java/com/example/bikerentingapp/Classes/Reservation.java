@@ -1,6 +1,9 @@
 package com.example.bikerentingapp.Classes;
 
+import android.provider.ContactsContract;
+
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Reservation {
 
@@ -12,17 +15,31 @@ public class Reservation {
 
     private boolean executed;
 
-    private LocalDateTime startDate;
+    private String startDate;
 
-    private LocalDateTime endDate;
+    private String endDate;
 
-    public Reservation(int reservationID, int customerID, int bikeID, boolean executed, LocalDateTime startDate, LocalDateTime endDate) {
+    public Reservation(int reservationID, int customerID, int bikeID, boolean executed, String startDate, String endDate) {
         this.reservationID = reservationID;
         this.customerID = customerID;
         this.bikeID = bikeID;
         this.executed = executed;
         this.startDate = startDate;
         this.endDate = endDate;
+    }
+
+    public Reservation(int customerID, int bikeID, long duration) {
+        this.reservationID = DatabaseConnection.getLastReservationID();
+        this.customerID = customerID;
+        this.bikeID = bikeID;
+        this.executed = false;
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+        this.startDate = dtf.format(now);
+        LocalDateTime end = now.plusMinutes(duration);
+        this.endDate = dtf.format(end);
+
+        DatabaseConnection.addNewReservation(reservationID, customerID, bikeID, 0, startDate, endDate);
     }
 
     public int getReservationID() {
@@ -57,19 +74,19 @@ public class Reservation {
         this.executed = executed;
     }
 
-    public LocalDateTime getStartDate() {
+    public String getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(LocalDateTime startDate) {
+    public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
 
-    public LocalDateTime getEndDate() {
+    public String getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(LocalDateTime endDate) {
+    public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
 }

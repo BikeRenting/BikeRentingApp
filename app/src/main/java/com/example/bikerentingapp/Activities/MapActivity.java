@@ -144,4 +144,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         startActivity(intent);
     }
 
+    @Override
+    public void onRestart() {
+        super.onRestart();
+
+        finish();
+        startActivity(getIntent());
+    }
+
 }
