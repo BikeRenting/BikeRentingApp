@@ -18,7 +18,7 @@
             android:text="1"
             android:textAlignment="center"
             android:textColor="@color/white"
-            android:textSize="50dp"
+            android:textSize="50sp"
             android:textStyle="bold" />
 
         <RelativeLayout
@@ -32,8 +32,8 @@
                 android:id="@+id/dateLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Data:"
                 android:layout_gravity="center"
+                android:text="Utworzono:"
 
                 android:textColor="@color/white"
                 android:textSize="17dp" />
@@ -61,8 +61,8 @@
                 android:id="@+id/dateLabel2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Data:"
                 android:layout_gravity="center"
+                android:text="Wygasa:"
 
                 android:textColor="@color/white"
                 android:textSize="17dp" />
@@ -90,12 +90,12 @@
                 android:id="@+id/isRealizedLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="zakończona"
                 android:layout_gravity="center"
+                android:drawableRight="@drawable/ic_baseline_check_24"
+                android:text="zakończona"
                 android:textAlignment="center"
                 android:textColor="@color/white"
-                android:drawableRight="@drawable/ic_baseline_check_24"
-                android:textSize="18dp" />
+                android:textSize="14sp" />
         </RelativeLayout>
 
 

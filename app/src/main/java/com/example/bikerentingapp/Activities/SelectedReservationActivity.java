@@ -1,5 +1,7 @@
 package com.example.bikerentingapp.Activities;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -14,88 +16,91 @@ import androidx.core.content.res.ResourcesCompat;
 import com.example.bikerentingapp.Classes.AccountModel.Customer;
 import com.example.bikerentingapp.Classes.DatabaseConnection;
 import com.example.bikerentingapp.Classes.Hire;
+import com.example.bikerentingapp.Classes.Reservation;
 import com.example.bikerentingapp.Classes.UserHolder;
 import com.example.bikerentingapp.R;
 
 public class SelectedReservationActivity extends AppCompatActivity {
 
 
-    private TextView hireNumber;
-    private TextView hireID;
+    private TextView reservationNumber;
+    private TextView reservationID;
     private TextView clientID;
     private TextView bikeID;
     private TextView startDate;
-    private TextView hireTime;
-    private TextView distance;
-    private TextView cost;
-    private TextView isPaid;
-    private TextView remainingPayment;
-    private Button regulatePayment;
+    private TextView endDate;
+    private TextView status;
+    private Button cancelReservation;
 
-    private Hire selectedHire;
+    private Reservation selectedReservation;
     private int number;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_selected_hire);
+        setContentView(R.layout.activity_selected_reservation);
 
-        hireNumber = this.findViewById(R.id.reservationNumber);
-        hireID = this.findViewById(R.id.hireIdText);
+        reservationNumber = this.findViewById(R.id.reservationNumber);
+        reservationID = this.findViewById(R.id.reservationIdText);
         clientID = this.findViewById(R.id.clientIDText);
         bikeID = this.findViewById(R.id.bikeIDText);
         startDate = this.findViewById(R.id.startDateText);
-        hireTime = this.findViewById(R.id.timeText);
-        distance = this.findViewById(R.id.distanceText);
-        cost = this.findViewById(R.id.costText);
-        isPaid = this.findViewById(R.id.isPaidText);
-        remainingPayment = this.findViewById(R.id.remainingPaymentText);
-        regulatePayment = this.findViewById(R.id.regulatePaymentButton);
+        endDate = this.findViewById(R.id.endDateText);
+        status = this.findViewById(R.id.reservationStatusText);
+        cancelReservation = this.findViewById(R.id.cancelReservationButton);
 
 
         Intent i = getIntent();
-        selectedHire = (Hire) i.getSerializableExtra("selectedHire");
-        number = i.getIntExtra("hireNumber",0);
+        selectedReservation = (Reservation) i.getSerializableExtra("selectedReservation");
+        number = i.getIntExtra("reservationNumber", 0);
 
-        hireNumber.setText(String.valueOf(hireNumber.getText()) + String.valueOf(number));
-        hireID.setText(String.valueOf(selectedHire.getHireID()));
-        clientID.setText(String.valueOf(selectedHire.getCustomerID()));
-        bikeID.setText(String.valueOf(selectedHire.getBike().getBikeID()));
-        startDate.setText(selectedHire.getStartDate());
-        hireTime.setText(String.valueOf(Hire.intToTime(selectedHire.getTime())));
-        distance.setText(String.valueOf(selectedHire.getLength() + " m"));
-        cost.setText(selectedHire.getPayment() + " zł");
+        reservationNumber.setText(String.valueOf(reservationNumber.getText()) + String.valueOf(number));
+        reservationID.setText(String.valueOf(selectedReservation.getReservationID()));
+        clientID.setText(String.valueOf(selectedReservation.getCustomerID()));
+        bikeID.setText(String.valueOf(selectedReservation.getBikeID()));
+        startDate.setText(selectedReservation.getStartDate());
+        endDate.setText(selectedReservation.getEndDate());
 
-        if(selectedHire.isPaymentRealized()){
-            Drawable drawable = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_baseline_check_24,null);
-            isPaid.setText("opłacone");
-            isPaid.setCompoundDrawablesWithIntrinsicBounds(drawable,null,null,null);
-            remainingPayment.setText("0.00 zł");
-            regulatePayment.setVisibility(View.GONE);
-        }else {
-            Drawable drawable = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_baseline_close_24,null);
-            isPaid.setText("nieopłacone");
-            isPaid.setCompoundDrawablesWithIntrinsicBounds(drawable,null,null,null);
-            remainingPayment.setText(String.valueOf(selectedHire.getRemainingPayment()) + " zł");
+        if (selectedReservation.isExecuted()) {
+            Drawable drawable = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_baseline_check_24, null);
+            status.setText("zakończona");
+            status.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
+            cancelReservation.setVisibility(View.GONE);
+        } else {
+            Drawable drawable = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_baseline_close_24, null);
+            status.setText("w trakcie");
+            status.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
         }
     }
 
-    public void regulatePayment(View view){
+    public void cancelReservation(View view) {
 
-        double costToRegulate = selectedHire.getRemainingPayment();
-        Customer customer =(Customer)UserHolder.getInstance().getUser();
+        AlertDialog.Builder confirmationBuilder = new AlertDialog.Builder(this);
+        confirmationBuilder.setMessage("Czy na pewno chcesz zakończyć aktualną rezerwację?");
+        confirmationBuilder.setCancelable(true);
 
-        if(costToRegulate > customer.getWallet().getFunds()){
-            Toast.makeText(getApplicationContext(),"Brak wystarczających środków by uregulować płatność", Toast.LENGTH_LONG).show();
-        }else {
-            customer.getWallet().takeFunds(costToRegulate);
-            DatabaseConnection.rechargeWallet(customer.getAccountID(), customer.getWallet().getFunds());
-            DatabaseConnection.updateHire(selectedHire.getHireID(), selectedHire.getTime(), selectedHire.getLength(), selectedHire.getPayment(), 1, 0.0);
-            selectedHire.setPaymentRealized(true);
-            finish();
-            startActivity(getIntent());
-            Toast.makeText(getApplicationContext(),"Płatność została zrealizowana", Toast.LENGTH_LONG).show();
-        }
+        confirmationBuilder.setPositiveButton(
+                "Tak",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        DatabaseConnection.updateReservation(selectedReservation.getReservationID(), 1);
+                        DatabaseConnection.updateBikeStatus(selectedReservation.getBikeID(), 1);
+                        selectedReservation.setExecuted(true);
+                        dialog.cancel();
+                        finish();
+                        startActivity(getIntent());
+                        Toast.makeText(getApplicationContext(), "Rezerwacja została zakończona", Toast.LENGTH_SHORT).show();
+                    }
+                });
 
+        confirmationBuilder.setNegativeButton(
+                "Nie",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog confirm = confirmationBuilder.create();
+        confirm.show();
     }
 }

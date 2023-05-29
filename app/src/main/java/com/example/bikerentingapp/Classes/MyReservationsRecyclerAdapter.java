@@ -61,7 +61,7 @@ public class MyReservationsRecyclerAdapter extends RecyclerView.Adapter<MyReserv
 
         holder.reservationNumber.setText(String.valueOf(position+1));
         holder.startTime.setText(start_date);
-        holder.startTime.setText(end_date);
+        holder.endTime.setText(end_date);
 
         if(isRealized){
             Drawable drawable = ResourcesCompat.getDrawable(holder.isRealized.getResources(), R.drawable.ic_baseline_check_24,null);

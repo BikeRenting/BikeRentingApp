@@ -137,7 +137,8 @@ public class Hire implements Serializable {
     }
 
     public String getStartDate() {
-        return startDate;
+        String str = startDate.substring(0, startDate.length()-2);
+        return str;
     }
 
     public void setStartDate(String startDate) {

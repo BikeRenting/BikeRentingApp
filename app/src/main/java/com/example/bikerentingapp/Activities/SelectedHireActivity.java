@@ -40,7 +40,7 @@ public class SelectedHireActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_selected_hire);
 
-        hireNumber = this.findViewById(R.id.reservationNumber);
+        hireNumber = this.findViewById(R.id.hireNumber);
         hireID = this.findViewById(R.id.hireIdText);
         clientID = this.findViewById(R.id.clientIDText);
         bikeID = this.findViewById(R.id.bikeIDText);

@@ -2,10 +2,11 @@ package com.example.bikerentingapp.Classes;
 
 import android.provider.ContactsContract;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-public class Reservation {
+public class Reservation implements Serializable {
 
     private int reservationID;
 
@@ -75,7 +76,8 @@ public class Reservation {
     }
 
     public String getStartDate() {
-        return startDate;
+        String str = startDate.substring(0, startDate.length()-2);
+        return str;
     }
 
     public void setStartDate(String startDate) {
@@ -83,7 +85,8 @@ public class Reservation {
     }
 
     public String getEndDate() {
-        return endDate;
+        String str = endDate.substring(0, endDate.length()-2);
+        return str;
     }
 
     public void setEndDate(String endDate) {

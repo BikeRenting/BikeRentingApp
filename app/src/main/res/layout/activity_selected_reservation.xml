@@ -8,29 +8,29 @@
     tools:context=".Activities.SelectedHireActivity">
 
     <TextView
-        android:id="@+id/hireNumber"
+        android:id="@+id/reservationNumber"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
         android:background="#30ffffff"
-        android:text="Wypożyczenie nr. "
-        android:textColor="@color/white"
-        android:textStyle="bold"
+        android:text="Rezerwacja nr. "
         android:textAlignment="center"
+        android:textColor="@color/white"
         android:textSize="30sp"
-        android:layout_marginTop="40dp" />
+        android:textStyle="bold" />
 
     <RelativeLayout
-        android:id="@+id/hireInfoPane"
-        android:layout_width="match_parent"
-        android:layout_height="451dp"
-        android:layout_below="@+id/hireNumber"
+        android:id="@+id/reservationInfoPane"
+        android:layout_width="402dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/reservationNumber"
         android:layout_marginStart="10dp"
         android:layout_marginTop="40dp"
         android:layout_marginEnd="10dp"
         android:background="#30ffffff">
 
         <LinearLayout
-            android:id="@+id/hireID"
+            android:id="@+id/reservationID"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
@@ -46,7 +46,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/hireIdText"
+                android:id="@+id/reservationIdText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="0.5"
@@ -59,10 +59,10 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/hireClient"
+            android:id="@+id/reservationClient"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/hireID"
+            android:layout_below="@+id/reservationID"
             android:orientation="horizontal">
 
             <TextView
@@ -88,10 +88,10 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/hireBikeID"
+            android:id="@+id/reservationBikeID"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/hireClient"
+            android:layout_below="@id/reservationClient"
             android:orientation="horizontal">
 
             <TextView
@@ -120,7 +120,7 @@
             android:id="@+id/start"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/hireBikeID"
+            android:layout_below="@id/reservationBikeID"
             android:orientation="horizontal">
 
             <TextView
@@ -146,7 +146,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/time"
+            android:id="@+id/end"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/start"
@@ -157,28 +157,28 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.5"
                 android:padding="10dp"
-                android:text="Czas przejazdu:"
+                android:text="Data zakończenia:"
                 android:textColor="@color/white"
                 android:textSize="20dp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/timeText"
+                android:id="@+id/endDateText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="0.5"
                 android:padding="10dp"
-                android:text="00:00:43"
+                android:text="2023-05-14"
                 android:textColor="@color/white"
                 android:textSize="20dp"
                 android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/distanceLayout"
+            android:id="@+id/reservationStatusLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/time"
+            android:layout_below="@id/end"
             android:orientation="horizontal">
 
             <TextView
@@ -186,107 +186,19 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.5"
                 android:padding="10dp"
-                android:text="Dystans:"
+                android:text="Status:"
                 android:textColor="@color/white"
                 android:textSize="20dp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/distanceText"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="0.5"
-                android:padding="10dp"
-                android:text="546 m"
-                android:textColor="@color/white"
-                android:textSize="20dp"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/costLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/distanceLayout"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="0.5"
-                android:padding="10dp"
-                android:text="Kwota:"
-                android:textColor="@color/white"
-                android:textSize="20dp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/costText"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="0.5"
-                android:padding="10dp"
-                android:text="4.48 zł"
-                android:textColor="@color/white"
-                android:textSize="20dp"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/isPaidLayout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/costLayout"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="0.5"
-                android:padding="10dp"
-                android:text="Opłacone:"
-                android:textColor="@color/white"
-                android:textSize="20dp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/isPaidText"
+                android:id="@+id/reservationStatusText"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="0.5"
                 android:drawableLeft="@drawable/ic_baseline_check_24"
                 android:padding="10dp"
-                android:text="opłacone"
-                android:textColor="@color/white"
-                android:textSize="20dp"
-                android:textStyle="bold" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/remainingPayment"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/isPaidLayout"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="0.5"
-                android:padding="10dp"
-                android:text="Pozostałość do zapłaty:"
-                android:textColor="@color/white"
-                android:textSize="20dp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/remainingPaymentText"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="0.5"
-                android:padding="10dp"
-                android:text="0.00 zł"
-                android:textAlignment="gravity"
+                android:text="zakończona"
                 android:textColor="@color/white"
                 android:textSize="20dp"
                 android:textStyle="bold" />
@@ -295,8 +207,8 @@
     </RelativeLayout>
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/regulatePaymentButton"
-        android:layout_below="@id/hireInfoPane"
+        android:id="@+id/cancelReservationButton"
+        android:layout_below="@id/reservationInfoPane"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -304,7 +216,7 @@
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
         android:backgroundTint="@color/design_default_color_secondary"
-        android:text="opłać"
-        android:onClick="regulatePayment"/>
+        android:text="zakończ rezerwację"
+        android:onClick="cancelReservation"/>
 
 </RelativeLayout>
