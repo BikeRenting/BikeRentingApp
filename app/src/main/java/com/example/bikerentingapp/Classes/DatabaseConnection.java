@@ -6,6 +6,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Time;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 import android.util.Pair;
@@ -403,6 +405,19 @@ public class DatabaseConnection {
         }
     }
 
+    public static boolean updateBikeStatus(int bike_id, int available) {
+        if (!isConnectionValid())
+            connectToDb();
+        try {
+            String sql = "UPDATE `rower` SET " + "dostepny = " + available + " WHERE id_roweru = " + bike_id + ";";
+            con.createStatement().executeUpdate(sql);
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     public static boolean rechargeWallet(int userID, double balance) {
         if (!isConnectionValid())
             connectToDb();
@@ -501,6 +516,31 @@ public class DatabaseConnection {
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
+        }
+    }
+
+    public static void updateReservationsStatus() {
+        ResultSet rs = null;
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
+
+        if (!isConnectionValid())
+            connectToDb();
+        try {
+            String sql = "SELECT * FROM `rezerwacja` WHERE czy_zrealizowana = 0;";
+            rs = con.prepareStatement(sql).executeQuery();
+            while (rs.next()) {
+                String str = rs.getString("data_wygasniecia");
+                str = str.substring(0, str.length()-2);
+                LocalDateTime end_date = LocalDateTime.parse(str, dtf);
+                if(now.isAfter(end_date))
+                {
+                    updateReservation(rs.getInt("id_rezerwacji"), 1);
+                    updateBikeStatus(rs.getInt("id_roweru"), 1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 

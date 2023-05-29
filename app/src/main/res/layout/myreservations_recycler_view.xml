@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_1"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="Moje rezerwacje"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="40dp"
+        android:textStyle="bold" />
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="3dp"
+        android:background="@android:color/darker_gray"/>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/myReservationsRecyclerAdapter"
+        android:layout_width="match_parent"
+        android:layout_height="654dp" />
+
+</LinearLayout>

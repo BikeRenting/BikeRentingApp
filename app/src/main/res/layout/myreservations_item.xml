@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:layout_margin="10dp"
+    android:orientation="horizontal">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#30ffffff"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/reservationNumber"
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:text="1"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="50dp"
+            android:textStyle="bold" />
+
+        <RelativeLayout
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:id="@+id/timeInfo"
+            android:layout_toRightOf="@+id/reservationNumber">
+
+            <TextView
+                android:id="@+id/dateLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Data:"
+                android:layout_gravity="center"
+
+                android:textColor="@color/white"
+                android:textSize="17dp" />
+            <TextView
+                android:id="@+id/reservation_start_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/dateLabel"
+                android:text="2021-10-24"
+                android:layout_gravity="center"
+                android:textColor="@color/white"
+                android:textSize="17dp" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:id="@+id/timeInfo2"
+            android:layout_toRightOf="@+id/timeInfo">
+
+            <TextView
+                android:id="@+id/dateLabel2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Data:"
+                android:layout_gravity="center"
+
+                android:textColor="@color/white"
+                android:textSize="17dp" />
+            <TextView
+                android:id="@+id/reservation_end_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/dateLabel2"
+                android:text="2021-10-24"
+                android:layout_gravity="center"
+                android:textColor="@color/white"
+                android:textSize="17dp" />
+
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:id="@+id/isRealized"
+            android:layout_toRightOf="@+id/timeInfo2">
+
+            <TextView
+                android:id="@+id/isRealizedLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="zakończona"
+                android:layout_gravity="center"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:drawableRight="@drawable/ic_baseline_check_24"
+                android:textSize="18dp" />
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+
+</LinearLayout>

@@ -81,6 +81,9 @@ public class ClientMenuActivity extends AppCompatActivity implements NavigationV
         }else if(id == R.id.m_rides){
             Intent intent = new Intent(this, MyHiresActivity.class);
             startActivity(intent);
+        }else if(id == R.id.m_bookings){
+            Intent intent = new Intent(this, MyReservationsActivity.class);
+            startActivity(intent);
         }
         return true;
     }

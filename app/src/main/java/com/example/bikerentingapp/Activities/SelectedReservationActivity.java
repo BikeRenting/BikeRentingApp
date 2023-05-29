@@ -1,8 +1,5 @@
 package com.example.bikerentingapp.Activities;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.res.ResourcesCompat;
-
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -11,13 +8,16 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
+
 import com.example.bikerentingapp.Classes.AccountModel.Customer;
 import com.example.bikerentingapp.Classes.DatabaseConnection;
 import com.example.bikerentingapp.Classes.Hire;
 import com.example.bikerentingapp.Classes.UserHolder;
 import com.example.bikerentingapp.R;
 
-public class SelectedHireActivity extends AppCompatActivity {
+public class SelectedReservationActivity extends AppCompatActivity {
 
 
     private TextView hireNumber;

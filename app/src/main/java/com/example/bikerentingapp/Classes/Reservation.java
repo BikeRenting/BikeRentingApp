@@ -89,4 +89,9 @@ public class Reservation {
     public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
+
+    private void endReservation() {
+        DatabaseConnection.updateReservation(reservationID, 1);
+        DatabaseConnection.updateBikeStatus(bikeID,  1);
+    }
 }

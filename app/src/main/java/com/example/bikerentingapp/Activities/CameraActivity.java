@@ -118,6 +118,7 @@ public class CameraActivity extends AppCompatActivity {
                             else {
                                 int bikeID = Integer.parseInt(text.getText().toString());
 
+                                DatabaseConnection.updateReservationsStatus();
                                 ArrayList<Reservation> reservations = DatabaseConnection.getUserReservations(customer.getAccountID());
                                 Reservation reservation = null;
                                 boolean hasReservation = false;

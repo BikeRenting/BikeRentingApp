@@ -1,21 +1,16 @@
 package com.example.bikerentingapp.Classes;
 
-import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
-import android.net.wifi.p2p.WifiP2pManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.core.content.ContextCompat;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.bikerentingapp.R;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 

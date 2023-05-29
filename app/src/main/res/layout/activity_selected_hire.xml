@@ -8,7 +8,7 @@
     tools:context=".Activities.SelectedHireActivity">
 
     <TextView
-        android:id="@+id/hireNumber"
+        android:id="@+id/reservationNumber"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#30ffffff"
@@ -23,7 +23,7 @@
         android:id="@+id/hireInfoPane"
         android:layout_width="match_parent"
         android:layout_height="451dp"
-        android:layout_below="@+id/hireNumber"
+        android:layout_below="@+id/reservationNumber"
         android:layout_marginStart="10dp"
         android:layout_marginTop="40dp"
         android:layout_marginEnd="10dp"

@@ -51,6 +51,7 @@ public class ReservationActivity extends AppCompatActivity implements Reservatio
 
         fillStations();
         setAdapter();
+        DatabaseConnection.updateReservationsStatus();
 
         customer = (Customer) UserHolder.getInstance().getUser();
     }
@@ -75,6 +76,7 @@ public class ReservationActivity extends AppCompatActivity implements Reservatio
     @Override
     protected void onResume() {
         super.onResume();
+        DatabaseConnection.updateReservationsStatus();
         fillStations();
         setAdapter();
     }
@@ -93,7 +95,7 @@ public class ReservationActivity extends AppCompatActivity implements Reservatio
         Random rand = new Random();
         Bike bike = bikes.get(rand.nextInt(bikes.size()));
         Reservation reservation = new Reservation(customer.getAccountID(), bike.getBikeID(), duration);
-        DatabaseConnection.updateBike(bike.getBikeID(), bike.getCondition(), bike.getStationID(), 0);
+        DatabaseConnection.updateBikeStatus(bike.getBikeID(), 0);
         finish();
         startActivity(getIntent());
         Toast.makeText(this,"Udało ci się zarezerwować rower. ID twojego roweru to: " + String.valueOf(bike.getBikeID()), Toast.LENGTH_LONG).show();

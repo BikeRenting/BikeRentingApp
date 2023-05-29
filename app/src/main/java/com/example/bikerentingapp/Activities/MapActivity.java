@@ -50,8 +50,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         baseButton = findViewById(R.id.baseButton);
         baseButton.setVisibility(View.GONE);
 
-        //String x = DatabaseConnection.getUserById(1);
-
+        DatabaseConnection.updateReservationsStatus();
     }
 
     @Override
@@ -148,6 +147,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     public void onRestart() {
         super.onRestart();
 
+        DatabaseConnection.updateReservationsStatus();
         finish();
         startActivity(getIntent());
     }

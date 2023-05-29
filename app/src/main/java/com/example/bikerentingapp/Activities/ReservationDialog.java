@@ -21,7 +21,7 @@ import com.example.bikerentingapp.R;
 
 public class ReservationDialog extends AppCompatDialogFragment {
 
-    private String[] items = {"30 minut", "1 godzina", "1 godzina 30 minut", "3 godziny"};
+    private String[] items = {"15 minut", "30 minut", "1 godzina", "1 godzina 30 minut", "2 godziny"};
     private AutoCompleteTextView autoCompleteTextView;
     private ArrayAdapter<String> adapterItems;
     private String selectedItem = "none";
@@ -62,6 +62,9 @@ public class ReservationDialog extends AppCompatDialogFragment {
                         else {
                             long duration = 0;
                             switch (selectedItem) {
+                                case "15 minut":
+                                    duration = 15;
+                                    break;
                                 case "30 minut":
                                     duration = 30;
                                     break;
@@ -71,8 +74,8 @@ public class ReservationDialog extends AppCompatDialogFragment {
                                 case "1 godzina 30 minut":
                                     duration = 90;
                                     break;
-                                case "3 godziny":
-                                    duration = 180;
+                                case "2 godziny":
+                                    duration = 120;
                                     break;
                                 default:
                                     break;
