@@ -29,7 +29,7 @@ public class TripSummaryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_trip_summary);
+        setContentView(R.layout.activity_summary);
 
         tripDataLabel = (TextView)findViewById(R.id.tripDataLabel);
         tripTimeLabel = (TextView)findViewById(R.id.tripTimeLabel);
@@ -59,12 +59,18 @@ public class TripSummaryActivity extends AppCompatActivity {
         Intent intent = new Intent(view.getContext(), ClientMenuActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+        finish();
     }
 
     public void makeAComplaint(View view) {
-        //Intent i = new Intent(view.getContext(), ComplaintActivity.class);
-       // i.putExtra("date", date);
-       // i.putExtra("id_wypozyczenia",hire_id);
-       // startActivity(i);
+        Intent intent = new Intent(view.getContext(), MakeComplaintActivity.class);
+        intent.putExtra("date", date);
+        intent.putExtra("id_wypozyczenia",hire_id);
+        startActivity(intent);
+    }
+
+    public void reportFailure(View view){
+        Intent intent = new Intent(view.getContext(), BikeFailureReportActivity.class);
+        startActivity(intent);
     }
 }

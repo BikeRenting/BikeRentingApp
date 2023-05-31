@@ -81,7 +81,7 @@ public class LoggingInActivity extends AppCompatActivity {
                         String number = rs.getString(3);
                         double wallet = rs.getFloat(4);
 
-                        Customer customer = new Customer(id, email, number, wallet);
+                        Customer customer = new Customer(user,id, email, number, wallet);
                         UserHolder.getInstance().setUser(customer);
 
                         Gson gson = new Gson();
@@ -105,7 +105,7 @@ public class LoggingInActivity extends AppCompatActivity {
                             String email = rs.getString(2);
                             String number = rs.getString(3);
 
-                            Serviceman serviceman = new Serviceman(id, email, number);
+                            Serviceman serviceman = new Serviceman(user,id, email, number);
                             UserHolder.getInstance().setUser(serviceman);
 
                             Gson gson = new Gson();

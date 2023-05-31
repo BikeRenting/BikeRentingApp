@@ -20,8 +20,8 @@ public class Customer extends Account {
 
     private Hire hire;
 
-    public Customer(int accountID, String email, String phoneNumber, double value) {
-        super(accountID, email, phoneNumber);
+    public Customer(String username, int accountID, String email, String phoneNumber, double value) {
+        super(username, accountID, email, phoneNumber);
         wallet = new Wallet(value);
         hire = null;
     }

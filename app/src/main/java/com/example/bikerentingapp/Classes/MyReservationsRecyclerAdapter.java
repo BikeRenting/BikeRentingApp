@@ -64,11 +64,11 @@ public class MyReservationsRecyclerAdapter extends RecyclerView.Adapter<MyReserv
         holder.endTime.setText(end_date);
 
         if(isRealized){
-            Drawable drawable = ResourcesCompat.getDrawable(holder.isRealized.getResources(), R.drawable.ic_baseline_check_24,null);
+            Drawable drawable = ResourcesCompat.getDrawable(holder.isRealized.getResources(), R.drawable.ic_baseline_assignment_turned_in_24,null);
             holder.isRealized.setText("zakończona");
             holder.isRealized.setCompoundDrawablesWithIntrinsicBounds(drawable,null,null,null);
         }else {
-            Drawable drawable = ResourcesCompat.getDrawable(holder.isRealized.getResources(), R.drawable.ic_baseline_close_24,null);
+            Drawable drawable = ResourcesCompat.getDrawable(holder.isRealized.getResources(), R.drawable.ic_baseline_schedule_24,null);
             holder.isRealized.setText("w trakcie");
             holder.isRealized.setCompoundDrawablesWithIntrinsicBounds(drawable,null,null,null);
         }

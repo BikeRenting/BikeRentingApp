@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +33,7 @@ public class SelectedHireActivity extends AppCompatActivity {
     private TextView remainingPayment;
     private Button regulatePayment;
 
+
     private Hire selectedHire;
     private int number;
 
@@ -52,6 +54,8 @@ public class SelectedHireActivity extends AppCompatActivity {
         remainingPayment = this.findViewById(R.id.remainingPaymentText);
         regulatePayment = this.findViewById(R.id.regulatePaymentButton);
 
+        LinearLayout remainingPaymentLayout = this.findViewById(R.id.remainingPayment);
+
 
         Intent i = getIntent();
         selectedHire = (Hire) i.getSerializableExtra("selectedHire");
@@ -70,8 +74,9 @@ public class SelectedHireActivity extends AppCompatActivity {
             Drawable drawable = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_baseline_check_24,null);
             isPaid.setText("opłacone");
             isPaid.setCompoundDrawablesWithIntrinsicBounds(drawable,null,null,null);
-            remainingPayment.setText("0.00 zł");
+            //remainingPayment.setText("0.00 zł");
             regulatePayment.setVisibility(View.GONE);
+            remainingPaymentLayout.setVisibility(View.GONE);
         }else {
             Drawable drawable = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_baseline_close_24,null);
             isPaid.setText("nieopłacone");
@@ -92,8 +97,8 @@ public class SelectedHireActivity extends AppCompatActivity {
             DatabaseConnection.rechargeWallet(customer.getAccountID(), customer.getWallet().getFunds());
             DatabaseConnection.updateHire(selectedHire.getHireID(), selectedHire.getTime(), selectedHire.getLength(), selectedHire.getPayment(), 1, 0.0);
             selectedHire.setPaymentRealized(true);
-            finish();
             startActivity(getIntent());
+            finish();
             Toast.makeText(getApplicationContext(),"Płatność została zrealizowana", Toast.LENGTH_LONG).show();
         }
 

@@ -97,8 +97,9 @@
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
                 android:layout_marginBottom="20dp"
+                android:onClick="makeComplaint"
                 android:backgroundTint="@color/design_default_color_secondary"
-                android:text="REZERWACJA" />
+                android:text="ZŁÓŻ REKLAMACJE" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/f4"

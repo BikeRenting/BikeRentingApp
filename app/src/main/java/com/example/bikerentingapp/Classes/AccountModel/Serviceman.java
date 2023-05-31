@@ -6,8 +6,8 @@ public class Serviceman extends Account {
 
     private static final String TYPE = "Serviceman";
 
-    public Serviceman(int accountID, String email, String phoneNumber) {
-        super(accountID, email, phoneNumber);
+    public Serviceman(String username, int accountID, String email, String phoneNumber) {
+        super(username, accountID, email, phoneNumber);
     }
 
 

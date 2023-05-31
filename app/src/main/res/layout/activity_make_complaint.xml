@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_1"
+    tools:context=".Activities.MakeComplaintActivity">
+
+    <TextView
+        android:id="@+id/compalaintTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#30ffffff"
+        android:text="Złóż reklamacje"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:textSize="40sp"
+        android:layout_marginTop="15dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/compalaintTitle"
+        android:drawableLeft="@drawable/ic_baseline_pedal_bike_24"
+        android:drawablePadding="10dp"
+        android:id="@+id/hireLabel"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="50dp"
+        android:background="#30ffffff"
+        android:padding="10dp"
+        android:text="ID wypożyczenia:"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        />
+
+
+    <EditText
+        android:id="@+id/hireID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/hireLabel"
+        android:background="#30ffffff"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="10dp"
+        android:hint="Podaj ID wypożyczenia..."
+        android:inputType="number"
+        android:gravity="start"
+        android:textColorHint="@color/white"
+        android:textColor="@color/white"
+        android:padding="10dp"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/hireID"
+        android:drawableLeft="@drawable/ic_baseline_list_24"
+        android:drawablePadding="10dp"
+        android:id="@+id/typeLabel"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="30dp"
+        android:background="#30ffffff"
+        android:padding="10dp"
+        android:text="Wybierz typ reklamacji:"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+         />
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#30ffffff"
+        android:spinnerMode="dropdown"
+        android:dropDownVerticalOffset="45dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_below="@+id/typeLabel"
+        />
+
+
+
+    <EditText
+        android:id="@+id/complaintDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/spinner"
+        android:background="#30ffffff"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="30dp"
+        android:hint="Podaj treść reklamacji"
+        android:drawableStart="@drawable/ic_baseline_description_24"
+        android:maxLength="50"
+        android:lines="6"
+        android:gravity="start"
+        android:textColorHint="@color/white"
+        android:textColor="@color/white"
+        android:padding="10dp"
+        />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/statusChangeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/complaintDescription"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:backgroundTint="@color/design_default_color_secondary"
+        android:onClick="confirmComplaint"
+        android:text="ZŁÓŻ REKLAMACJE" />
+
+</RelativeLayout>

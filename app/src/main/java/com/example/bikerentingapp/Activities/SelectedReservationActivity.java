@@ -62,12 +62,12 @@ public class SelectedReservationActivity extends AppCompatActivity {
         endDate.setText(selectedReservation.getEndDate());
 
         if (selectedReservation.isExecuted()) {
-            Drawable drawable = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_baseline_check_24, null);
+            Drawable drawable = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_baseline_assignment_turned_in_24, null);
             status.setText("zakończona");
             status.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
             cancelReservation.setVisibility(View.GONE);
         } else {
-            Drawable drawable = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_baseline_close_24, null);
+            Drawable drawable = ResourcesCompat.getDrawable(getResources(), R.drawable.ic_baseline_schedule_24, null);
             status.setText("w trakcie");
             status.setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
         }

@@ -48,19 +48,16 @@ public class ClientMenuActivity extends AppCompatActivity implements NavigationV
         super.onCreate(savedInstanceState);
         setContentView(R.layout.client_menu_activity);
 
-        //username = findViewById(R.id.usernickname);
-
         gson = new Gson();
         sharedpreferences = getSharedPreferences(SHARED_PREFS, Context.MODE_PRIVATE);
         json = sharedpreferences.getString(USER_KEY, null);
 
         if (json != null) {
             customer = gson.fromJson(json, Customer.class);
-            //username.setText(customer.getEmail());
         }
         customer.getWallet().setFunds(DatabaseConnection.getFunds(customer.getAccountID()));
         UserHolder.getInstance().setUser(customer);
-        username = UserHolder.getInstance().getUsername();
+        username = UserHolder.getInstance().getUser().getUsername();
 
         //Set funds label
         resetFunds();
@@ -163,6 +160,16 @@ public class ClientMenuActivity extends AppCompatActivity implements NavigationV
                 }
             }, 500);
         }
+    }
+
+    public void makeComplaint(View view){
+        Intent intent = new Intent(view.getContext(), MakeComplaintActivity.class);
+        startActivity(intent);
+    }
+
+    public void openDamageReportActivity(View view){
+        Intent intent = new Intent(view.getContext(), BikeFailureReportActivity.class);
+        startActivity(intent);
     }
 
     @Override

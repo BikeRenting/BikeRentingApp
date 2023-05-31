@@ -22,7 +22,7 @@
     <RelativeLayout
         android:id="@+id/hireInfoPane"
         android:layout_width="match_parent"
-        android:layout_height="451dp"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/hireNumber"
         android:layout_marginStart="10dp"
         android:layout_marginTop="40dp"
@@ -274,7 +274,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="0.5"
                 android:padding="10dp"
-                android:text="Pozostałość do zapłaty:"
+                android:text="Do zapłaty:"
                 android:textColor="@color/white"
                 android:textSize="20dp"
                 android:textStyle="bold" />

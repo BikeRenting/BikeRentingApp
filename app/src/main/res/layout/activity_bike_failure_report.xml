@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_1"
+    tools:context=".Activities.BikeFailureReportActivity">
+
+    <TextView
+        android:id="@+id/reportTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#30ffffff"
+        android:text="Zgłoś awarie"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:textSize="40sp"
+        android:layout_marginTop="15dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/reportTitle"
+        android:drawableLeft="@drawable/ic_baseline_pedal_bike_24"
+        android:drawablePadding="10dp"
+        android:id="@+id/hireLabel"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="50dp"
+        android:background="#30ffffff"
+        android:padding="10dp"
+        android:text="ID roweru:"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        />
+
+
+    <EditText
+        android:id="@+id/bikeID"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/hireLabel"
+        android:background="#30ffffff"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="10dp"
+        android:hint="Podaj ID roweru..."
+        android:inputType="number"
+        android:gravity="start"
+        android:textColorHint="@color/white"
+        android:textColor="@color/white"
+        android:padding="10dp"
+        />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bikeID"
+        android:drawableStart="@drawable/ic_baseline_description_24"
+        android:drawablePadding="10dp"
+        android:id="@+id/descriptionLabel"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="30dp"
+        android:background="#30ffffff"
+        android:padding="10dp"
+        android:text="Opis awarii:"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        />
+
+
+    <EditText
+        android:id="@+id/reportDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/descriptionLabel"
+        android:background="#30ffffff"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="10dp"
+        android:hint="Opisz napotkaną awarię roweru..."
+        android:maxLength="50"
+        android:lines="7"
+        android:gravity="start"
+        android:textColorHint="@color/white"
+        android:textColor="@color/white"
+        android:padding="10dp"
+        />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/statusChangeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/reportDescription"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="20dp"
+        android:backgroundTint="@color/design_default_color_secondary"
+        android:onClick="confirmFailureReport"
+        android:text="ZGŁOŚ AWARIE" />
+
+</RelativeLayout>

@@ -89,6 +89,7 @@ public class CurrentHireActivity extends AppCompatActivity{
                                     timer.cancel();
                                     dialog.cancel();
                                     openSummaryActivity(view);
+                                    finish();
                                 }
                                 else {
                                     Toast.makeText(view.getContext(),"Ta stacja jest pełna.",Toast.LENGTH_SHORT).show();
