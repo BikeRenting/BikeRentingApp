@@ -169,4 +169,9 @@ public class CurrentHireActivity extends AppCompatActivity{
         startActivity(intent);
     }
 
+    @Override
+    public void onBackPressed() {
+
+    }
+
 }

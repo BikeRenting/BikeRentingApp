@@ -84,10 +84,14 @@ public class ReservationActivity extends AppCompatActivity implements Reservatio
     @Override
     public void applyReservationTime(long duration) {
         reservationTime = duration;
-        if(!customer.hasAnyReservation())
-            makeReservation(reservationTime);
-        else{
+        if(customer.hasAnyReservation())
             Toast.makeText(this,"Posiadasz już aktywną rezerwację", Toast.LENGTH_LONG).show();
+        else if(customer.hasAnyUnpaidHire())
+            Toast.makeText(this,"Posiadasz nieopłacony przejazd", Toast.LENGTH_LONG).show();
+        else if(customer.getWallet().getFunds() < 2.0)
+            Toast.makeText(this,"Aby zarezerwować rower, musisz posiadać co najmniej 2zł w portfelu", Toast.LENGTH_LONG).show();
+        else{
+            makeReservation(reservationTime);
         }
     }
 

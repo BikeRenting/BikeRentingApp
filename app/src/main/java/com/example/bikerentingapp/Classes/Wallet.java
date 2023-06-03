@@ -22,8 +22,7 @@ public class Wallet {
 
 
     public void takeFunds(double f) {
-        this.funds -= f;
-
+        this.funds = Math.round((this.funds-f) * 100.0) / 100.0;
     }
 
     public void showFunds() {

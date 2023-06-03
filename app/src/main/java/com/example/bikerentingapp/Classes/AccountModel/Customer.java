@@ -112,7 +112,7 @@ public class Customer extends Account {
             DatabaseConnection.rechargeWallet(getAccountID(), wallet.getFunds());
         }
         else {
-            remainingPayment = payment-funds;
+            remainingPayment = Math.round((payment-funds) * 100.0) / 100.0;
             wallet.takeFunds(funds);
             DatabaseConnection.rechargeWallet(getAccountID(), 0);
         }

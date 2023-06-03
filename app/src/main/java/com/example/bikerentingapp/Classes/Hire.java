@@ -51,7 +51,8 @@ public class Hire implements Serializable {
     public Hire(int hireID, int customerID, Bike bike, int time, int length, double payment, boolean paymentRealized,String startDate, double remainingpayment) {
         this(hireID,customerID,bike,time,length,payment);
         this.paymentRealized = paymentRealized;
-        this.startDate = startDate;
+        String str = startDate.substring(0, startDate.length()-2);
+        this.startDate = str;
         this.remainingPayment = remainingpayment;
     }
 
@@ -137,8 +138,7 @@ public class Hire implements Serializable {
     }
 
     public String getStartDate() {
-        String str = startDate.substring(0, startDate.length()-2);
-        return str;
+        return  startDate;
     }
 
     public void setStartDate(String startDate) {
