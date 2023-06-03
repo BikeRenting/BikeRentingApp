@@ -149,6 +149,7 @@ public class DatabaseConnection {
         return availableStations;
     }
 
+
     public static Station getStation(int stationID) {
         if (!isConnectionValid())
             connectToDb();
@@ -459,6 +460,43 @@ public class DatabaseConnection {
         return userHires;
     }
 
+    public static ArrayList<Integer> getUserHiresID(int userID) {
+        if (!isConnectionValid()) {
+            connectToDb();
+        }
+        ResultSet rs = null;
+        ArrayList<Integer> hiresID = new ArrayList<>();
+        try {
+            String sql = "SELECT id_wypozyczenia FROM `wypozyczenie` WHERE id_klienta = " + userID + ";";
+            rs = con.prepareCall(sql).executeQuery();
+            while (rs.next()) {
+                hiresID.add(rs.getInt("id_wypozyczenia"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return hiresID;
+    }
+
+    public static ArrayList<Integer> getBikesID(){
+        if(!isConnectionValid())
+            connectToDb();
+
+        ResultSet rs = null;
+        ArrayList<Integer> bikesID = new ArrayList<>();
+
+        try{
+            String sql = "SELECT id_roweru FROM `rower`;";
+            rs = con.prepareCall(sql).executeQuery();
+            while(rs.next()){
+                bikesID.add(rs.getInt("id_roweru"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return bikesID;
+    }
+
 
     public static ArrayList<Reservation> getUserReservations(int userID) {
         if (!isConnectionValid())
@@ -531,10 +569,9 @@ public class DatabaseConnection {
             rs = con.prepareStatement(sql).executeQuery();
             while (rs.next()) {
                 String str = rs.getString("data_wygasniecia");
-                str = str.substring(0, str.length()-2);
+                str = str.substring(0, str.length() - 2);
                 LocalDateTime end_date = LocalDateTime.parse(str, dtf);
-                if(now.isAfter(end_date))
-                {
+                if (now.isAfter(end_date)) {
                     updateReservation(rs.getInt("id_rezerwacji"), 1);
                     updateBikeStatus(rs.getInt("id_roweru"), 1);
                 }
@@ -602,6 +639,32 @@ public class DatabaseConnection {
         }
     }
 
+    public static boolean makeComplaint(int customerID, int hireID, String dateOfFilling, String description, String complaintType) {
+        if (!isConnectionValid())
+            connectToDb();
+        try {
+            String sql = "INSERT INTO `reklamacja` (data_rozpoczecia, id_wypozyczenia, id_klienta, opis, typ) VALUES (\'" + dateOfFilling + "\', " + hireID + ", " + customerID + ", \'" + description + "\', \'" + complaintType + "\');";
+            con.createStatement().executeUpdate(sql);
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static boolean reportDamage(int customerID, String dateOfFilling, int bikeID, String description) {
+        if (!isConnectionValid())
+            connectToDb();
+        try {
+            String sql = "INSERT INTO `awaria` (data_rozpoczecia, id_klienta,id_roweru, opis) VALUES (\'" + dateOfFilling + "\', " + customerID + ", " + bikeID + ", \'" + description + "\');";
+            con.createStatement().executeUpdate(sql);
+            return true;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     private static boolean isConnectionValid() {
         try {
             if (con != null && !con.isClosed()) {
@@ -615,5 +678,7 @@ public class DatabaseConnection {
         }
         return false;
     }
+
+
 
 }

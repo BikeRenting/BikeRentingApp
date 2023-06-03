@@ -152,6 +152,7 @@ public class CurrentHireActivity extends AppCompatActivity{
 
         String startDate = customer.getHire().getStartDate();
         int hireID = customer.getHire().getHireID();
+        int bikeID = customer.getHire().getBike().getBikeID();
 
         double cost = Math.round((currentTime))/100.0;
         customer.getHire().setTime(currentTime);
@@ -165,6 +166,7 @@ public class CurrentHireActivity extends AppCompatActivity{
         intent.putExtra("distance", length);
         intent.putExtra("cost", cost);
         intent.putExtra("id_wypozyczenia", hireID);
+        intent.putExtra("id_roweru", bikeID);
 
         startActivity(intent);
     }
