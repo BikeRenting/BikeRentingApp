@@ -23,7 +23,8 @@ public class TripSummaryActivity extends AppCompatActivity {
     String distance;
     double cost;
     Customer user;
-    Integer hire_id;
+    int hire_id;
+    int bike_id;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -46,6 +47,7 @@ public class TripSummaryActivity extends AppCompatActivity {
             distance = extras.getString("distance");
             cost = extras.getDouble("cost");
             hire_id = extras.getInt("id_wypozyczenia");
+            bike_id = extras.getInt("id_roweru");
 
             tripDataLabel.setText(date);
             tripTimeLabel.setText(time);
@@ -64,13 +66,13 @@ public class TripSummaryActivity extends AppCompatActivity {
 
     public void makeAComplaint(View view) {
         Intent intent = new Intent(view.getContext(), MakeComplaintActivity.class);
-        intent.putExtra("date", date);
         intent.putExtra("id_wypozyczenia",hire_id);
         startActivity(intent);
     }
 
     public void reportFailure(View view){
         Intent intent = new Intent(view.getContext(), BikeFailureReportActivity.class);
+        intent.putExtra("id_roweru",bike_id);
         startActivity(intent);
     }
 }

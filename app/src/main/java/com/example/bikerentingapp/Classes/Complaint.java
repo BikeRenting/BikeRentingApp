@@ -1,36 +1,34 @@
 package com.example.bikerentingapp.Classes;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Complaint {
-
-    private int complaintID;
 
     private int customerID;
 
     private int hireID;
 
-    private LocalDateTime dateOfFilling;
+    private String dateOfFilling;
 
     private String description;
 
-    private ComplaintType complaintType;
+    private String complaintType;
 
-    public Complaint(int complaintID, int customerID, int hireID, LocalDateTime dateOfFilling, String description, ComplaintType complaintType) {
-        this.complaintID = complaintID;
+    public Complaint(int customerID, int hireID, String description, String complaintType) {
         this.customerID = customerID;
         this.hireID = hireID;
-        this.dateOfFilling = dateOfFilling;
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
+        ZonedDateTime now = ZonedDateTime.now(ZoneId.of("Europe/Warsaw"));
+        this.dateOfFilling = dtf.format(now);
         this.description = description;
         this.complaintType = complaintType;
     }
 
-    public int getComplaintID() {
-        return complaintID;
-    }
-
-    public void setComplaintID(int complaintID) {
-        this.complaintID = complaintID;
+    public boolean makeComplaint(){
+        return DatabaseConnection.makeComplaint(customerID, hireID, dateOfFilling, description, complaintType);
     }
 
     public int getCustomerID() {
@@ -49,14 +47,13 @@ public class Complaint {
         this.hireID = hireID;
     }
 
-    public LocalDateTime getDateOfFilling() {
+    public String getDateOfFilling() {
         return dateOfFilling;
     }
 
-    public void setDateOfFilling(LocalDateTime dateOfFilling) {
+    public void setDateOfFilling(String dateOfFilling) {
         this.dateOfFilling = dateOfFilling;
     }
-
     public String getDescription() {
         return description;
     }
@@ -65,17 +62,12 @@ public class Complaint {
         this.description = description;
     }
 
-    public ComplaintType getComplaintType() {
+    public String getComplaintType() {
         return complaintType;
     }
 
-    public void setComplaintType(ComplaintType complaintType) {
+    public void setComplaintType(String complaintType) {
         this.complaintType = complaintType;
     }
 
-    public enum ComplaintType{
-        COSTS,
-        BIKE_PROBLEM,
-        STATION_PROBLEM,
-    }
 }
