@@ -432,6 +432,33 @@ public class DatabaseConnection {
         }
     }
 
+    public static Hire getUserHireByID(int hireID) {
+        if (!isConnectionValid())
+            connectToDb();
+        Hire hire = null;
+        ResultSet resultSet = null;
+        try {
+            String sql = "SELECT * FROM `wypozyczenie` WHERE id_wypozyczenia = " + hireID + ";";
+            resultSet = con.prepareCall(sql).executeQuery();
+            while (resultSet.next()) {
+                hire = new Hire(
+                        resultSet.getInt("id_wypozyczenia"),
+                        resultSet.getInt("id_klienta"),
+                        new Bike(resultSet.getInt("id_roweru")),
+                        Hire.timeToInt(resultSet.getTime("czas_przejazdu")),
+                        resultSet.getInt("dystans"),
+                        resultSet.getDouble("kwota"),
+                        resultSet.getInt("czy_oplacone") == 1,
+                        resultSet.getString("data_rozpoczecia"),
+                        resultSet.getDouble("ile_do_zaplaty")
+                );
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return hire;
+    }
+
     public static ArrayList<Hire> getUserHires(int userID) {
         if (!isConnectionValid())
             connectToDb();

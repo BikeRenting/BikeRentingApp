@@ -167,7 +167,6 @@ public class CurrentHireActivity extends AppCompatActivity{
         intent.putExtra("cost", cost);
         intent.putExtra("id_wypozyczenia", hireID);
         intent.putExtra("id_roweru", bikeID);
-
         startActivity(intent);
     }
 

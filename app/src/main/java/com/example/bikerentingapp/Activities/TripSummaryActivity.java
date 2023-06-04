@@ -1,14 +1,18 @@
 package com.example.bikerentingapp.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.bikerentingapp.Classes.AccountModel.Customer;
+import com.example.bikerentingapp.Classes.DatabaseConnection;
 import com.example.bikerentingapp.Classes.UserHolder;
 import com.example.bikerentingapp.R;
 
@@ -18,6 +22,10 @@ public class TripSummaryActivity extends AppCompatActivity {
     TextView tripTimeLabel;
     TextView tripDistanceLabel;
     TextView tripCostLabel;
+
+    LinearLayout toPayLayout;
+
+    TextView toPayLabel;
     String date;
     String time;
     String distance;
@@ -25,6 +33,7 @@ public class TripSummaryActivity extends AppCompatActivity {
     Customer user;
     int hire_id;
     int bike_id;
+    double remainingPayment;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -36,6 +45,8 @@ public class TripSummaryActivity extends AppCompatActivity {
         tripTimeLabel = (TextView)findViewById(R.id.tripTimeLabel);
         tripDistanceLabel = (TextView)findViewById(R.id.tripDistanceLabel);
         tripCostLabel = (TextView)findViewById(R.id.tripCostLabel);
+        toPayLayout = (LinearLayout) findViewById(R.id.toPayLayout);
+        toPayLabel = (TextView) findViewById(R.id.toPayLabel);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -48,11 +59,18 @@ public class TripSummaryActivity extends AppCompatActivity {
             cost = extras.getDouble("cost");
             hire_id = extras.getInt("id_wypozyczenia");
             bike_id = extras.getInt("id_roweru");
+            remainingPayment = DatabaseConnection.getUserHireByID(hire_id).getRemainingPayment();
 
             tripDataLabel.setText(date);
             tripTimeLabel.setText(time);
             tripDistanceLabel.setText(distance);
             tripCostLabel.setText(cost + " zł");
+
+            if(remainingPayment > 0.0){
+                toPayLabel.setText(remainingPayment + " zł");
+            }else {
+                toPayLayout.setVisibility(View.GONE);
+            }
 
         }
     }

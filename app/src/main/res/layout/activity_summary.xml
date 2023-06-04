@@ -149,6 +149,38 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/toPayLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/costLayout"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/toPay"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:padding="10dp"
+                android:text="Pozostałość do zapłaty:"
+                android:textColor="@color/white"
+                android:textSize="25dp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/toPayLabel"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="0.5"
+                android:padding="10dp"
+                android:text="5.46 zł"
+                android:textAlignment="center"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="25dp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
     </RelativeLayout>
 
     <TextView
@@ -198,9 +230,11 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/buttonPanel"
         android:layout_centerHorizontal="true"
-        android:layout_margin="30dp"
-        android:onClick="returnToMainMenu"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="15dp"
+        android:layout_marginEnd="30dp"
         android:backgroundTint="@color/design_default_color_secondary"
+        android:onClick="returnToMainMenu"
         android:text="Powrót do menu głównego"
         android:textSize="15dp" />
 
