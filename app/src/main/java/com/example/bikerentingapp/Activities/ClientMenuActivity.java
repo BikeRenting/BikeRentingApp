@@ -152,9 +152,6 @@ public class ClientMenuActivity extends AppCompatActivity implements NavigationV
     @Override
     public void onBackPressed() {
         if (doubleTap) {
-            SharedPreferences.Editor editor = sharedpreferences.edit();
-            editor.clear();
-            editor.apply();
             super.onBackPressed();
         } else {
             Toast.makeText(this, "Naciśnij jeszcze raz by wyjść z  aplikacji!", Toast.LENGTH_SHORT).show();
