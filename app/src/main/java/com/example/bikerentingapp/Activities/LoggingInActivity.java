@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.StrictMode;
 import android.view.View;
 import android.widget.EditText;
@@ -153,5 +154,9 @@ public class LoggingInActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+            super.onBackPressed();
+    }
 
 }

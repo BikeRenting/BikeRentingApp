@@ -81,6 +81,13 @@ public class ClientMenuActivity extends AppCompatActivity implements NavigationV
         }else if(id == R.id.m_bookings){
             Intent intent = new Intent(this, MyReservationsActivity.class);
             startActivity(intent);
+        }else if(id == R.id.m_logout){
+            SharedPreferences.Editor editor = sharedpreferences.edit();
+            editor.clear();
+            editor.apply();
+            Intent intent = new Intent(this, LoggingInActivity.class);
+            startActivity(intent);
+            finish();
         }
         return true;
     }

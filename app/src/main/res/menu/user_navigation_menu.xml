@@ -19,6 +19,11 @@
         android:icon="@drawable/booking"
         android:title="Rezerwacje"
         />
+    <item
+        android:id="@+id/m_logout"
+        android:icon="@drawable/logout"
+        android:title="Wyloguj się"
+        />
     <item  android:title="Kontakt z obsługą klienta">
 
         <menu>
