@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.Toast;
 
+import com.example.bikerentingapp.Activities.LoggingInActivity;
 import com.example.bikerentingapp.Activities.MapActivity;
 import com.example.bikerentingapp.Classes.AccountModel.Customer;
 import com.example.bikerentingapp.Classes.AccountModel.Serviceman;
@@ -62,12 +63,18 @@ public class ServicemanMenuActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
+    public void logOut(View view){
+        SharedPreferences.Editor editor = sharedpreferences.edit();
+        editor.clear();
+        editor.apply();
+        Intent intent = new Intent(this, LoggingInActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
     @Override
     public void onBackPressed() {
         if (doubleTap) {
-            SharedPreferences.Editor editor = sharedpreferences.edit();
-            editor.clear();
-            editor.apply();
             super.onBackPressed();
         } else {
             Toast.makeText(this, "Naciśnij jeszcze raz by wyjść z  aplikacji!", Toast.LENGTH_SHORT).show();

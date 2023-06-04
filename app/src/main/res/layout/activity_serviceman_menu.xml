@@ -93,6 +93,20 @@
             android:onClick="openRemoveBikeActivity"
             android:text="Zabierz rower" />
 
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/tech_logout"
+            android:layout_width="300dp"
+            android:layout_height="80dp"
+            android:layout_below="@+id/tech_f4"
+            android:layout_centerHorizontal="true"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
+            android:backgroundTint="@color/design_default_color_secondary"
+            android:onClick="logOut"
+            android:text="Wyloguj się" />
+
         ></RelativeLayout>
 
 </LinearLayout>
