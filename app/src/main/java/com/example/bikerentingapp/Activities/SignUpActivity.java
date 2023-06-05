@@ -19,8 +19,10 @@ public class SignUpActivity extends AppCompatActivity {
     private EditText username, e_mail, phone_number, password;
 
     private String pattern = "^[\\w\\.-]+@[\\w\\.-]+\\.[\\w]+$";
+    String usernamePattern = "^[A-Za-z]\\w{5,29}$";
 
     private Pattern emailPattern;
+    private Pattern nicknamePattern;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +34,7 @@ public class SignUpActivity extends AppCompatActivity {
         phone_number = findViewById(R.id.phonenumber);
         password = findViewById(R.id.password);
         emailPattern = Pattern.compile(pattern);
+        nicknamePattern = Pattern.compile(usernamePattern);
     }
 
     public void registerAccount(View view){
@@ -40,14 +43,18 @@ public class SignUpActivity extends AppCompatActivity {
         String passwd = password.getText().toString();
         String user = username.getText().toString();
 
-        Matcher matcher = emailPattern.matcher(mail);
+        Matcher emailmatcher = emailPattern.matcher(mail);
+        Matcher usernamematcher = nicknamePattern.matcher(user);
+
 
         if (mail.equals("") || phone.equals("") || passwd.equals("") || user.equals("")){
             Toast.makeText(this,"Uzupełnij wszystkie pola!",Toast.LENGTH_SHORT).show();
         } else if (phone.length() != 9) {
             Toast.makeText(this,"Number telefonu musi być 9 cyfrowy",Toast.LENGTH_SHORT).show();
-        } else if (!matcher.matches()) {
+        } else if (!emailmatcher.matches()) {
             Toast.makeText(this,"Niepoprawny adres e-mail!",Toast.LENGTH_SHORT).show();
+        } else if (!usernamematcher.matches()) {
+            Toast.makeText(this, "Niepoprawna nazwa użytkownika!", Toast.LENGTH_SHORT).show();
         } else if (DatabaseConnection.ifExist(user, mail, phone)) {
             Toast.makeText(this,"Konto o takich danych już istnieje!",Toast.LENGTH_SHORT).show();
         } else if(DatabaseConnection.createAccount(user, mail, phone, BCrypt.withDefaults().hashToString(4, passwd.toCharArray()))) {

@@ -179,8 +179,12 @@ public class DatabaseConnection {
             connectToDb();
         ResultSet rs = null;
         try {
-            String sql = "SELECT * FROM `klient` WHERE nazwa_uzytkownika='" + username + "' OR adres_email='" + email + "' OR nr_telefonu=" + phone;
-            rs = con.prepareCall(sql).executeQuery();
+            String query = "SELECT * FROM `klient` WHERE nazwa_uzytkownika=? OR adres_email=? OR nr_telefonu=?";
+            PreparedStatement sql = con.prepareStatement(query);
+            sql.setString(1, username);
+            sql.setString(2, email);
+            sql.setString(3, phone);
+            sql.executeQuery();
 
             if (rs.next() == false) {
                 return false;
@@ -197,8 +201,13 @@ public class DatabaseConnection {
         if (!isConnectionValid())
             connectToDb();
         try {
-            String sql = "INSERT INTO klient (adres_email, nr_telefonu, stan_konta, nazwa_uzytkownika, haslo) VALUES ('" + email + "', '" + phone + "', 0, '" + username + "', '" + password + "')";
-            con.createStatement().executeUpdate(sql);
+            String query = "INSERT INTO klient (adres_email, nr_telefonu, stan_konta, nazwa_uzytkownika, haslo) VALUES (?, ?, 0, ?, ?)";
+            PreparedStatement sql = con.prepareStatement(query);
+            sql.setString(1, email);
+            sql.setString(2, phone);
+            sql.setString(3, username);
+            sql.setString(4, password);
+            sql.executeUpdate();
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -211,8 +220,10 @@ public class DatabaseConnection {
             connectToDb();
         ResultSet rs = null;
         try {
-            String sql = "SELECT * FROM `klient` WHERE nazwa_uzytkownika='" + username + "'";
-            rs = con.prepareCall(sql).executeQuery();
+            String query = "SELECT * FROM `klient` WHERE nazwa_uzytkownika=?";
+            PreparedStatement sql = con.prepareStatement(query);
+            sql.setString(1, username);
+            rs = sql.executeQuery();
             return rs;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -225,8 +236,10 @@ public class DatabaseConnection {
             connectToDb();
         ResultSet rs = null;
         try {
-            String sql = "SELECT * FROM `pracownik` WHERE nazwa_uzytkownika='" + username + "'";
-            rs = con.prepareCall(sql).executeQuery();
+            String query = "SELECT * FROM `pracownik` WHERE nazwa_uzytkownika=?";
+            PreparedStatement sql = con.prepareStatement(query);
+            sql.setString(1, username);
+            rs = sql.executeQuery();
             return rs;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -670,8 +683,11 @@ public class DatabaseConnection {
         if (!isConnectionValid())
             connectToDb();
         try {
-            String sql = "INSERT INTO `reklamacja` (data_rozpoczecia, id_wypozyczenia, id_klienta, opis, typ) VALUES (\'" + dateOfFilling + "\', " + hireID + ", " + customerID + ", \'" + description + "\', \'" + complaintType + "\');";
-            con.createStatement().executeUpdate(sql);
+            String query = "INSERT INTO `reklamacja` (data_rozpoczecia, id_wypozyczenia, id_klienta, opis, typ) VALUES (\'" + dateOfFilling + "\', ?, " + customerID + ", ?, \'" + complaintType + "\');";
+            PreparedStatement sql = con.prepareStatement(query);
+            sql.setInt(1, hireID);
+            sql.setString(2, description);
+            sql.executeUpdate();
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
@@ -683,8 +699,11 @@ public class DatabaseConnection {
         if (!isConnectionValid())
             connectToDb();
         try {
-            String sql = "INSERT INTO `awaria` (data_rozpoczecia, id_klienta,id_roweru, opis) VALUES (\'" + dateOfFilling + "\', " + customerID + ", " + bikeID + ", \'" + description + "\');";
-            con.createStatement().executeUpdate(sql);
+            String query = "INSERT INTO `awaria` (data_rozpoczecia, id_klienta,id_roweru, opis) VALUES (\'" + dateOfFilling + "\', " + customerID + ", ?, ?);";
+            PreparedStatement sql = con.prepareStatement(query);
+            sql.setInt(1, bikeID);
+            sql.setString(2, description);
+            sql.executeUpdate();
             return true;
         } catch (SQLException e) {
             e.printStackTrace();
