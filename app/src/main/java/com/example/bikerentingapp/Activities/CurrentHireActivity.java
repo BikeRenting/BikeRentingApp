@@ -168,6 +168,7 @@ public class CurrentHireActivity extends AppCompatActivity{
         intent.putExtra("id_wypozyczenia", hireID);
         intent.putExtra("id_roweru", bikeID);
         startActivity(intent);
+        finish();
     }
 
     @Override

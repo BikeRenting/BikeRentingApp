@@ -97,9 +97,9 @@ public class SelectedHireActivity extends AppCompatActivity {
             DatabaseConnection.rechargeWallet(customer.getAccountID(), customer.getWallet().getFunds());
             DatabaseConnection.updateHire(selectedHire.getHireID(), selectedHire.getTime(), selectedHire.getLength(), selectedHire.getPayment(), 1, 0.0);
             selectedHire.setPaymentRealized(true);
-            //startActivity(getIntent());
-            finish();
+            startActivity(getIntent());
             Toast.makeText(getApplicationContext(),"Płatność została zrealizowana", Toast.LENGTH_LONG).show();
+            finish();
         }
 
     }

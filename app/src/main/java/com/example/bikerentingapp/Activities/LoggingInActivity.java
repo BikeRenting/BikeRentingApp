@@ -71,7 +71,7 @@ public class LoggingInActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedpreferences.edit();
 
         if (user.equals("") || pswd.equals("")) {
-            Toast.makeText(this, "Please enter all information!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Uzupełnij wszystkie pola!", Toast.LENGTH_SHORT).show();
         } else {
             rs = DatabaseConnection.getCustomer(user);
             try {
@@ -96,7 +96,7 @@ public class LoggingInActivity extends AppCompatActivity {
                         startActivity(intent);
                         finish();
                     } else {
-                        Toast.makeText(this, "Wrong password!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Błędne hasło!", Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     rs = DatabaseConnection.getServiceman(user);
@@ -120,10 +120,10 @@ public class LoggingInActivity extends AppCompatActivity {
                             startActivity(intent);
                             finish();
                         } else {
-                            Toast.makeText(this, "Wrong password!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(this, "Błędne hasło!", Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        Toast.makeText(this, "This account does not exist!", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, "Nie ma takiego konta!", Toast.LENGTH_SHORT).show();
                     }
                 }
 

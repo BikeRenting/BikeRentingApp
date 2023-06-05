@@ -43,18 +43,18 @@ public class SignUpActivity extends AppCompatActivity {
         Matcher matcher = emailPattern.matcher(mail);
 
         if (mail.equals("") || phone.equals("") || passwd.equals("") || user.equals("")){
-            Toast.makeText(this,"Please enter all information!",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"Uzupełnij wszystkie pola!",Toast.LENGTH_SHORT).show();
         } else if (phone.length() != 9) {
-            Toast.makeText(this,"Phone number must be 9 digits!",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"Number telefonu musi być 9 cyfrowy",Toast.LENGTH_SHORT).show();
         } else if (!matcher.matches()) {
-            Toast.makeText(this,"Wrong e-mail address!",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"Niepoprawny adres e-mail!",Toast.LENGTH_SHORT).show();
         } else if (DatabaseConnection.ifExist(user, mail, phone)) {
-            Toast.makeText(this,"This account already exists!",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"Konto o takich danych już istnieje!",Toast.LENGTH_SHORT).show();
         } else if(DatabaseConnection.createAccount(user, mail, phone, BCrypt.withDefaults().hashToString(4, passwd.toCharArray()))) {
-            Toast.makeText(this,"Your account created succesfully. Log in Now!",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"Konto zostało utworzone!Zaloguj się!",Toast.LENGTH_SHORT).show();
             finish();
         } else {
-            Toast.makeText(this,"Something went wrong!",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"Coś poszło nie tak! ",Toast.LENGTH_SHORT).show();
         }
     }
 }
