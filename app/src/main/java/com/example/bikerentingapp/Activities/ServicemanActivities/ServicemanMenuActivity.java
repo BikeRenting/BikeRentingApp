@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.bikerentingapp.Activities.LoggingInActivity;
@@ -29,6 +30,8 @@ public class ServicemanMenuActivity extends AppCompatActivity {
     private Gson gson;
     private String json;
 
+    private TextView username;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,6 +48,9 @@ public class ServicemanMenuActivity extends AppCompatActivity {
 
         UserHolder.getInstance().setUser(serviceman);
         serviceman = (Serviceman) UserHolder.getInstance().getUser();
+
+        username = findViewById(R.id.technicianID);
+        username.setText(serviceman.getUsername());
 
     }
 
