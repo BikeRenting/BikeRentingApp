@@ -58,7 +58,7 @@ public class SignUpActivity extends AppCompatActivity {
         } else if (DatabaseConnection.ifExist(user, mail, phone)) {
             Toast.makeText(this,"Konto o takich danych już istnieje!",Toast.LENGTH_SHORT).show();
         } else if(DatabaseConnection.createAccount(user, mail, phone, BCrypt.withDefaults().hashToString(4, passwd.toCharArray()))) {
-            Toast.makeText(this,"Konto zostało utworzone!Zaloguj się!",Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"Konto zostało utworzone! Zaloguj się!",Toast.LENGTH_SHORT).show();
             finish();
         } else {
             Toast.makeText(this,"Coś poszło nie tak! ",Toast.LENGTH_SHORT).show();

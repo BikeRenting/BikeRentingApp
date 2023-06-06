@@ -184,16 +184,17 @@ public class DatabaseConnection {
             sql.setString(1, username);
             sql.setString(2, email);
             sql.setString(3, phone);
-            sql.executeQuery();
 
-            if (rs.next() == false) {
-                return false;
-            } else {
+            rs = sql.executeQuery();
+
+            if (rs.next()) {
                 return true;
+            } else {
+                return false;
             }
         } catch (SQLException e) {
             e.printStackTrace();
-            return true;
+            return false;
         }
     }
 
@@ -518,17 +519,17 @@ public class DatabaseConnection {
         return hiresID;
     }
 
-    public static ArrayList<Integer> getBikesID(){
-        if(!isConnectionValid())
+    public static ArrayList<Integer> getBikesID() {
+        if (!isConnectionValid())
             connectToDb();
 
         ResultSet rs = null;
         ArrayList<Integer> bikesID = new ArrayList<>();
 
-        try{
+        try {
             String sql = "SELECT id_roweru FROM `rower`;";
             rs = con.prepareCall(sql).executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 bikesID.add(rs.getInt("id_roweru"));
             }
         } catch (SQLException e) {
@@ -724,7 +725,6 @@ public class DatabaseConnection {
         }
         return false;
     }
-
 
 
 }
