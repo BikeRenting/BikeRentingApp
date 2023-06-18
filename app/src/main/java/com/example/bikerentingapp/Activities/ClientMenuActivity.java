@@ -75,13 +75,13 @@ public class ClientMenuActivity extends AppCompatActivity implements NavigationV
 
         if (id == R.id.m_recharge) {
             accountRecharge();
-        }else if(id == R.id.m_rides){
+        } else if (id == R.id.m_rides) {
             Intent intent = new Intent(this, MyHiresActivity.class);
             startActivity(intent);
-        }else if(id == R.id.m_bookings){
+        } else if (id == R.id.m_bookings) {
             Intent intent = new Intent(this, MyReservationsActivity.class);
             startActivity(intent);
-        }else if(id == R.id.m_logout){
+        } else if (id == R.id.m_logout) {
             SharedPreferences.Editor editor = sharedpreferences.edit();
             editor.clear();
             editor.apply();
@@ -107,23 +107,27 @@ public class ClientMenuActivity extends AppCompatActivity implements NavigationV
             @Override
             public void onClick(View view) {
                 String value = recharge.getText().toString();
-                double income = Double.valueOf(value);
-                if (income > 50) {
-                    Toast.makeText(getApplicationContext(), "Jednorazowa kwota doładowania nie może przekraczać 50zł.", Toast.LENGTH_LONG).show();
-                } else {
-                    if (customer.updateFunds(getApplicationContext(), income)) {
-                        Toast.makeText(getApplicationContext(), "Dodano środki do konta.", Toast.LENGTH_SHORT).show();
-                        resetFunds();
-                        dialog.dismiss();
-                    } else
-                        Toast.makeText(getApplicationContext(), "Ups coś poszło nie tak.", Toast.LENGTH_SHORT).show();
+                try {
+                    double income = Double.parseDouble(value);
+                    if (income > 50) {
+                        Toast.makeText(getApplicationContext(), "Jednorazowa kwota doładowania nie może przekraczać 50zł.", Toast.LENGTH_LONG).show();
+                    } else {
+                        if (customer.updateFunds(getApplicationContext(), income)) {
+                            Toast.makeText(getApplicationContext(), "Dodano środki do konta.", Toast.LENGTH_SHORT).show();
+                            resetFunds();
+                            dialog.dismiss();
+                        } else
+                            Toast.makeText(getApplicationContext(), "Ups coś poszło nie tak.", Toast.LENGTH_SHORT).show();
+                    }
+                } catch (NumberFormatException e) {
+                    Toast.makeText(getApplicationContext(), "Podano nieprawidłową kwotę", Toast.LENGTH_SHORT).show();
                 }
             }
         });
         dialog.show();
     }
 
-    private void resetFunds(){
+    private void resetFunds() {
         TextView wallet = (TextView) findViewById(R.id.account);
         DecimalFormat dform = new DecimalFormat("#.##");
         wallet.setText(String.valueOf(dform.format(customer.getWallet().getFunds())));
@@ -166,12 +170,12 @@ public class ClientMenuActivity extends AppCompatActivity implements NavigationV
         }
     }
 
-    public void makeComplaint(View view){
+    public void makeComplaint(View view) {
         Intent intent = new Intent(view.getContext(), MakeComplaintActivity.class);
         startActivity(intent);
     }
 
-    public void openDamageReportActivity(View view){
+    public void openDamageReportActivity(View view) {
         Intent intent = new Intent(view.getContext(), BikeFailureReportActivity.class);
         startActivity(intent);
     }
